@@ -23,6 +23,11 @@ export default new Router({
       path: '/coins',
       name: 'coins',
       component: () => import('./views/Coins.vue')
+    },
+    {
+      path: '/posts',
+      name: 'posts',
+      component: () => import('./views/Posts.vue')
     }
   ]
 })
