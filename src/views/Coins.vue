@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <v-container>
+    <h1>COINS</h1>
     <button @click="getAllCoins">Get All Coins!</button>
     <div v-for="coin in this.coins" :key="coin.id">
       <h1>{{coin.name}}</h1>
       <h2>USD: {{ coin.quote.USD.price }}</h2>
       <h2>{{ coin.cmc_rank }}</h2>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
