@@ -3,13 +3,23 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { createProvider } from './vue-apollo'
+
+import ApolloClient from 'apollo-boost'
+import VueApollo from 'vue-apollo'
+
+Vue.use(VueApollo)
+
+const defaultClient = new ApolloClient({
+  uri: 'http://localhost:4000'
+})
+
+const apolloProvider = new VueApollo({ defaultClient })
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
-  apolloProvider: createProvider(),
+  apolloProvider,
   render: h => h(App)
 }).$mount('#app')
