@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from './router'
 
 import { defaultClient as apolloClient } from './main'
 
-import { GET_POSTS } from './graphql/queries'
+import { GET_POSTS, GET_ME } from './graphql/queries'
 
 import { LOGIN_USER } from './graphql/mutations'
 
@@ -12,7 +13,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     posts: [],
-    loading: false
+    loading: false,
+    user: null
   },
   mutations: {
     setPosts: (state, payload) => {
@@ -20,9 +22,25 @@ export default new Vuex.Store({
     },
     setLoading: (state, payload) => {
       state.loading = payload
+    },
+    setUser: (state, payload) => {
+      state.user = payload
     }
   },
   actions: {
+    getMe: ({ commit }) => {
+      commit('setLoading', true)
+      apolloClient.query({
+        query: GET_ME
+      }).then(({data}) => {
+        commit('setLoading', false)
+        commit('setUser', data.me)
+        console.log(data)
+      }).catch(err => {
+        commit('setLoading', false)
+        console.error(err)
+      })
+    },
     getPosts: ({ commit }) => {
       commit('setLoading', true);
       apolloClient.query({
@@ -43,6 +61,7 @@ export default new Vuex.Store({
       }).then(({data}) => {
         console.log('login', data)
         localStorage.setItem('token', data.login.token)
+        router.go();
       }).catch(err => {
         console.error(err)
       })
@@ -50,6 +69,7 @@ export default new Vuex.Store({
   },
   getters: {
     posts: state => state.posts,
+    user: state => state.user,
     loading: state => state.loading
   }
 })

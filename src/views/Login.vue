@@ -57,15 +57,14 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters(["loading", "error", "user"])
+    ...mapGetters(['user'])
   },
   watch: {
-    // user(value) {
-    //   // if user value changes, redirect to home page
-    //   if (value) {
-    //     this.$router.push("/");
-    //   }
-    // }
+    user(value) {
+      if (value) {
+        this.$router.push("/");
+      }
+    }
   },
   methods: {
     handleLogin() {
