@@ -83,14 +83,14 @@ export default {
     horizontalNavItems() {
       return [
         { icon: 'attach_money', title: 'Coins', link: '/coins'},
-        { icon: 'lock_open', title: 'Sign In', link: '/signin'},
+        { icon: 'lock_open', title: 'Log In', link: '/login'},
         { icon: 'create', title: 'Sign Up', link: '/signup'}
       ]
     },
     sideNavItems() {
       return [
         { icon: 'attach_money', title: 'Coins', link: '/coins'},
-        { icon: 'lock_open', title: 'Sign In', link: '/signin'},
+        { icon: 'lock_open', title: 'Log In', link: '/login'},
         { icon: 'create', title: 'Sign Up', link: '/signup'}
       ]
     }

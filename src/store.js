@@ -5,6 +5,8 @@ import { defaultClient as apolloClient } from './main'
 
 import { GET_POSTS } from './graphql/queries'
 
+import { LOGIN_USER } from './graphql/mutations'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -31,6 +33,16 @@ export default new Vuex.Store({
         console.log('data', data)
       }).catch(err => {
         commit('setLoading', false)
+        console.error(err)
+      })
+    },
+    loginUser: ({ commit }, payload) => {
+      apolloClient.mutate({
+        mutation: LOGIN_USER,
+        variables: payload
+      }).then(({data}) => {
+        console.log('login', data)
+      }).catch(err => {
         console.error(err)
       })
     }
