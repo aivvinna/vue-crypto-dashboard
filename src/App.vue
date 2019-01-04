@@ -20,6 +20,14 @@
             {{item.title}}
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-list-tile v-if="user" @click="handleLogout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Logout</v-list-tile-content>
+        </v-list-tile>
+
       </v-list>
     </v-navigation-drawer>
 
@@ -54,8 +62,14 @@
           </v-icon>
           {{item.title}}
         </v-btn>
+
+        <v-btn flat v-if="user" @click="handleLogout">
+          <v-icon class="hdiden-sm-only" left>exit_to_app</v-icon>
+          Logout
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
+
 
     <main>
       <v-container class="mt-4">
@@ -68,6 +82,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -80,24 +95,43 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['user']),
     horizontalNavItems() {
-      return [
+      let items = [
         { icon: 'attach_money', title: 'Coins', link: '/coins'},
         { icon: 'lock_open', title: 'Log In', link: '/login'},
         { icon: 'create', title: 'Sign Up', link: '/signup'}
       ]
+      if (this.user) {
+        items = [
+          { icon: 'chat', title: 'Posts', link: '/posts'},
+          { icon: 'account_box', title: 'Profile', link: '/profile'}
+        ]
+      }
+      return items
     },
     sideNavItems() {
-      return [
+      let items = [
         { icon: 'attach_money', title: 'Coins', link: '/coins'},
         { icon: 'lock_open', title: 'Log In', link: '/login'},
         { icon: 'create', title: 'Sign Up', link: '/signup'}
       ]
+      if (this.user) {
+        items = [
+          { icon: 'chat', title: 'Posts', link: '/posts'},
+          { icon: 'stars', title: 'Create Post', link: '/'},
+          { icon: 'account_box', title: 'Profile', link: '/profile'}
+        ]
+      }
+      return items
     }
   },
   methods: {
     toggleSideNav() {
-      this.sideNav = !this.sideNav;;
+      this.sideNav = !this.sideNav
+    },
+    handleLogout() {
+      this.$store.dispatch('logoutUser')
     }
   }
 }
