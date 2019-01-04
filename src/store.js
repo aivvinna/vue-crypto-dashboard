@@ -13,8 +13,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     posts: [],
+    user: null,
     loading: false,
-    user: null
+    error: null
   },
   mutations: {
     setPosts: (state, payload) => {
@@ -23,10 +24,14 @@ export default new Vuex.Store({
     setLoading: (state, payload) => {
       state.loading = payload
     },
+    setError: (state, payload) => {
+      state.error = payload
+    },
     setUser: (state, payload) => {
       state.user = payload
     },
-    clearUser: state => state.user = null
+    clearUser: state => state.user = null,
+    clearError: state => state.error = null
   },
   actions: {
     getMe: ({ commit }) => {
@@ -56,6 +61,7 @@ export default new Vuex.Store({
       })
     },
     loginUser: ({ commit }, payload) => {
+      commit('clearError')
       apolloClient.mutate({
         mutation: LOGIN_USER,
         variables: payload
@@ -64,6 +70,7 @@ export default new Vuex.Store({
         localStorage.setItem('token', data.login.token)
         router.go();
       }).catch(err => {
+        commit('setError', err)
         console.error(err)
       })
     },
@@ -77,6 +84,7 @@ export default new Vuex.Store({
   getters: {
     posts: state => state.posts,
     user: state => state.user,
-    loading: state => state.loading
+    loading: state => state.loading,
+    error: state => state.error
   }
 })
