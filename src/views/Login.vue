@@ -36,7 +36,11 @@
 
               <v-layout row>
                 <v-flex xs12>
-                  <v-btn color="accent" type="submit">Login</v-btn>
+                  <v-btn :loading="loading" color="accent" type="submit">
+                    <span slot="loader" class="custom-loader">
+                      <v-icon light>cached</v-icon>
+                    </span>
+                    Login</v-btn>
                   <h3>Don't have an account?
                     <router-link to="/signup">Sign up here</router-link>
                   </h3>
@@ -64,7 +68,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['user', 'error'])
+    ...mapGetters(['user', 'error', 'loading'])
   },
   watch: {
     user(value) {
