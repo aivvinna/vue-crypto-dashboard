@@ -20,11 +20,11 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-card color="accent" dark>
           <v-container>
-            <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleSignupUser">
+            <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleCreateUser">
 
               <v-layout row>
                 <v-flex xs12>
-                  <v-text-field :rules="usernameRules" v-model="username" prepend-icon="face" label="Username" type="text" required></v-text-field>
+                  <v-text-field :rules="nameRules" v-model="name" prepend-icon="face" label="Name" type="text" required></v-text-field>
                 </v-flex>
               </v-layout>
 
@@ -54,7 +54,7 @@
                     </span>
                     Signup</v-btn>
                   <h3>Already have an account?
-                    <router-link to="/signin">Signin</router-link>
+                    <router-link to="/login">login</router-link>
                   </h3>
                 </v-flex>
               </v-layout>
@@ -72,49 +72,47 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "Signup",
+  name: "signup",
   data() {
     return {
       isFormValid: true,
-      username: "",
+      name: "",
       email: "",
       password: "",
       passwordConfirmation: "",
-      usernameRules: [
-        username => !!username || "Username is required",
-        username =>
-          username.length < 10 || "Username cannot be more than 10 characters"
+      nameRules: [
+        name => !!name || 'Name is required'
       ],
       emailRules: [
-        email => !!email || "Email is required",
-        email => /.@+./.test(email) || "Email must be valid"
+        email => !!email || 'Email is required',
+        email => /.@+./.test(email) || 'Email must be valid'
       ],
       passwordRules: [
-        password => !!password || "Password is required",
-        password =>
-          password.length >= 4 || "Password must be at least 4 characters",
-        confirmation => confirmation === this.password || "Passwords must match"
+        password => !!password || 'Password is required',
+        password => password.length >= 6 || 'Password must be at least 6 characters',
+        confirmation => confirmation === this.password || 'Password must be the same'
       ]
     };
   },
+  computed: {
+    ...mapGetters(["loading", "error", "user"])
+  },
   watch: {
     user(value) {
-      // if user value changes, redirect to home page
       if (value) {
         this.$router.push("/");
       }
     }
   },
-  computed: {
-    ...mapGetters(["loading", "error", "user"])
-  },
   methods: {
-    handleSignupUser() {
+    handleCreateUser() {
       if (this.$refs.form.validate()) {
-        this.$store.dispatch("signupUser", {
-          username: this.username,
-          email: this.email,
-          password: this.password
+        this.$store.dispatch("createUser", {
+          data: {
+            name: this.name,
+            email: this.email,
+            password: this.password
+          }
         });
       }
     }

@@ -79,12 +79,6 @@ export default {
   },
   methods: {
     handleLogin() {
-      // if (this.$refs.form.validate()) {
-      //   this.$store.dispatch("signinUser", {
-      //     username: this.username,
-      //     password: this.password
-      //   });
-      // }
       this.$store.dispatch('loginUser', {
         data: {
           email: this.email,
