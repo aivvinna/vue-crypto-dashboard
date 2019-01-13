@@ -24,7 +24,7 @@
 
               <v-layout row>
                 <v-flex xs12>
-                  <v-text-field :rules="nameRules" v-model="name" prepend-icon="face" label="Name" type="text" required></v-text-field>
+                  <v-text-field :rules="usernameRules" v-model="username" prepend-icon="face" label="Username" type="text" required></v-text-field>
                 </v-flex>
               </v-layout>
 
@@ -76,12 +76,12 @@ export default {
   data() {
     return {
       isFormValid: true,
-      name: "",
+      username: "",
       email: "",
       password: "",
       passwordConfirmation: "",
-      nameRules: [
-        name => !!name || 'Name is required'
+      usernameRules: [
+        username => !!username || 'Username is required'
       ],
       emailRules: [
         email => !!email || 'Email is required',
@@ -109,7 +109,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.$store.dispatch("createUser", {
           data: {
-            name: this.name,
+            username: this.username,
             email: this.email,
             password: this.password
           }
