@@ -3,10 +3,12 @@
     <h1>COINS</h1>
     <button @click="getAllCoins">Get All Coins!</button>
     <div v-for="coin in this.coins" :key="coin.id">
-      <h1>{{coin.CoinInfo.FullName}}</h1>
-      <img :src="`https://www.cryptocompare.com${coin.CoinInfo.ImageUrl}`" alt="cover">
-      <h2>USD: {{ coin.DISPLAY.USD.PRICE }}</h2>
-      <h2>{{ coin.DISPLAY.MKTCAP }}</h2>
+      <CoinCard
+        :name="coin.CoinInfo.FullName"
+        :img="coin.CoinInfo.ImageUrl"
+        :price="coin.DISPLAY.USD.PRICE"
+      >
+      </CoinCard>
     </div>
   </v-container>
 </template>
@@ -14,11 +16,15 @@
 <script>
 import axios from 'axios';
 import { mapGetters } from 'vuex';
+import CoinCard from '../components/CoinCard.vue'
 
 // axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 // axios.defaults.headers.common['X-CMC_PRO_API_KEY'] = '4c7178cd-423e-47dc-9e2c-03cc341a767e';
 
 export default {
+  components: {
+    CoinCard
+  },
   mounted() {
     console.log('mounted')
     console.log(this.$store.getters)
