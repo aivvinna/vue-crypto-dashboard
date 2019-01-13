@@ -15,6 +15,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'CoinCard',
   props: ['name', 'price', 'img']
