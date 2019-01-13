@@ -13,38 +13,25 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 // axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 // axios.defaults.headers.common['X-CMC_PRO_API_KEY'] = '4c7178cd-423e-47dc-9e2c-03cc341a767e';
 
 export default {
-  data() {
-    return {
-      coins: [],
-    }
-  },
   mounted() {
     console.log('mounted')
-  },
-  computed: {
-    newCoins() {
-      return this.coins;
+    console.log(this.$store.getters)
+    if (this.$store.getters.coins.length === 0) {
+      this.getAllCoins()
     }
   },
+  computed: {
+    ...mapGetters(['coins'])
+  },
   methods: {
-    // async getAllCoins(){
-    //   const proxy = 'http://cors-anywhere.herokuapp.com/';
-    //   let response = await axios.get(`${proxy}https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest`);
-    //   this.coins = response.data.data;
-    //   console.log('response', response)
-    //   console.log('this.coins', this.coins)
-    // },
     async getAllCoins(){
-      const proxy = 'http://cors-anywhere.herokuapp.com/';
-      let response = await axios.get(`https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD`);
-      this.coins = response.data.Data;
-      console.log('response', response)
-      console.log('this.coins', this.coins)
+      this.$store.dispatch('getCoins')
     }
   }
 }

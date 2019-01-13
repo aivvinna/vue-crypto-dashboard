@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router'
 
+import axios from 'axios'
+
 import { defaultClient as apolloClient } from './main'
 
 import { GET_POSTS, GET_ME } from './graphql/queries'
@@ -15,9 +17,13 @@ export default new Vuex.Store({
     posts: [],
     user: null,
     loading: false,
-    error: null
+    error: null,
+    coins: [],
   },
   mutations: {
+    setCoins: (state, payload) => {
+      state.coins = payload
+    },
     setPosts: (state, payload) => {
       state.posts = payload
     },
@@ -34,6 +40,14 @@ export default new Vuex.Store({
     clearError: state => state.error = null
   },
   actions: {
+    getCoins: ({ commit }) => {
+      axios.get(`https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD`)
+      .then((response) => {
+        commit('setCoins', response.data.Data)
+      }).catch(err => {
+        console.error(err)
+      })
+    },
     getMe: ({ commit }) => {
       commit('setLoading', true)
       apolloClient.query({
@@ -101,6 +115,7 @@ export default new Vuex.Store({
     } 
   },
   getters: {
+    coins: state => state.coins,
     posts: state => state.posts,
     user: state => state.user,
     loading: state => state.loading,
