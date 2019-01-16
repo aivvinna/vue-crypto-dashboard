@@ -1,15 +1,17 @@
 <template>
   <v-container>
     <h1>COINS</h1>
-    <button @click="getAllCoins">Get All Coins!</button>
-    <div v-for="coin in this.coins" :key="coin.id">
-      <CoinCard
-        :name="coin.CoinInfo.FullName"
-        :img="coin.CoinInfo.ImageUrl"
-        :price="coin.DISPLAY.USD.PRICE"
-      >
-      </CoinCard>
-    </div>
+      <v-layout row wrap>
+        <v-flex xs4
+          v-for="coin in this.coins" :key="coin.id">
+          <CoinCard
+            :name="coin.CoinInfo.FullName"
+            :img="coin.CoinInfo.ImageUrl"
+            :price="coin.DISPLAY.USD.PRICE"
+          >
+          </CoinCard>
+        </v-flex>
+      </v-layout>
   </v-container>
 </template>
 

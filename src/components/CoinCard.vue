@@ -1,7 +1,8 @@
 <template>
-  <v-card>
+  <v-card flat tile>
     <v-img
-      :src="`https://www.cryptocompare.com${img}`">
+      :src="`https://www.cryptocompare.com${img}`"
+      aspect-ratio="1">
     </v-img>
     <v-card-title>
       <div>
