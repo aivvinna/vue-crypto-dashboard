@@ -4,7 +4,7 @@
     <Toolbar/>
 
     <main>
-      <v-container class="mt-4">
+      <v-container mt-4 fluid>
         <transition name="fade">
           <router-view></router-view>
         </transition>

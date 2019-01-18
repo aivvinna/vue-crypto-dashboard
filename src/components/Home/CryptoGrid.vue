@@ -1,13 +1,15 @@
 <template>
-  <v-container>
-    <v-layout row wrap>
+  <v-container pa-0 ma-0 fluid>
+    <v-layout row wrap justify-center>
       <div v-for="coin in coins" :key="coin.id">
-        <CoinCard
-          :name="coin.CoinInfo.FullName"
-          :img="coin.CoinInfo.Name.toLowerCase()"
-          :price="coin.DISPLAY.USD.PRICE"
-        >
-        </CoinCard>
+        <v-flex ma-1>
+          <CoinCard
+            :name="coin.CoinInfo.FullName"
+            :img="coin.CoinInfo.Name.toLowerCase()"
+            :price="coin.DISPLAY.USD.PRICE"
+          >
+          </CoinCard>
+        </v-flex>
       </div>
     </v-layout>
   </v-container>

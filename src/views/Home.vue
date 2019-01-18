@@ -1,18 +1,18 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <h1>HOME</h1>
     <v-layout row>
-      <v-container>
+      <v-container fluid pa-0 ma-0>
         <v-layout row>
           Hi
         </v-layout>
       </v-container>
-      <v-container>
+      <v-container fluid pa-0 ma-0>
         <v-layout row>
           <CryptoGrid/>
         </v-layout>
       </v-container>
-      <v-container>
+      <v-container fluid pa-0 ma-0>
         <v-layout row>
           <v-dialog v-model="loading" persistent fullscreen>
             <v-container fill-height>
