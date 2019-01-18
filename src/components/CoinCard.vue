@@ -1,5 +1,5 @@
 <template>
-  <v-card width="170" height="100" ma-2 @mouseenter="colorImg" @mouseout="decolorImg">
+  <v-card width="170" height="100" ma-2 @mouseover="colorImg" @mouseleave="decolorImg">
     <v-layout>
       <v-flex xs5>
         <v-img
