@@ -4,8 +4,8 @@
       <div v-for="coin in coins" :key="coin.id">
         <v-flex ma-1>
           <CoinCard
-            :name="coin.CoinInfo.FullName"
-            :img="coin.CoinInfo.Name.toLowerCase()"
+            :fullName="coin.CoinInfo.FullName"
+            :name="coin.CoinInfo.Name.toLowerCase()"
             :price="coin.DISPLAY.USD.PRICE"
           >
           </CoinCard>
