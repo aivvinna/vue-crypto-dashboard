@@ -9,7 +9,7 @@
       </v-container>
       <v-container>
         <v-layout row>
-          Second
+          <CryptoGrid/>
         </v-layout>
       </v-container>
       <v-container>
@@ -33,9 +33,11 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import CryptoGrid from '../components/Home/CryptoGrid.vue'
+
 export default {
   components: {
-    
+    CryptoGrid
   },
   data() {
     return {
