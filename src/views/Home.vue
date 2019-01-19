@@ -4,7 +4,7 @@
     <v-layout row>
       <v-container fluid pa-0 ma-0>
         <v-layout row>
-          Hi
+          <News/>
         </v-layout>
       </v-container>
       <v-container fluid pa-0 ma-0>
@@ -33,11 +33,13 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import News from '../components/Home/News.vue'
 import CryptoGrid from '../components/Home/CryptoGrid.vue'
 
 export default {
   components: {
     CryptoGrid,
+    News
   },
   data() {
     return {

@@ -26,8 +26,6 @@ export default {
     CryptoModal
   },
   mounted() {
-    console.log('mounted')
-    console.log(this.$store.getters)
     if (this.$store.getters.coins.length === 0) {
       this.getAllCoins()
     }
