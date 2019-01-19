@@ -1,10 +1,5 @@
 <template>
   <v-layout>
-    <!-- <v-card @click="dialog = true">
-      <v-card-title>
-        Open Dialog
-      </v-card-title>
-    </v-card> -->
     <CryptoCard
       @click.native="dialog = true"
       :fullName="fullName"
@@ -16,10 +11,10 @@
       <v-card>
         <v-card-title>
           <div>
-            {{fullName}}
+            {{name}}
           </div>
           <div>
-
+            cryptoData: {{data}}
           </div>
         </v-card-title>
       </v-card>
@@ -28,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import CryptoCard from './CryptoCard.vue'
 
 export default {
@@ -38,11 +34,22 @@ export default {
   props: ['fullName', 'name', 'price'],
   mounted() {
     console.log('cryptomodal mounted')
+    console.log(this.cryptoData)
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      data: null
     }
   },
+  watch: {
+    dialog: async function(val) {
+      if (val) {
+        const capsName = this.name.toUpperCase()
+        const response = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${capsName}&tsyms=USD`)
+        this.data = response.data.DISPLAY[capsName]
+      }
+    }
+  }
 }
 </script>

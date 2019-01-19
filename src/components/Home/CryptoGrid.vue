@@ -3,12 +3,6 @@
     <v-layout row wrap justify-center>
       <div v-for="coin in coins" :key="coin.id">
         <v-flex ma-1>
-          <!-- <CryptoCard
-            :fullName="coin.CoinInfo.FullName"
-            :name="coin.CoinInfo.Name.toLowerCase()"
-            :price="coin.DISPLAY.USD.PRICE"
-          >
-          </CryptoCard> -->
           <CryptoModal
           :fullName="coin.CoinInfo.FullName"
           :name="coin.CoinInfo.Name.toLowerCase()"
