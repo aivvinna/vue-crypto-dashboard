@@ -1,5 +1,9 @@
 <template>
-  <v-card width="170" height="100" ma-2 @mouseover="colorImg" @mouseleave="decolorImg">
+  <v-card
+    width="160" height="90"
+    ma-2
+    @mouseover="colorImg"
+    @mouseleave="decolorImg">
     <v-layout>
       <v-flex xs5>
         <v-img
@@ -26,7 +30,7 @@
 <script>
 
 export default {
-  name: 'CoinCard',
+  name: 'CryptoCard',
   props: ['fullName', 'price', 'name'],
   data() {
     return {

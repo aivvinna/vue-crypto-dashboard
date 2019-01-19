@@ -5,12 +5,12 @@
         <v-flex xs4>
         <draggable>
           <div v-for="coin in coins" :key="coin.id">
-            <CoinCard
+            <CryptoCard
               :name="coin.CoinInfo.FullName"
               :img="coin.CoinInfo.Name.toLowerCase()"
               :price="coin.DISPLAY.USD.PRICE"
             >
-            </CoinCard>
+            </CryptoCard>
           </div>
         </draggable>
         </v-flex>
@@ -21,7 +21,7 @@
 <script>
 import axios from 'axios';
 import { mapGetters } from 'vuex';
-import CoinCard from '../components/CoinCard.vue'
+import CryptoCard from '../components/CryptoCard.vue'
 import draggable from 'vuedraggable'
 
 // axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
@@ -30,7 +30,7 @@ import draggable from 'vuedraggable'
 export default {
   components: {
     draggable,
-    CoinCard
+    CryptoCard
   },
   mounted() {
     console.log('mounted')

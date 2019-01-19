@@ -37,11 +37,10 @@ import CryptoGrid from '../components/Home/CryptoGrid.vue'
 
 export default {
   components: {
-    CryptoGrid
+    CryptoGrid,
   },
   data() {
     return {
-
     }
   },
   computed: {
@@ -53,7 +52,7 @@ export default {
   methods: {
     handleGetPosts() {
       this.$store.dispatch('getPosts')
-    }
+    },
   }
 }
 </script>
