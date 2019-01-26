@@ -2,7 +2,7 @@
   <v-container pa-0 ma-0 fluid>
     <v-layout row wrap justify-center>
       <div v-for="coin in coins" :key="coin.id">
-        <v-flex ma-1>
+        <v-flex ma-1 xs12>
           <CryptoModal
           :fullName="coin.CoinInfo.FullName"
           :name="coin.CoinInfo.Name.toLowerCase()"
