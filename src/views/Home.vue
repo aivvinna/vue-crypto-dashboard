@@ -14,16 +14,7 @@
       </v-container>
       <v-container fluid pa-0 ma-0>
         <v-layout row>
-          <v-dialog v-model="loading" persistent fullscreen>
-            <v-container fill-height>
-              <v-layout row justify-center align-center>
-                <v-progress-circular indeterminate :size="70" :width="7" color="secondary"></v-progress-circular>
-              </v-layout>
-            </v-container>
-          </v-dialog>
-          <div v-if="!loading">
-            <h2 v-for="post in posts" :key="post.id">{{post.title}} {{post.body}}</h2>
-          </div>
+          <PostsList/>
         </v-layout>
       </v-container>
     </v-layout>
@@ -31,30 +22,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import News from '../components/Home/News.vue'
 import CryptoGrid from '../components/Home/CryptoGrid.vue'
+import PostsList from '../components/Home/PostsList.vue'
 
 export default {
   components: {
     CryptoGrid,
-    News
+    News,
+    PostsList
   },
   data() {
     return {
     }
-  },
-  computed: {
-    ...mapGetters(['loading', 'posts'])
-  },
-  created() {
-    this.handleGetPosts()
-  },
-  methods: {
-    handleGetPosts() {
-      this.$store.dispatch('getPosts')
-    },
   }
 }
 </script>
