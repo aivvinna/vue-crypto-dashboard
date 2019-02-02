@@ -16,6 +16,10 @@ export const GET_POSTS = gql`
       id
       title
       body
+      author {
+        id
+        username
+      }
     }
   }
 `

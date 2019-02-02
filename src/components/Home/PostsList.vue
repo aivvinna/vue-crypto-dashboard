@@ -7,9 +7,27 @@
         </v-layout>
       </v-container>
     </v-dialog>
-    <div v-if="!loading">
-      <h2 v-for="post in posts" :key="post.id">{{post.title}} {{post.body}}</h2>
-    </div>
+    <template v-if="!loading">
+      <!-- <h2 v-for="post in posts" :key="post.id">{{post.title}} {{post.body}}</h2> -->
+      <v-list two-line>
+        <div v-for="(post, index) in posts" :key="post.id">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <img v-if="post.author.avatar" :src="post.author.avatar" alt="">
+              <v-icon v-else>
+                person
+              </v-icon>
+            </v-list-tile-avatar>
+            
+            <v-list-tile-content>
+              <v-list-tile-title>{{post.title}}</v-list-tile-title>
+              <v-list-tile-sub-title>{{post.body}}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider v-if="index + 1 < posts.length"></v-divider>
+        </div>
+      </v-list>
+    </template>
   </div>
 </template>
 
@@ -28,11 +46,11 @@ export default {
   mounted() {
     console.log('Posts section mounted')
   },
-  computed: {
-    ...mapGetters(['loading', 'posts'])
-  },
   created() {
     this.handleGetPosts()
+  },
+  computed: {
+    ...mapGetters(['loading', 'posts'])
   },
   methods: {
     handleGetPosts() {
