@@ -8,7 +8,7 @@ import { defaultClient as apolloClient } from './main'
 
 import { GET_POSTS, GET_ME } from './graphql/queries'
 
-import { LOGIN_USER, SIGNUP_USER } from './graphql/mutations'
+import { LOGIN_USER, SIGNUP_USER, CREATE_POST } from './graphql/mutations'
 
 Vue.use(Vuex)
 
@@ -112,7 +112,18 @@ export default new Vuex.Store({
       localStorage.setItem('token', '')
       await apolloClient.resetStore()
       router.push('/')
-    } 
+    },
+    createPost: ({ commit }, payload) => {
+      console.log('createPost action')
+      apolloClient.mutate({
+        mutation: CREATE_POST,
+        variables: payload
+      }).then(({data}) => {
+        console.log(data)
+      }).catch(err => {
+        console.error(err)
+      })
+    }
   },
   getters: {
     coins: state => state.coins,
