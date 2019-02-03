@@ -27,14 +27,6 @@ export default {
   components: {
     PostModal
   },
-  data() {
-    return {
-      
-    }
-  },
-  mounted() {
-    console.log('Posts section mounted')
-  },
   created() {
     this.handleGetPosts()
   },

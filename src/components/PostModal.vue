@@ -30,19 +30,6 @@ export default {
     return {
       dialog: false,
     }
-  },
-  mounted() {
-    // console.log('postalmodal mounted')
-  },
-  computed: {
-    showPostDialog: {
-      get() {
-        return this.value
-      },
-      set(value) {
-        this.$emit('input', value)
-      }
-    }
   }
 }
 </script>

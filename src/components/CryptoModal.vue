@@ -48,7 +48,6 @@ export default {
   },
   props: ['fullName', 'name', 'price'],
   mounted() {
-    console.log('cryptomodal mounted')
     console.log(this.cryptoData)
   },
   data() {

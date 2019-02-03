@@ -19,16 +19,6 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'PostCard',
-  components: {
-    
-  },
-  props: ['post'],
-  data() {
-    return {
-    }
-  },
-  mounted() {
-    console.log('PostCard mounted')
-  },
+  props: ['post']
 }
 </script>
