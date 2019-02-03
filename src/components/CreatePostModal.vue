@@ -89,6 +89,8 @@ export default {
         return this.value
       },
       set(value) {
+        this.title = ""
+        this.body = ""
         this.$emit('input', value)
       }
     }
@@ -104,7 +106,9 @@ export default {
           }
         });
         console.log('create post action dispatched')
-        // this.$router.push("/");
+        this.title = ""
+        this.body = ""
+        this.$emit('input', false)
       }
     }
   }
