@@ -54,7 +54,7 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn @click.native="showCreatePostDialog = true">
+        <v-btn @click="showCreatePostDialog = true">
           <v-icon
             class="hidden-sm-only"
             left>

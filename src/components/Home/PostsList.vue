@@ -10,7 +10,7 @@
     <template v-if="!loading">
       <v-list two-line>
         <div v-for="(post, index) in posts" :key="post.id">
-          <PostCard :post="post"/>
+          <PostModal :post="post"/>
           <v-divider v-if="index + 1 < posts.length"></v-divider>
         </div>
       </v-list>
@@ -20,15 +20,16 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PostCard from '../PostCard.vue'
+import PostModal from '../PostModal.vue'
 
 export default {
   name: 'PostsList',
   components: {
-    PostCard
+    PostModal
   },
   data() {
     return {
+      
     }
   },
   mounted() {
