@@ -91,6 +91,7 @@ export default {
       set(value) {
         this.title = ""
         this.body = ""
+        this.published = false
         this.$emit('input', value)
       }
     }
@@ -108,6 +109,7 @@ export default {
         console.log('create post action dispatched')
         this.title = ""
         this.body = ""
+        this.published = false
         this.$emit('input', false)
       }
     }
