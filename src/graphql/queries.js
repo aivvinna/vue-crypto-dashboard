@@ -16,6 +16,7 @@ export const GET_POSTS = gql`
       id
       title
       body
+      createdAt
       author {
         id
         username

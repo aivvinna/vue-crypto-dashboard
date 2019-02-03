@@ -1,22 +1,27 @@
 <template>
   <v-container fluid>
-    <h1>HOME</h1>
     <v-layout row>
-      <v-container fluid pa-0 ma-0>
-        <v-layout row>
-          <News/>
-        </v-layout>
-      </v-container>
-      <v-container fluid pa-0 ma-0>
-        <v-layout row>
-          <CryptoGrid/>
-        </v-layout>
-      </v-container>
-      <v-container fluid pa-0 ma-0>
-        <v-layout row>
-          <PostsList/>
-        </v-layout>
-      </v-container>
+      <v-flex xs3>
+        <v-container fluid pa-0 ma-0>
+          <v-layout row>
+            <News/>
+          </v-layout>
+        </v-container>
+      </v-flex>
+      <v-flex xs6>
+        <v-container fluid pa-0 ma-0>
+          <v-layout row>
+            <CryptoGrid/>
+          </v-layout>
+        </v-container>
+      </v-flex>
+      <v-flex xs3>
+        <v-container fluid pa-0 ma-0>
+          <v-layout row>
+            <PostsList/>
+          </v-layout>
+        </v-container>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>

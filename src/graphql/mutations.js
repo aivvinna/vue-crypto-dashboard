@@ -22,6 +22,7 @@ export const CREATE_POST = gql`
       body
       title
       published
+      createdAt
       author {
         id
         username

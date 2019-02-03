@@ -2,7 +2,7 @@
   <v-card>
     <v-img
     class="white--text"
-    height="180"
+    height="170"
     :src="imgPath">
       <v-container fill-height fluid>
         <v-layout fill-height>
@@ -15,8 +15,7 @@
     <v-card-title>
       <div>
         <span class="grey--text">{{categories}}</span><br>
-        <!-- <span>{{body.slice(0, 200)}}...</span> -->
-        <span>{{body}}</span>
+        <span>{{body.slice(0, 200)}}...</span>
       </div>
     </v-card-title>
     <v-card-actions>

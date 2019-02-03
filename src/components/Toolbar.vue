@@ -5,7 +5,7 @@
         <v-toolbar-side-icon
           @click="toggleSideNav"></v-toolbar-side-icon>
         <router-link to="/" tag="span" style="cursor: pointer">
-          <h1 class="title pl-3">CoinView</h1>
+          <h1 class="title pl-3">CryptoVue</h1>
         </router-link>
       </v-toolbar>
 
@@ -36,7 +36,7 @@
         @click="toggleSideNav"></v-toolbar-side-icon>
       <v-toolbar-title class="hidden-xs-only">
         <router-link to="/" tag="span" style="cursor: pointer">
-          CoinView
+          CryptoVue
         </router-link>
       </v-toolbar-title>
 
@@ -54,6 +54,14 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-xs-only">
+        <v-btn @click.native="showCreatePostDialog = true">
+          <v-icon
+            class="hidden-sm-only"
+            left>
+            create
+          </v-icon>
+          Post
+        </v-btn>
         <v-btn flat v-for="item in horizontalNavItems" :key="item.title" :to="item.link">
           <v-icon
             class="hidden-sm-only"
@@ -69,17 +77,23 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
+    <CreatePostModal v-model="showCreatePostDialog"/>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import CreatePostModal from './CreatePostModal.vue'
 
 export default {
   name: 'Toolbar',
+  components: {
+    CreatePostModal
+  },
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      showCreatePostDialog: false
     }
   },
   computed: {
@@ -92,7 +106,8 @@ export default {
       ]
       if (this.user) {
         items = [
-          { icon: 'chat', title: 'Posts', link: '/posts'},
+          // { icon: 'chat', title: 'Posts', link: '/posts'},
+          // { icon: 'stars', title: 'Create Post', link: '/'},
           { icon: 'account_box', title: 'Profile', link: '/profile'}
         ]
       }
