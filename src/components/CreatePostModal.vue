@@ -30,14 +30,10 @@
                   Submit</v-btn>
               </v-flex>
             </v-layout>
-
           </v-form>
-
         </v-flex>
       </v-layout>
-
     </v-card>
-
   </v-dialog>
 
 </template>
