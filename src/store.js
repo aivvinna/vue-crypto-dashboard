@@ -40,72 +40,76 @@ export default new Vuex.Store({
     clearError: state => state.error = null
   },
   actions: {
-    getCoins: ({ commit }) => {
-      axios.get(`https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD`)
-      .then((response) => {
+    getCoins: async ({ commit }) => {
+      try {
+        const response = await axios.get(`https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD`)
         commit('setCoins', response.data.Data)
-      }).catch(err => {
+      } catch(err) {
         console.error(err)
-      })
+      }
     },
-    getMe: ({ commit }) => {
+    getMe: async ({ commit }) => {
       commit('setLoading', true)
-      apolloClient.query({
-        query: GET_ME
-      }).then(({data}) => {
+      try {
+        const {data} = await apolloClient.query({
+          query: GET_ME
+        })
         commit('setLoading', false)
         commit('setUser', data.me)
         console.log(data)
-      }).catch(err => {
+      } catch(err) {
         commit('setLoading', false)
         console.error(err)
-      })
+      }
     },
-    getPosts: ({ commit }) => {
-      commit('setLoading', true);
-      apolloClient.query({
-        query: GET_POSTS
-      }).then(({data}) => {
+    getPosts: async ({ commit }) => {
+      commit('setLoading', true)
+      try {
+        const {data} = await apolloClient.query({
+          query: GET_POSTS
+        })
         commit('setPosts', data.posts)
         commit('setLoading', false)
         console.log('data', data)
-      }).catch(err => {
+      } catch(err) {
         commit('setLoading', false)
         console.error(err)
-      })
+      }
     },
-    loginUser: ({ commit }, payload) => {
+    loginUser: async ({ commit }, payload) => {
       commit('clearError')
       commit('setLoading', true)
-      apolloClient.mutate({
-        mutation: LOGIN_USER,
-        variables: payload
-      }).then(({data}) => {
+      try {
+        const {data} = await apolloClient.mutate({
+          mutation: LOGIN_USER,
+          variables: payload
+        })
         console.log('login', data)
         commit('setLoading', false)
         localStorage.setItem('token', data.login.token)
         router.go();
-      }).catch(err => {
+      } catch(err) {
         commit('setLoading', false)
         commit('setError', err)
         console.error(err)
-      })
+      }
     },
-    createUser: ({ commit }, payload) => {
+    createUser: async ({ commit }, payload) => {
       commit('clearError')
       commit('setLoading', true)
-      apolloClient.mutate({
-        mutation: SIGNUP_USER,
-        variables: payload
-      }).then(({data}) => {
+      try {
+        const {data} = await apolloClient.mutate({
+          mutation: SIGNUP_USER,
+          variables: payload
+        })
         commit('setLoading', false)
         localStorage.setItem('token', data.createUser.token)
         router.go()
-      }).catch(err => {
+      } catch(err) {
         commit('setLoading', false)
         commit('setError', err)
         console.error(err)
-      })
+      }
     },
     logoutUser: async ({ commit }) => {
       commit('clearUser')
@@ -113,16 +117,15 @@ export default new Vuex.Store({
       await apolloClient.resetStore()
       router.push('/')
     },
-    createPost: ({ commit }, payload) => {
-      console.log('createPost action')
-      apolloClient.mutate({
-        mutation: CREATE_POST,
-        variables: payload
-      }).then(({data}) => {
-        console.log(data)
-      }).catch(err => {
+    createPost: async ({ commit }, payload) => {
+      try {
+        await apolloClient.mutate({
+          mutation: CREATE_POST,
+          variables: payload
+        })
+      } catch(err) {
         console.error(err)
-      })
+      }
     }
   },
   getters: {
