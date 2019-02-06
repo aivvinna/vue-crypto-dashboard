@@ -14,9 +14,26 @@ export const GET_POSTS = gql`
   query {
     posts {
       id
-      title
-      body
+      content
+      category
       createdAt
+      parent {
+        id
+        content
+        author {
+          id
+          username
+        }
+      }
+      posts {
+        id
+        content
+        category
+        author {
+          id
+          username
+        }
+      }
       author {
         id
         username

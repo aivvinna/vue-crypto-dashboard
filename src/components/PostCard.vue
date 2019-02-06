@@ -8,8 +8,8 @@
     </v-list-tile-avatar>
     
     <v-list-tile-content>
-      <v-list-tile-title>{{post.title}}</v-list-tile-title>
-      <v-list-tile-sub-title>{{post.author.username}} - {{post.body}}</v-list-tile-sub-title>
+      <v-list-tile-title>{{post.content}}</v-list-tile-title>
+      <v-list-tile-sub-title>{{post.author.username}} - {{post.category}}</v-list-tile-sub-title>
     </v-list-tile-content>
   </v-list-tile>
 </template>
