@@ -14,27 +14,10 @@
 
           <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleCreatePost">
 
-            <!-- Title Input -->
+            <!-- Content Text Area -->
             <v-layout row>
               <v-flex xs12>
-                <v-text-field :rules="titleRules" v-model="title" label="Post Title" type="text" required></v-text-field>
-              </v-flex>
-            </v-layout>
-
-            <!-- Body Text Area -->
-            <v-layout row>
-              <v-flex xs12>
-                <v-textarea :rules="bodyRules" v-model="body" label="Body" type="text" required></v-textarea>
-              </v-flex>
-            </v-layout>
-
-            <!-- Published Checkbox -->
-            <v-layout row>
-              <v-flex xs12>
-                <v-checkbox
-                  :label="`Check to publish`"
-                  v-model="published"
-                ></v-checkbox>
+                <v-textarea :rules="contentRules" v-model="content" label="Content" type="text" required></v-textarea>
               </v-flex>
             </v-layout>
 
@@ -68,17 +51,11 @@ export default {
   data() {
     return {
       isFormValid: true,
-      title: "",
-      body: "",
-      published: false,
-      titleRules: [
-        title => !!title || "Title is required",
-        title => title.length < 20 || "Title must have less than 20 characters"
-      ],
-      bodyRules: [
-        body => !!body || "Body is required",
-        body =>
-          body.length < 200 || "Body must have less than 200 characters"
+      content: "",
+      contentRules: [
+        content => !!content || "Content is required",
+        content =>
+          content.length < 200 || "Content must have less than 200 characters"
       ]
     };
   },
@@ -89,9 +66,7 @@ export default {
         return this.value
       },
       set(value) {
-        this.title = ""
-        this.body = ""
-        this.published = false
+        this.content = ""
         this.$emit('input', value)
       }
     }
@@ -101,15 +76,11 @@ export default {
       if (this.$refs.form.validate()) {
         this.$store.dispatch("createPost", {
           data: {
-            title: this.title,
-            body: this.body,
-            published: this.published
+            content: this.content,
           }
         });
         console.log('create post action dispatched')
-        this.title = ""
-        this.body = ""
-        this.published = false
+        this.content = ""
         this.$emit('input', false)
       }
     }

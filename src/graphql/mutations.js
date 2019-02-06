@@ -19,9 +19,18 @@ export const SIGNUP_USER = gql`
 export const CREATE_POST = gql`
   mutation($data:CreatePostInput!) {
     createPost(data: $data) {
-      body
-      title
-      published
+      content
+      category
+      posts {
+        id
+        content
+        category
+      }
+      parent {
+        id
+        content
+        category
+      }
       createdAt
       author {
         id
