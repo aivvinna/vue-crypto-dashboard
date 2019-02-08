@@ -12,19 +12,13 @@ export const GET_ME = gql`
 
 export const GET_POSTS = gql`
   query {
-    posts {
+    posts(where: {
+      parent: null
+    }) {
       id
       content
       category
       createdAt
-      parent {
-        id
-        content
-        author {
-          id
-          username
-        }
-      }
       posts {
         id
         content
