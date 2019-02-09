@@ -14,10 +14,56 @@
 
           <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleCreatePost">
 
-            <!-- Content Text Area -->
+            <!-- Content Text Input -->
             <v-layout row>
               <v-flex xs12>
                 <v-textarea :rules="contentRules" v-model="content" label="Content" type="text" required></v-textarea>
+              </v-flex>
+            </v-layout>
+
+            <!-- Category Select -->
+            <v-layout row>
+              <v-flex xs12>
+                <v-autocomplete
+                  v-model="category"
+                  :items="cryptocurrencies"
+                  item-text="symbol"
+                  item-value="symbol"
+                  label="Choose a category"
+                  box
+                  chips
+                  multiple
+                >
+                  <template
+                    slot="selection"
+                    slot-scope="data">
+                    <v-chip
+                      :selected="data.selected"
+                      close
+                      @input="removeCategory(data.item)">
+                      <v-avatar>
+                        <img :src="require(`../assets/img/color/${data.item.symbol.toLowerCase()}.png`)">
+                      </v-avatar>
+                        {{data.item.symbol}}
+                    </v-chip>
+                  </template>
+                  <template
+                    slot="item"
+                    slot-scope="data">
+                    <template v-if="typeof data.item !== 'object'">
+                      <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                    </template>
+                    <template v-else>
+                      <v-list-tile-avatar>
+                        <img :src="require(`../assets/img/color/${data.item.symbol.toLowerCase()}.png`)">
+                      </v-list-tile-avatar>
+                      <v-list-tile-content>
+                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        <v-list-tile-sub-title v-html="data.item.symbol"></v-list-tile-sub-title>
+                      </v-list-tile-content>
+                    </template>
+                  </template>
+                </v-autocomplete>
               </v-flex>
             </v-layout>
 
@@ -40,14 +86,17 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { cryptocurrencies } from "../util/cryptocurrencies";
 
 export default {
   name: "CreatePostModal",
   props: ['value'],
   data() {
     return {
+      cryptocurrencies,
       isFormValid: true,
       content: "",
+      category: [],
       contentRules: [
         content => !!content || "Content is required",
         content =>
@@ -73,12 +122,20 @@ export default {
         this.$store.dispatch("createPost", {
           data: {
             content: this.content,
+            category: {
+              set: this.category
+            }
           }
         });
         console.log('create post action dispatched')
         this.content = ""
+        this.category = [];
         this.$emit('input', false)
       }
+    },
+    removeCategory(category) {
+      const index = this.category.indexOf(category.symbol);
+      this.category.splice(index, 1);
     }
   }
 };
