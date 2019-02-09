@@ -15,14 +15,23 @@
           <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleCreatePost">
 
             <!-- Content Text Input -->
-            <v-layout row>
+            <v-layout row v-if="showCreatePostDialog">
               <v-flex xs12>
-                <v-textarea :rules="contentRules" v-model="content" label="Content" type="text" required></v-textarea>
+                <v-textarea
+                  :rules="contentRules"
+                  v-model="content"
+                  label="Content"
+                  type="text"
+                  required
+                  auto-grow
+                  box
+                  autofocus
+                  outline></v-textarea>
               </v-flex>
             </v-layout>
 
             <!-- Category Select -->
-            <v-layout row>
+            <v-layout row v-if="showCreatePostDialog">
               <v-flex xs12>
                 <v-autocomplete
                   v-model="category"
@@ -113,6 +122,13 @@ export default {
       set(value) {
         this.content = ""
         this.$emit('input', value)
+      }
+    }
+  },
+  watch: {
+    showCreatePostDialog: function(newVal) {
+      if (!newVal) {
+        this.category = [];
       }
     }
   },
