@@ -16,13 +16,15 @@ import { GET_USER } from '../graphql/queries';
 export default {
   async created() {
     console.log('user created')
-    await this.getUser()
-    console.log('getuserdone')
-    console.log(this.data)
+    // await this.getUser()
+    // console.log('getuserdone')
+    // console.log(' created this.data', this.data)
   },
-  mounted() {
+  async mounted() {
     console.log('user page')
     console.log(this.$route)
+    await this.getUser()
+    console.log(' mounted this.data', this.data)
   },
   data() {
     return {

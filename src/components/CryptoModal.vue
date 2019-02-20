@@ -48,7 +48,7 @@ export default {
   },
   props: ['fullName', 'name', 'price'],
   mounted() {
-    console.log(this.cryptoData)
+    // console.log(this.cryptoData)
   },
   data() {
     return {

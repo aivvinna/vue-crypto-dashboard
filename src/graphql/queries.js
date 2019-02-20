@@ -18,10 +18,11 @@ export const GET_USER = gql`
       email
       bio
       location
+      favCryptos
       posts {
         id
         content
-        # category
+        category
       }
       followers {
         id

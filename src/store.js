@@ -117,11 +117,45 @@ export default new Vuex.Store({
       await apolloClient.resetStore()
       router.push('/')
     },
-    createPost: async ({ commit }, payload) => {
+    createPost: ({ commit, rootState }, payload) => {
       try {
-        await apolloClient.mutate({
+        apolloClient.mutate({
           mutation: CREATE_POST,
-          variables: payload
+          variables: payload,
+          update: (cache, { data: { createPost } }) => {
+            console.log('createPost', createPost)
+            const data = cache.readQuery({ query: GET_POSTS });
+            console.log('data after readQuery', data)
+            data.posts.unshift(createPost)
+            console.log('data.posts', data.posts)
+            console.log('cache', cache)
+
+            // below comment is a quick fix to bug in issue 3992
+            // cache.writeData({
+            //   data: [],
+            // })
+
+            cache.writeQuery({
+              query: GET_POSTS,
+              data
+            })
+            console.log('cache after writequery', cache)
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            createPost: {
+              __typename: 'Post',
+              id: -1,
+              content: payload.data.content,
+              category: payload.data.category,
+              author: rootState.user,
+              posts: [],
+              createdAt: Date.now(),
+              parent: null
+            }
+          }
+        }).then(({data}) => {
+          console.log(data.createPost)
         })
       } catch(err) {
         console.error(err)

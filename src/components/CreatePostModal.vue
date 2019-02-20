@@ -147,6 +147,12 @@ export default {
         this.content = ""
         this.category = [];
         this.$emit('input', false)
+
+        console.log(this.$store.state.posts)
+
+        setTimeout(() => {
+          console.log(this.$store.state.posts)
+        }, 4000)
       }
     },
     removeCategory(category) {
