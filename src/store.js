@@ -123,23 +123,13 @@ export default new Vuex.Store({
           mutation: CREATE_POST,
           variables: payload,
           update: (cache, { data: { createPost } }) => {
-            console.log('createPost', createPost)
             const data = cache.readQuery({ query: GET_POSTS });
-            console.log('data after readQuery', data)
             data.posts.unshift(createPost)
-            console.log('data.posts', data.posts)
-            console.log('cache', cache)
-
-            // below comment is a quick fix to bug in issue 3992
-            // cache.writeData({
-            //   data: [],
-            // })
-
             cache.writeQuery({
               query: GET_POSTS,
               data
             })
-            console.log('cache after writequery', cache)
+            commit('setPosts', data.posts)
           },
           optimisticResponse: {
             __typename: 'Mutation',
@@ -147,7 +137,7 @@ export default new Vuex.Store({
               __typename: 'Post',
               id: -1,
               content: payload.data.content,
-              category: payload.data.category,
+              category: payload.data.category.set,
               author: rootState.user,
               posts: [],
               createdAt: Date.now(),
