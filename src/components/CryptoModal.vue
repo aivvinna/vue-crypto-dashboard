@@ -7,7 +7,7 @@
       :price="price"
     />
     
-    <v-dialog dark lazy max-width="600" v-model="dialog">
+    <v-dialog dark lazy max-width="1200" v-model="dialog">
       <v-card>
         <v-layout v-if="data.USD">
           <v-flex xs5>
@@ -29,6 +29,8 @@
           </v-flex>
         </v-layout>
         <v-divider light></v-divider>
+        <div class="chart"></div>
+        <v-divider light></v-divider>
         <v-card-actions>
           Add to favorites
         </v-card-actions>
@@ -39,6 +41,7 @@
 
 <script>
 import axios from 'axios'
+import * as d3 from 'd3'
 import CryptoCard from './CryptoCard.vue'
 
 export default {
@@ -64,6 +67,115 @@ export default {
         this.data = response.data.DISPLAY[capsName]
         console.log(this.data)
       }
+
+      this.get24HrPrice();
+    }
+  },
+  methods: {
+    async get24HrPrice() {
+      const capsName = this.name.toUpperCase();
+      const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${capsName}&tsym=USD&limit=24`;
+      const response = await axios.get(url)
+      console.log(response)
+
+      const data = response.data.Data
+      console.log(data)
+      const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+      // const width = window.innerWidth - margin.left - margin.right;
+      const width = 1000;
+      // const height = window.innerHeight - margin.top - margin.bottom; 
+      const height = 500;
+
+      const svg = d3
+        .select('.chart')
+        .append('svg')
+        .attr('width', width + margin['left'] + margin['right'])
+        .attr('height', height + margin['top'] + margin['bottom'])
+        .call(this.responsivefy)
+        .append('g')
+        .attr('transform', `translate(${margin['left']},  ${margin['top']})`);
+
+      const xMin = d3.min(data, d => {
+        return d['time'];
+      });
+
+      const xMax = d3.max(data, d => {
+        return d['time'];
+      });
+
+      const yMin = d3.min(data, d => {
+        return d['close'];
+      });
+
+      const yMax = d3.max(data, d => {
+        return d['close'];
+      });
+
+      const xScale = d3
+        .scaleTime()
+        .domain([xMin, xMax])
+        .range([0, width])
+      
+      const yScale = d3
+        .scaleLinear()
+        .domain([yMin - 5, yMax])
+        .range([height, 0])
+
+      svg
+        .append('g')
+        .attr('id', 'xAxis')
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale));
+      svg
+        .append('g')
+        .attr('id', 'yAxis')
+        .attr('transform', `translate(${width}, 0)`)
+        .call(d3.axisRight(yScale));
+
+      const line = d3
+        .line()
+        .x(d => {
+          return xScale(d['time']);
+        })
+        .y(d => {
+          return yScale(d['close']);
+        });
+
+      svg
+        .append('path')
+        .data([data])
+        .style('fill', 'none')
+        .attr('id', 'priceChart')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', '1.5')
+        .attr('d', line);
+    },
+    responsivefy(svg) {
+      // get container + svg aspect ratio
+      const container = d3.select(svg.node().parentNode),
+        width = parseInt(svg.style('width')),
+        height = parseInt(svg.style('height')),
+        aspect = width / height;
+
+      // get width of container and resize svg to fit it
+      const resize = () => {
+        var targetWidth = parseInt(container.style('width'));
+        svg.attr('width', targetWidth);
+        svg.attr('height', Math.round(targetWidth / aspect));
+      };
+
+      // add viewBox and preserveAspectRatio properties,
+      // and call resize so that svg resizes on inital page load
+      svg
+        .attr('viewBox', '0 0 ' + width + ' ' + height)
+        .attr('perserveAspectRatio', 'xMinYMid')
+        .call(resize);
+
+      // to register multiple listeners for same event type,
+      // you need to add namespace, i.e., 'click.foo'
+      // necessary if you call invoke this function for multiple svgs
+      // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+      d3.select(window).on('resize.' + container.attr('id'), resize);
     }
   }
 }

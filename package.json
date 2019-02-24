@@ -14,6 +14,7 @@
     "apollo-link": "^1.2.8",
     "apollo-link-http": "^1.5.11",
     "axios": "^0.18.0",
+    "d3": "^5.9.1",
     "graphql": "^14.1.1",
     "vue": "^2.5.22",
     "vue-apollo": "^3.0.0-beta.28",
