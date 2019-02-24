@@ -29,7 +29,7 @@
           </v-flex>
         </v-layout>
         <v-divider light></v-divider>
-        <div class="chart"></div>
+        <div class="chart" v-if="dialog"></div>
         <v-divider light></v-divider>
         <v-card-actions>
           Add to favorites
@@ -40,8 +40,12 @@
 </template>
 
 <script>
+// node modules
 import axios from 'axios'
 import * as d3 from 'd3'
+// util
+import responsivefy from '../util/responsivefy'
+// components
 import CryptoCard from './CryptoCard.vue'
 
 export default {
@@ -76,22 +80,27 @@ export default {
       const capsName = this.name.toUpperCase();
       const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${capsName}&tsym=USD&limit=24`;
       const response = await axios.get(url)
-      console.log(response)
+      const dataRaw = response.data.Data
 
-      const data = response.data.Data
-      console.log(data)
+      const data = dataRaw.map((data) => {
+        return {
+          time: new Date( data.time * 1000),
+          high: data.high,
+          low: data.low,
+          close: data.close,
+          open: data.open
+        }
+      })
       const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-      // const width = window.innerWidth - margin.left - margin.right;
       const width = 1000;
-      // const height = window.innerHeight - margin.top - margin.bottom; 
-      const height = 500;
+      const height = 300;
 
       const svg = d3
         .select('.chart')
         .append('svg')
         .attr('width', width + margin['left'] + margin['right'])
         .attr('height', height + margin['top'] + margin['bottom'])
-        .call(this.responsivefy)
+        .call(responsivefy)
         .append('g')
         .attr('transform', `translate(${margin['left']},  ${margin['top']})`);
 
@@ -149,33 +158,6 @@ export default {
         .attr('stroke', 'steelblue')
         .attr('stroke-width', '1.5')
         .attr('d', line);
-    },
-    responsivefy(svg) {
-      // get container + svg aspect ratio
-      const container = d3.select(svg.node().parentNode),
-        width = parseInt(svg.style('width')),
-        height = parseInt(svg.style('height')),
-        aspect = width / height;
-
-      // get width of container and resize svg to fit it
-      const resize = () => {
-        var targetWidth = parseInt(container.style('width'));
-        svg.attr('width', targetWidth);
-        svg.attr('height', Math.round(targetWidth / aspect));
-      };
-
-      // add viewBox and preserveAspectRatio properties,
-      // and call resize so that svg resizes on inital page load
-      svg
-        .attr('viewBox', '0 0 ' + width + ' ' + height)
-        .attr('perserveAspectRatio', 'xMinYMid')
-        .call(resize);
-
-      // to register multiple listeners for same event type,
-      // you need to add namespace, i.e., 'click.foo'
-      // necessary if you call invoke this function for multiple svgs
-      // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-      d3.select(window).on('resize.' + container.attr('id'), resize);
     }
   }
 }
