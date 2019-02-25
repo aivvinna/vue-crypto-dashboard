@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const LOGIN_USER = gql`
-  mutation($data:LoginUserInput!) {
+  mutation($data: LoginUserInput!) {
     login(data: $data) {
       token
     }
@@ -9,7 +9,7 @@ export const LOGIN_USER = gql`
 `
 
 export const SIGNUP_USER = gql`
-  mutation($data:CreateUserInput!) {
+  mutation($data: CreateUserInput!) {
     createUser(data: $data) {
       token
     }
@@ -17,7 +17,7 @@ export const SIGNUP_USER = gql`
 `
 
 export const CREATE_POST = gql`
-  mutation($data:CreatePostInput!) {
+  mutation($data: CreatePostInput!) {
     createPost(data: $data) {
       id
       content
@@ -37,6 +37,29 @@ export const CREATE_POST = gql`
         id
         username
       }
+    }
+  }
+`
+
+export const DELETE_POST = gql`
+  mutation($id: ID!) {
+    id
+    content
+  }
+`
+
+export const FAV_CRYPTO = gql`
+  mutation($crypto: String!, $array: [String!]!) {
+    favCrypto(crypto: $crypto, array: $array) {
+      favCryptos
+    }
+  }
+`
+
+export const UNFAV_CRYPTO = gql`
+  mutation($crypto: String!, $array: [String!]!) {
+    favCrypto(crypto: $crypto, array: $array) {
+      favCryptos
     }
   }
 `
