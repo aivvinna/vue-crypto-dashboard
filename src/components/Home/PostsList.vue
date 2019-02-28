@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <v-dialog v-model="loading" persistent fullscreen>
+  <!-- <div> -->
+    <!-- <v-dialog v-model="loading" persistent fullscreen>
       <v-container fill-height>
         <v-layout row justify-center align-center>
           <v-progress-circular indeterminate :size="70" :width="7" color="secondary"></v-progress-circular>
         </v-layout>
       </v-container>
-    </v-dialog>
-    <template v-if="!loading">
-      <v-list two-line>
+    </v-dialog> -->
+    <v-container v-if="!loading" pa-0 ma-0 fluid>
+      <v-layout column justify-center>
         <div v-for="(post, index) in posts" :key="post.id">
-          <PostModal :post="post"/>
-          <v-divider v-if="index + 1 < posts.length"></v-divider>
+          <v-flex ma-1>
+            <PostModal :post="post"/>
+            <v-divider v-if="index + 1 < posts.length"></v-divider>
+          </v-flex>
         </div>
-      </v-list>
-    </template>
-  </div>
+      </v-layout>
+    </v-container>
+  <!-- </div> -->
 </template>
 
 <script>

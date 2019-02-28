@@ -1,17 +1,27 @@
 <template>
-  <v-list-tile avatar>
-    <v-list-tile-avatar>
-      <img v-if="post.author.avatar" :src="post.author.avatar" alt="">
-      <v-icon v-else>
-        person
-      </v-icon>
-    </v-list-tile-avatar>
-    
-    <v-list-tile-content>
-      <v-list-tile-title>{{post.content}}</v-list-tile-title>
-      <v-list-tile-sub-title>{{post.author.username}} - {{post.category}}</v-list-tile-sub-title>
-    </v-list-tile-content>
-  </v-list-tile>
+  <v-card>
+    <v-card-title>
+      <div>
+        <template v-if="post.category.length !== 0">
+          <span
+            class="grey--text" v-for="(category, i) in post.category" :key="category">
+            {{post.category[i]}}|
+          </span><br>
+        </template>
+        <span>{{post.content}}</span>
+      </div>
+    </v-card-title>
+    <v-card-actions>
+      <v-btn :href="url" target="_blank" flat>Like</v-btn>
+      <v-spacer></v-spacer>
+      <v-avatar>
+        <img v-if="post.author.avatar" :src="post.author.avatar" alt="">
+        <v-icon v-else>
+          person
+        </v-icon>
+      </v-avatar>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
