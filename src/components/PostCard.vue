@@ -12,7 +12,7 @@
       </div>
     </v-card-title>
     <v-card-actions>
-      <v-btn :href="url" target="_blank" flat>Like</v-btn>
+      <v-btn :href="'#'" flat>Like</v-btn>
       <v-spacer></v-spacer>
       <v-avatar>
         <img v-if="post.author.avatar" :src="post.author.avatar" alt="">
