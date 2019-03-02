@@ -8,7 +8,6 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error';
-import { withClientState } from 'apollo-link-state';
 import { ApolloLink, Observable } from 'apollo-link';
 import VueApollo from 'vue-apollo'
 
@@ -17,10 +16,6 @@ import FormAlert from '@/components/shared/FormAlert.vue'
 Vue.component('form-alert', FormAlert)
 
 Vue.use(VueApollo)
-
-const httpLink = new HttpLink({
-  uri: 'http://localhost:4000'
-})
 
 const cache = new InMemoryCache()
 
@@ -66,20 +61,6 @@ export const defaultClient = new ApolloClient({
       }
     }),
     requestLink,
-    withClientState({
-      defaults: {
-        isConnected: true
-      },
-      resolvers: {
-        Mutation: {
-          updateNetworkStatus: (_, { isConnected }, { cache }) => {
-            cache.writeData({ data: { isConnected }});
-            return null;
-          }
-        }
-      },
-      cache
-    }),
     new HttpLink({
       uri: 'http://localhost:4000',
       credentials: 'include'
