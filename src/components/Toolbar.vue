@@ -31,7 +31,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar fixed color="primary" dark>
+    <v-toolbar fixed color="primary" dark dense>
       <v-toolbar-side-icon
         @click="toggleSideNav"></v-toolbar-side-icon>
       <v-toolbar-title class="hidden-xs-only">
@@ -53,38 +53,33 @@
 
       <v-spacer></v-spacer>
 
+      <!-- Navbar buttons -->
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat v-for="item in horizontalNavItems" :key="item.title" :to="item.link">
-          <v-icon
-            class="hidden-sm-only"
-            left>
-            {{item.icon}}
-          </v-icon>
-          {{item.title}}
-        </v-btn>
+        <!-- Buttons when user is logged in -->
+        <template v-if="user">
+          <v-btn flat @click="showCreatePostDialog = true">
+            Post
+          </v-btn>
 
-        <v-btn flat v-if="user" @click="showCreatePostDialog = true">
-          <v-icon
-            class="hidden-sm-only"
-            left>
-            create
-          </v-icon>
-          Post
-        </v-btn>
+          <v-btn flat :to="`/user/${user.username}`">
+            Profile
+          </v-btn>
 
-        <v-btn flat v-if="user" :to="`/user/${user.username}`">
-          <v-icon
-            class="hidden-sm-only"
-            left>
-            account_box
-          </v-icon>
-          Profile
-        </v-btn>
+          <v-btn flat @click="handleLogout">
+            Logout
+          </v-btn>
+        </template>
+        
+        <!-- Buttons when there is no user -->
+        <template v-else>
+          <v-btn flat to="/login">
+            Login
+          </v-btn>
 
-        <v-btn flat v-if="user" @click="handleLogout">
-          <v-icon class="hdiden-sm-only" left>exit_to_app</v-icon>
-          Logout
-        </v-btn>
+          <v-btn flat to="/signup">
+            Sign Up
+          </v-btn>
+        </template>
       </v-toolbar-items>
     </v-toolbar>
     <CreatePostModal v-model="showCreatePostDialog"/>
@@ -108,21 +103,6 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['user']),
-    horizontalNavItems() {
-      let items = [
-        { icon: 'attach_money', title: 'Coins', link: '/coins'},
-        { icon: 'lock_open', title: 'Log In', link: '/login'},
-        { icon: 'create', title: 'Sign Up', link: '/signup'}
-      ]
-      if (this.user) {
-        items = [
-          // { icon: 'chat', title: 'Posts', link: '/posts'},
-          // { icon: 'stars', title: 'Create Post', link: '/'},
-          { icon: 'account_box', title: 'Profile', link: '/profile'}
-        ]
-      }
-      return items
-    },
     sideNavItems() {
       let items = [
         { icon: 'attach_money', title: 'Coins', link: '/coins'},
