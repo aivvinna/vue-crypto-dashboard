@@ -54,14 +54,6 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn @click="showCreatePostDialog = true">
-          <v-icon
-            class="hidden-sm-only"
-            left>
-            create
-          </v-icon>
-          Post
-        </v-btn>
         <v-btn flat v-for="item in horizontalNavItems" :key="item.title" :to="item.link">
           <v-icon
             class="hidden-sm-only"
@@ -69,6 +61,24 @@
             {{item.icon}}
           </v-icon>
           {{item.title}}
+        </v-btn>
+
+        <v-btn flat v-if="user" @click="showCreatePostDialog = true">
+          <v-icon
+            class="hidden-sm-only"
+            left>
+            create
+          </v-icon>
+          Post
+        </v-btn>
+
+        <v-btn flat v-if="user" :to="`/user/${user.username}`">
+          <v-icon
+            class="hidden-sm-only"
+            left>
+            account_box
+          </v-icon>
+          Profile
         </v-btn>
 
         <v-btn flat v-if="user" @click="handleLogout">

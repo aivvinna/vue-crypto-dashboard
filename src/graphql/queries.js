@@ -23,6 +23,11 @@ export const GET_USER = gql`
         id
         content
         category
+        createdAt
+        author {
+          id
+          username
+        }
       }
       followers {
         id
