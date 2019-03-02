@@ -48,17 +48,9 @@ export const DELETE_POST = gql`
   }
 `
 
-export const FAV_CRYPTO = gql`
-  mutation($crypto: String!, $array: [String!]!) {
-    favCrypto(crypto: $crypto, array: $array) {
-      favCryptos
-    }
-  }
-`
-
-export const UNFAV_CRYPTO = gql`
-  mutation($crypto: String!, $array: [String!]!) {
-    favCrypto(crypto: $crypto, array: $array) {
+export const UPDATE_FAVCRYPTOS = gql`
+  mutation($cryptos: [String!]!) {
+    updateFavCryptos(cryptos: $cryptos) {
       favCryptos
     }
   }

@@ -32,7 +32,10 @@
         <div class="chart" v-if="dialog"></div>
         <v-divider light></v-divider>
         <v-card-actions>
-          Add to favorites
+          <v-btn @click="handleUpdateFavCryptos">
+            <span v-if="!isFav">Add to favorites</span>
+            <span v-else>Remove from favorites</span>
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,9 +57,6 @@ export default {
     CryptoCard
   },
   props: ['fullName', 'name', 'price'],
-  mounted() {
-    // console.log(this.cryptoData)
-  },
   data() {
     return {
       dialog: false,
@@ -71,11 +71,33 @@ export default {
         this.data = response.data.DISPLAY[capsName]
         console.log(this.data)
       }
-
       this.get24HrPrice();
     }
   },
+  computed: {
+    favCryptos() {
+      if (this.$store.getters['user/user']) {
+        return this.$store.getters['user/user'].favCryptos
+      }
+    },
+    isFav() {
+      if (this.favCryptos) {
+        return this.favCryptos.includes(this.name) ? true : false
+      }
+    }
+  },
   methods: {
+    handleUpdateFavCryptos() {
+      let favCryptos
+      if (this.isFav) {
+        favCryptos = this.favCryptos.filter(crypto => crypto !== this.name)
+      } else {
+        favCryptos = [...this.favCryptos, this.name]
+      }
+      this.$store.dispatch('user/updateFavCryptos', {
+        cryptos: favCryptos
+      })
+    },
     async get24HrPrice() {
       const capsName = this.name.toUpperCase();
       const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${capsName}&tsym=USD&limit=24`;

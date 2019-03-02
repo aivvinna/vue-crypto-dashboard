@@ -2,7 +2,7 @@ import router from '@/router'
 import { defaultClient as apolloClient } from '@/main'
 
 import { GET_ME } from '@/graphql/queries'
-import { LOGIN_USER, SIGNUP_USER } from '@/graphql/mutations'
+import { LOGIN_USER, SIGNUP_USER, UPDATE_FAVCRYPTOS } from '@/graphql/mutations'
 
 export const user = {
   namespaced: true,
@@ -13,7 +13,10 @@ export const user = {
     setUser: (state, payload) => {
       state.user = payload
     },
-    clearUser: state => state.user = null
+    clearUser: state => state.user = null,
+    setFavCryptos: (state, payload) => {
+      state.user.favCryptos = payload
+    }
   },
   actions: {
     getMe: async ({ commit }) => {
@@ -27,6 +30,19 @@ export const user = {
         console.log(data)
       } catch(err) {
         commit('setLoading', false, { root: true })
+        console.error(err)
+      }
+    },
+    updateFavCryptos: ({ commit }, payload) => {
+      commit('setFavCryptos', payload.cryptos)
+      try {
+        apolloClient.mutate({
+          mutation: UPDATE_FAVCRYPTOS,
+          variables: payload,
+        }).then(({ data }) => {
+          console.log(data)
+        })
+      } catch(err) {
         console.error(err)
       }
     },
