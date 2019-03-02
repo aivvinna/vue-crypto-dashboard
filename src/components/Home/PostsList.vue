@@ -22,7 +22,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PostModal from '../PostModal.vue'
+import PostModal from '@/components/PostModal.vue'
 
 export default {
   name: 'PostsList',
@@ -33,11 +33,12 @@ export default {
     this.handleGetPosts()
   },
   computed: {
-    ...mapGetters(['loading', 'posts'])
+    ...mapGetters(['loading']),
+    ...mapGetters('posts', ['posts'])
   },
   methods: {
     handleGetPosts() {
-      this.$store.dispatch('getPosts')
+      this.$store.dispatch('posts/getPosts')
     },
   }
 }

@@ -95,7 +95,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["loading", "error", "user"])
+    ...mapGetters(["loading", "error"]),
+    ...mapGetters('user', [
+      'user'
+    ])
   },
   watch: {
     user(value) {
@@ -107,7 +110,7 @@ export default {
   methods: {
     handleCreateUser() {
       if (this.$refs.form.validate()) {
-        this.$store.dispatch("createUser", {
+        this.$store.dispatch("user/createUser", {
           data: {
             username: this.username,
             email: this.email,

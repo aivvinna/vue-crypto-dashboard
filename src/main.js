@@ -1,10 +1,9 @@
 import Vue from 'vue'
-import './plugins/vuetify'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import '@/plugins/vuetify'
+import App from '@/App.vue'
+import router from '@/router'
+import store from '@/store/index'
 
-// import ApolloClient from 'apollo-boost'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -13,7 +12,7 @@ import { withClientState } from 'apollo-link-state';
 import { ApolloLink, Observable } from 'apollo-link';
 import VueApollo from 'vue-apollo'
 
-import FormAlert from './components/shared/FormAlert.vue'
+import FormAlert from '@/components/shared/FormAlert.vue'
 
 Vue.component('form-alert', FormAlert)
 
@@ -99,6 +98,6 @@ new Vue({
   apolloProvider,
   render: h => h(App),
   created() {
-    this.$store.dispatch('getMe')
+    this.$store.dispatch('user/getMe')
   }
 }).$mount('#app')

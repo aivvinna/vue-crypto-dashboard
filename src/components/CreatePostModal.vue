@@ -95,7 +95,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { cryptocurrencies } from "../util/cryptocurrencies";
+import { cryptocurrencies } from "@/util/cryptocurrencies";
 
 export default {
   name: "CreatePostModal",
@@ -114,7 +114,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["loading", "user"]),
+    ...mapGetters(["loading"]),
+    ...mapGetters('user', ['user']),
     showCreatePostDialog: {
       get() {
         return this.value
@@ -135,7 +136,7 @@ export default {
   methods: {
     handleCreatePost() {
       if (this.$refs.form.validate()) {
-        this.$store.dispatch("createPost", {
+        this.$store.dispatch("posts/createPost", {
           data: {
             content: this.content,
             category: {

@@ -68,7 +68,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['user', 'error', 'loading'])
+    ...mapGetters(['error', 'loading']),
+    ...mapGetters('user', [
+      'user'
+    ])
   },
   watch: {
     user(value) {
@@ -79,7 +82,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.$store.dispatch('loginUser', {
+      this.$store.dispatch('user/loginUser', {
         data: {
           email: this.email,
           password: this.password

@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { defaultClient as apolloClient } from '../main';
-import { GET_USER } from '../graphql/queries';
+import { defaultClient as apolloClient } from '@/main';
+import { GET_USER } from '@/graphql/queries';
 
 export default {
   async created() {

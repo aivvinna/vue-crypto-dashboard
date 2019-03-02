@@ -16,8 +16,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import CryptoCard from '../CryptoCard.vue'
-import CryptoModal from '../CryptoModal.vue'
+import CryptoCard from '@/components/CryptoCard.vue'
+import CryptoModal from '@/components/CryptoModal.vue'
 
 export default {
   name: 'CryptoGrid',
@@ -26,16 +26,16 @@ export default {
     CryptoModal
   },
   mounted() {
-    if (this.$store.getters.coins.length === 0) {
+    if (this.$store.getters['coins/coins'].length === 0) {
       this.getAllCoins()
     }
   },
   computed: {
-    ...mapGetters(['coins'])
+    ...mapGetters('coins', ['coins'])
   },
   methods: {
     async getAllCoins(){
-      this.$store.dispatch('getCoins')
+      this.$store.dispatch('coins/getCoins')
     }
   }
 }

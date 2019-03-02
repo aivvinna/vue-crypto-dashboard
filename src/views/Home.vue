@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import News from '../components/Home/News.vue'
-import CryptoGrid from '../components/Home/CryptoGrid.vue'
-import PostsList from '../components/Home/PostsList.vue'
+import News from '@/components/Home/News.vue'
+import CryptoGrid from '@/components/Home/CryptoGrid.vue'
+import PostsList from '@/components/Home/PostsList.vue'
 
 export default {
   components: {

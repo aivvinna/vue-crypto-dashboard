@@ -9,7 +9,10 @@ import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(['user', 'error', 'loading'])
+    ...mapGetters(['error', 'loading']),
+    ...mapGetters('user', [
+      'user'
+    ])
   },
   mounted() {
     console.log('hi')

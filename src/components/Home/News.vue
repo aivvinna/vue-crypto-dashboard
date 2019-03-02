@@ -18,7 +18,7 @@
 
 <script>
 import axios from 'axios'
-import NewsCard from '../NewsCard.vue'
+import NewsCard from '@/components/NewsCard.vue'
 
 export default {
   name: 'News',

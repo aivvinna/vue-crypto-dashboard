@@ -1,7 +1,7 @@
-import store from './store'
+import store from '@/store/index'
 
 export default (to, from, next) => {
-  if (!store.getters.user) {
+  if (!store.getters['user/user']) {
     next({
       path: '/login'
     })

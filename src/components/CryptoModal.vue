@@ -44,9 +44,9 @@
 import axios from 'axios'
 import * as d3 from 'd3'
 // util
-import responsivefy from '../util/responsivefy'
+import responsivefy from '@/util/responsivefy'
 // components
-import CryptoCard from './CryptoCard.vue'
+import CryptoCard from '@/components/CryptoCard.vue'
 
 export default {
   name: 'CryptoModal',

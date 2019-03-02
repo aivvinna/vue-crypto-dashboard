@@ -83,7 +83,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import CreatePostModal from './CreatePostModal.vue'
+import CreatePostModal from '@/components/CreatePostModal.vue'
 
 export default {
   name: 'Toolbar',
@@ -97,7 +97,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters('user', ['user']),
     horizontalNavItems() {
       let items = [
         { icon: 'attach_money', title: 'Coins', link: '/coins'},
@@ -134,7 +134,7 @@ export default {
       this.sideNav = !this.sideNav
     },
     handleLogout() {
-      this.$store.dispatch('logoutUser')
+      this.$store.dispatch('user/logoutUser')
     }
   }
 }
