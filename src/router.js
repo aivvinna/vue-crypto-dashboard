@@ -3,8 +3,6 @@ import VueRouter from 'vue-router'
 
 import AuthGuard from './AuthGuard'
 
-import PostModal from './views/PostModal.vue'
-
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -64,7 +62,7 @@ export default new VueRouter({
           }
           if (to.matched[0].components) {
             to.matched[0].components.default = from.matched[0].components.default
-            to.matched[0].components.modal = PostModal
+            to.matched[0].components.modal = () => import('./views/PostModal.vue')
           }
         }
 

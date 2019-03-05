@@ -17,7 +17,7 @@
               {{data.user.username}}'s Posts
               <div v-for="(post, index) in data.user.posts" :key="post.id">
                 <v-flex ma-1>
-                  <PostModal :post="post"/>
+                  <PostCard :post="post"/>
                   <v-divider v-if="index + 1 < data.user.posts.length"></v-divider>
                 </v-flex>
               </div>
@@ -43,11 +43,11 @@ import { mapGetters } from 'vuex'
 import { defaultClient as apolloClient } from '@/main';
 import { GET_USER } from '@/graphql/queries';
 
-import PostModal from '@/components/PostModal.vue'
+import PostCard from '@/components/PostCard.vue'
 
 export default {
   components: {
-    PostModal
+    PostCard
   },
   created() {
     this.getUser()
