@@ -14,28 +14,10 @@
 </template>
 
 <script>
-import { defaultClient as apolloClient } from '@/main'
-import { GET_POST } from '@/graphql/queries'
+import postMixin from '@/mixins/postMixin'
 
 export default {
   name: "Post",
-  data() {
-    return {
-      post: null
-    }
-  },
-  async created() {
-    try {
-      const { data } = await apolloClient.query({
-        query: GET_POST,
-        variables: {
-          id: this.$route.params.id
-        }
-      })
-      this.post = data.post
-    } catch(err) {
-      console.error(err)
-    }
-  }
+  mixins: [postMixin]
 }
 </script>
