@@ -69,3 +69,26 @@ export const GET_POSTS = gql`
     }
   }
 `
+
+export const GET_POST = gql`
+  query($id:ID!) {
+    post(id: $id) {
+      content
+      category
+      createdAt
+      posts {
+        id
+        content
+        category
+        author {
+          id
+          username
+        }
+      }
+      author {
+        id
+        username
+      }
+    }
+  }
+`

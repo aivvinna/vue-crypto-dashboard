@@ -8,6 +8,7 @@
         <transition name="fade">
           <router-view></router-view>
         </transition>
+        <router-view name="modal"></router-view>
       </v-container>
     </main>
   </v-app>
@@ -40,5 +41,25 @@ export default {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 99999;
+  padding: 3vmax;
+}
+
+.modal-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 15px;
+  cursor: auto;
+  overflow: hidden;
 }
 </style>
