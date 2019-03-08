@@ -13,7 +13,7 @@ export const coins = {
   actions: {
     getCoins: async ({ commit }) => {
       try {
-        const response = await axios.get(`https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD`)
+        const response = await axios.get(`https://min-api.cryptocompare.com/data/top/totalvolfull?limit=50&tsym=USD`)
         commit('setCoins', response.data.Data)
       } catch(err) {
         console.error(err)

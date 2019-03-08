@@ -1,24 +1,24 @@
 <template>
   <div>
-    <table class="table is-fullwidth is-scrollable is-hoverable is-narrow is-fullwidth" v-if="coins">
+    <table class="table is-fullwidth is-hoverable is-narrow is-fullwidth" v-if="coins">
       <thead>
         <tr>
           <th>#</th>
           <th>Name</th>
-          <th>Price</th>
-          <th>Market Cap</th>
+          <th>Price (USD)</th>
+          <th>Market Cap (USD)</th>
           <th>Circulating Supply</th>
           <th>Change (24h)</th>
         </tr>
       </thead>
-      <tbody height="200px">
+      <tbody>
         <tr v-for="(crypto, i) in coins" :key="crypto.name">
-          <td>{{i}}</td>
+          <td>{{i + 1}}</td>
           <td>{{crypto.CoinInfo.FullName}}</td>
-          <td>{{crypto.RAW.USD.PRICE}}</td>
-          <td>{{crypto.RAW.USD.MKTCAP}}</td>
-          <td>{{crypto.RAW.USD.SUPPLY}}</td>
-          <td>{{crypto.RAW.USD.CHANGE24HOUR}}</td>
+          <td>{{crypto.RAW.USD.PRICE.toLocaleString()}}</td>
+          <td>{{Math.round(crypto.RAW.USD.MKTCAP).toLocaleString()}}</td>
+          <td>{{Math.round(crypto.RAW.USD.SUPPLY).toLocaleString()}} {{crypto.CoinInfo.Name}}</td>
+          <td>{{crypto.RAW.USD.CHANGEPCT24HOUR.toLocaleString()}}%</td>
         </tr>
       </tbody>
     </table>
@@ -48,14 +48,25 @@ export default {
 
 <style lang="scss">
 .table {
-  table-layout: auto;
-  &.is-scrollable {
-    tbody {
-      overflow-y: scroll;
-      width: auto;
-      position: absolute;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  tbody {
+    display:block;
+    width: 100%;
+    overflow: auto;
+    height: 75vh;
+  }
+  thead {
+    tr {
+      display: block;
     }
-  } 
+  }
+  th, td {
+    padding: 5px;
+    text-align: left;
+    width: 200px;
+  }
 }
 
 </style>
