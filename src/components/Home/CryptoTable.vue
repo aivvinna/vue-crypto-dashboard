@@ -14,10 +14,13 @@
       <tbody>
         <tr v-for="(crypto, i) in coins" :key="crypto.name">
           <td>{{i + 1}}</td>
-          <td>{{crypto.CoinInfo.FullName}}</td>
+          <td>
+            <img :src="imgSrc(crypto.CoinInfo.Name.toLowerCase())" height="15" width="15">
+            {{crypto.CoinInfo.FullName}}
+          </td>
           <td>{{crypto.RAW.USD.PRICE.toLocaleString()}}</td>
           <td>{{Math.round(crypto.RAW.USD.MKTCAP).toLocaleString()}}</td>
-          <td>{{Math.round(crypto.RAW.USD.SUPPLY).toLocaleString()}} {{crypto.CoinInfo.Name}}</td>
+          <td>{{Math.round(crypto.RAW.USD.SUPPLY).toLocaleString()}}</td>
           <td>{{crypto.RAW.USD.CHANGEPCT24HOUR.toLocaleString()}}%</td>
         </tr>
       </tbody>
@@ -41,6 +44,14 @@ export default {
   methods: {
     async getAllCoins(){
       this.$store.dispatch('coins/getCoins')
+    },
+    imgSrc(name) {
+      console.log(name)
+      try {
+        return require(`@/assets/img/black/${name}.png`)
+      } catch(err) {
+        return require(`@/assets/img/black/generic.png`)
+      }
     }
   }
 }
