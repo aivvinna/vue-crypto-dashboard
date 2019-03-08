@@ -44,8 +44,10 @@
 
 <script>
 // node modules
-import axios from 'axios'
 import * as d3 from 'd3'
+// api
+import apiFactory from '@/api/apiFactory'
+const cryptoCompareApi = apiFactory.get('cryptoCompare')
 // util
 import responsivefy from '@/util/responsivefy'
 // components
@@ -67,7 +69,7 @@ export default {
     dialog: async function(val) {
       if (val) {
         const capsName = this.name.toUpperCase()
-        const response = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${capsName}&tsyms=USD`)
+        const response = await cryptoCompareApi.getCryptoInfo(capsName)
         this.data = response.data.DISPLAY[capsName]
         console.log(this.data)
       }
@@ -100,8 +102,7 @@ export default {
     },
     async get24HrPrice() {
       const capsName = this.name.toUpperCase();
-      const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${capsName}&tsym=USD&limit=24`;
-      const response = await axios.get(url)
+      const response = await cryptoCompareApi.getCrypto24HrPrice(capsName)
       const dataRaw = response.data.Data
 
       const data = dataRaw.map((data) => {

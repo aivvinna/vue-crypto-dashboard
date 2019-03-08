@@ -1,4 +1,5 @@
-import axios from 'axios'
+import apiFactory from '@/api/apiFactory'
+const cryptoCompareApi = apiFactory.get('cryptoCompare')
 
 export const coins = {
   namespaced: true,
@@ -13,7 +14,7 @@ export const coins = {
   actions: {
     getCoins: async ({ commit }) => {
       try {
-        const response = await axios.get(`https://min-api.cryptocompare.com/data/top/totalvolfull?limit=50&tsym=USD`)
+        const response = await cryptoCompareApi.getTopCryptos()
         commit('setCoins', response.data.Data)
       } catch(err) {
         console.error(err)

@@ -13,7 +13,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+import apiFactory from '@/api/apiFactory'
+const cryptoCompareApi = apiFactory.get('cryptoCompare')
+
 import NewsCard from '@/components/NewsCard.vue'
 
 export default {
@@ -32,7 +34,7 @@ export default {
   },
   methods: {
     async getNewsArticles() {
-      const response = await axios.get(`https://min-api.cryptocompare.com/data/v2/news/?lang=EN`)
+      const response = await cryptoCompareApi.getNews()
       this.data = response.data.Data.slice(0, 10)
       console.log(this.data)
     }
