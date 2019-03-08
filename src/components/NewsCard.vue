@@ -1,27 +1,24 @@
 <template>
-  <v-card>
-    <v-img
-    class="white--text"
-    height="170"
-    :src="imgPath">
-      <v-container fill-height fluid>
-        <v-layout fill-height>
-          <v-flex xs12 align-end flexbox>
-            <span class="headline">{{title}}</span>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-img>
-    <v-card-title>
-      <div>
-        <span class="grey--text">{{categories}}</span><br>
-        <span>{{body.slice(0, 200)}}...</span>
+  <div class="card">
+    <div class="card-image">
+      <figure class="image is-2by1">
+        <img :src="imgPath" alt="alt">
+      </figure>
+    </div>
+    <div class="card-content">
+      <div class="media">
+        <div class="media-content">
+          <p class="title is-4">{{title}}</p>
+        </div>
       </div>
-    </v-card-title>
-    <v-card-actions>
-      <v-btn :href="url" target="_blank" flat>Go to article</v-btn>
-    </v-card-actions>
-  </v-card>
+
+      <div class="content">
+        <span class="has-text-grey">{{categories}}</span>
+        <br>
+        <a class="button is-white" target="_blank" :href="url">Go to article</a>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

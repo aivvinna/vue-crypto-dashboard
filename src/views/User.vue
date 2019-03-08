@@ -1,41 +1,20 @@
 <template>
-  <v-container fluid>
-    <v-layout row>
-      <v-flex xs3>
-        <v-container fluid pa-0 ma-0>
-          <v-layout row>
-            <div>
-              left
-            </div>
-          </v-layout>
-        </v-container>
-      </v-flex>
-      <v-flex xs6>
-        <v-container fluid pa-0 ma-0>
-          <v-layout row>
-            <div v-if="!loading">
-              {{data.user.username}}'s Posts
-              <div v-for="(post, index) in data.user.posts" :key="post.id">
-                <v-flex ma-1>
-                  <PostCard :post="post"/>
-                  <v-divider v-if="index + 1 < data.user.posts.length"></v-divider>
-                </v-flex>
-              </div>
-            </div>
-          </v-layout>
-        </v-container>
-      </v-flex>
-      <v-flex xs3>
-        <v-container fluid pa-0 ma-0>
-          <v-layout row>
-            <div>
-              right
-            </div>
-          </v-layout>
-        </v-container>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div class="columns">
+    <div class="column is-3">
+      Left
+    </div>
+    <div class="column is-6">
+      <div v-if="!loading">
+        {{data.user.username}}'s Posts
+        <div v-for="post in data.user.posts" :key="post.id">
+          <PostCard :post="post"/>
+        </div>
+      </div>
+    </div>
+    <div class="column is-3">
+      Right
+    </div>
+  </div>
 </template>
 
 <script>

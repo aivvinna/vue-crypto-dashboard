@@ -1,18 +1,16 @@
 <template>
-  <div class="modal" @click.stop.self="closeModal">
-    <div class="modal-container">
-    <v-card>
-      <v-layout row wrap>
-        <v-flex xs12 sm6 offset-sm3>
-          <template v-if="post">
-            <h1 class="primary--text">{{post.content}}</h1>
-            <h2>{{post.author.username}} - {{post.category}}</h2>
-          </template>
-        </v-flex>
-      </v-layout>
-    </v-card>
+  <div class="modal is-active">
+    <div class="modal-background" @click.self.stop="closeModal"></div>
+    <div class="modal-content">
+      <template v-if="post">
+        <div class="card">
+          <h1>{{post.content}}</h1>
+          <h2>{{post.author.username}} - {{post.category}}</h2>
+        </div>
+      </template>
     </div>
-  </div>  
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
 </template>
 
 <script>
@@ -28,3 +26,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>

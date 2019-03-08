@@ -1,14 +1,9 @@
 <template>
-    <v-container v-if="!loading" pa-0 ma-0 fluid>
-      <v-layout column justify-center>
-        <div v-for="(post, index) in posts" :key="post.id">
-          <v-flex ma-1>
-              <PostCard :post="post" />
-            <v-divider v-if="index + 1 < posts.length"></v-divider>
-          </v-flex>
-        </div>
-      </v-layout>
-    </v-container>
+  <div v-if="!loading">
+    <div v-for="post in posts" :key="post.id">
+      <PostCard :post="post" />
+    </div>
+  </div>
 </template>
 
 <script>

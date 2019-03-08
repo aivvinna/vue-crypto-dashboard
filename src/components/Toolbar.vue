@@ -1,88 +1,49 @@
 <template>
   <div>
-    <v-navigation-drawer app temporary fixed v-model="sideNav">
-      <v-toolbar color="primary" dark flat>
-        <v-toolbar-side-icon
-          @click="toggleSideNav"></v-toolbar-side-icon>
-        <router-link to="/" tag="span" style="cursor: pointer">
-          <h1 class="title pl-3">CryptoVue</h1>
-        </router-link>
-      </v-toolbar>
-
-      <v-divider></v-divider>
-
-      <v-list>
-        <v-list-tile v-for="item in sideNavItems" :key="item.title" :to="item.link">
-          <v-list-tile-action>
-            <v-icon>{{item.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            {{item.title}}
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile v-if="user" @click="handleLogout">
-          <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>Logout</v-list-tile-content>
-        </v-list-tile>
-
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-toolbar fixed color="primary" dark dense>
-      <v-toolbar-side-icon
-        @click="toggleSideNav"></v-toolbar-side-icon>
-      <v-toolbar-title class="hidden-xs-only">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
         <router-link to="/" tag="span" style="cursor: pointer">
           CryptoVue
         </router-link>
-      </v-toolbar-title>
+      </div>
 
-      <v-spacer></v-spacer>
+      <div class="navbar-menu">
 
-      <v-text-field
-        flex
-        prepend-icon="search"
-        placeholder="Search"
-        color="accent"
-        single-line
-        hide-details
-      ></v-text-field>
+        <div class="navbar-end">
+          <template v-if="user">
+            <a class="navbar-item" @click="showCreatePostDialog = true">
+              Post
+            </a>
 
-      <v-spacer></v-spacer>
+            <router-link class="navbar-item" :to="`/user/${user.username}`">
+              Profile
+            </router-link>
 
-      <!-- Navbar buttons -->
-      <v-toolbar-items class="hidden-xs-only">
-        <!-- Buttons when user is logged in -->
-        <template v-if="user">
-          <v-btn flat @click="showCreatePostDialog = true">
-            Post
-          </v-btn>
+            <a class="navbar-item" @click="handleLogout">
+              Logout
+            </a>
+          </template>
 
-          <v-btn flat :to="`/user/${user.username}`">
-            Profile
-          </v-btn>
-
-          <v-btn flat @click="handleLogout">
-            Logout
-          </v-btn>
-        </template>
-        
-        <!-- Buttons when there is no user -->
-        <template v-else>
-          <v-btn flat to="/login">
-            Login
-          </v-btn>
-
-          <v-btn flat to="/signup">
-            Sign Up
-          </v-btn>
-        </template>
-      </v-toolbar-items>
-    </v-toolbar>
-    <CreatePostModal v-model="showCreatePostDialog"/>
+          <template v-else>
+            <div class="navbar-item">
+              <div class="buttons">
+                <router-link to="/signup">
+                  <a class="button is-primary">
+                  <strong>Sign up</strong>
+                  </a>
+                </router-link>
+                <router-link to="/login">
+                  <a class="button is-light">
+                  Log in
+                  </a>
+                </router-link>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </nav>
+    <CreatePostModal :value="showCreatePostDialog" @close="showCreatePostDialog = false"/>
   </div>
 </template>
 
@@ -103,26 +64,8 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['user']),
-    sideNavItems() {
-      let items = [
-        { icon: 'attach_money', title: 'Coins', link: '/coins'},
-        { icon: 'lock_open', title: 'Log In', link: '/login'},
-        { icon: 'create', title: 'Sign Up', link: '/signup'}
-      ]
-      if (this.user) {
-        items = [
-          { icon: 'chat', title: 'Posts', link: '/posts'},
-          { icon: 'stars', title: 'Create Post', link: '/'},
-          { icon: 'account_box', title: 'Profile', link: '/profile'}
-        ]
-      }
-      return items
-    }
   },
   methods: {
-    toggleSideNav() {
-      this.sideNav = !this.sideNav
-    },
     handleLogout() {
       this.$store.dispatch('user/logoutUser')
     }

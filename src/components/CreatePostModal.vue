@@ -1,96 +1,26 @@
 <template>
-  <v-dialog dark max-width="600" v-model="showCreatePostDialog">
-    <v-card>
-      <!-- Create Post Title -->
-      <v-layout row wrap>
-        <v-flex xs12 sm6 offset-sm3>
-          <h1 class="primary--text">Create Post</h1>
-        </v-flex>
-      </v-layout>
-
-      <!-- Create Post Form -->
-      <v-layout row wrap>
-        <v-flex xs12 sm6 offset-sm3>
-
-          <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleCreatePost">
-
-            <!-- Content Text Input -->
-            <v-layout row v-if="showCreatePostDialog">
-              <v-flex xs12>
-                <v-textarea
-                  :rules="contentRules"
-                  v-model="content"
-                  label="Content"
-                  type="text"
-                  required
-                  auto-grow
-                  box
-                  autofocus
-                  outline></v-textarea>
-              </v-flex>
-            </v-layout>
-
-            <!-- Category Select -->
-            <v-layout row v-if="showCreatePostDialog">
-              <v-flex xs12>
-                <v-autocomplete
-                  v-model="category"
-                  :items="cryptocurrencies"
-                  item-text="symbol"
-                  item-value="symbol"
-                  label="Choose a category"
-                  box
-                  chips
-                  multiple
-                >
-                  <template
-                    slot="selection"
-                    slot-scope="data">
-                    <v-chip
-                      :selected="data.selected"
-                      close
-                      @input="removeCategory(data.item)">
-                      <v-avatar>
-                        <img :src="require(`../assets/img/color/${data.item.symbol.toLowerCase()}.png`)">
-                      </v-avatar>
-                        {{data.item.symbol}}
-                    </v-chip>
-                  </template>
-                  <template
-                    slot="item"
-                    slot-scope="data">
-                    <template v-if="typeof data.item !== 'object'">
-                      <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                    </template>
-                    <template v-else>
-                      <v-list-tile-avatar>
-                        <img :src="require(`../assets/img/color/${data.item.symbol.toLowerCase()}.png`)">
-                      </v-list-tile-avatar>
-                      <v-list-tile-content>
-                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="data.item.symbol"></v-list-tile-sub-title>
-                      </v-list-tile-content>
-                    </template>
-                  </template>
-                </v-autocomplete>
-              </v-flex>
-            </v-layout>
-
-            <v-layout row>
-              <v-flex xs12>
-                <v-btn :loading="loading" :disabled="!isFormValid || loading" color="info" type="submit">
-                  <span slot="loader" class="custom-loader">
-                    <v-icon light>cached</v-icon>
-                  </span>
-                  Submit</v-btn>
-              </v-flex>
-            </v-layout>
-          </v-form>
-        </v-flex>
-      </v-layout>
-    </v-card>
-  </v-dialog>
-
+  <div class="modal" :class="{ 'is-active': showCreatePostDialog}">
+    <div class="modal-background" @click.self.stop="closeModal"></div>
+    <div class="modal-content">
+      <form @submit.prevent="handleCreatePost">
+        <div class="field">
+          <label class="label">Write a post</label>
+          <div class="control">
+            <textarea
+              class="textarea"
+              placeholder="Write about a cryptocurrency"
+              v-model="content"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button class="button is-link" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
 </template>
 
 <script>
@@ -135,24 +65,27 @@ export default {
   },
   methods: {
     handleCreatePost() {
-      if (this.$refs.form.validate()) {
-        this.$store.dispatch("posts/createPost", {
-          data: {
-            content: this.content,
-            category: {
-              set: this.category
-            }
+      console.log('hi')
+      this.$store.dispatch("posts/createPost", {
+        data: {
+          content: this.content,
+          category: {
+            set: this.category
           }
-        });
-        console.log('create post action dispatched')
-        this.content = ""
-        this.category = [];
-        this.$emit('input', false)
-      }
+        }
+      })
+        
+      console.log('create post action dispatched')
+      this.content = ""
+      this.category = [];
+      this.closeModal()
     },
     removeCategory(category) {
       const index = this.category.indexOf(category.symbol);
       this.category.splice(index, 1);
+    },
+    closeModal() {
+      this.$emit('close')
     }
   }
 };

@@ -4,6 +4,10 @@ import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store/index'
 
+// scss
+import './assets/sass/main.scss'
+
+// apollo
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'

@@ -1,17 +1,13 @@
 <template>
-  <v-container pa-0 ma-0 fluid>
-    <v-layout row wrap justify-center>
-      <div v-for="coin in coins" :key="coin.id">
-        <v-flex ma-1 xs12>
-          <CryptoModal
-          :fullName="coin.CoinInfo.FullName"
-          :name="coin.CoinInfo.Name.toLowerCase()"
-          :price="coin.DISPLAY.USD.PRICE">
-          </CryptoModal>
-        </v-flex>
-      </div>
-    </v-layout>
-  </v-container>
+  <div>
+    <div class="columns is-multiline" v-for="coin in coins" :key="coin.id">
+      <CryptoModal
+      :fullName="coin.CoinInfo.FullName"
+      :name="coin.CoinInfo.Name.toLowerCase()"
+      :price="coin.DISPLAY.USD.PRICE">
+      </CryptoModal>
+    </div>
+  </div>
 </template>
 
 <script>

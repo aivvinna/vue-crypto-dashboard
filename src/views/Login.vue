@@ -1,59 +1,34 @@
 <template>
-  <v-container text-xs-center mt-5 pt-5>
+    <div>
+    <h1>Log in</h1>
 
-    <!-- Login Title -->
-    <v-layout row wrap>
-      <v-flex xs12 sm6 offset-sm3>
-        <h1>Welcome Back!</h1>
-      </v-flex>
-    </v-layout>
+    <form @submit.prevent="handleLogin">
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Email" v-model="email">
+        </div>
+      </div>
 
-    <!-- Error Alert -->
-    <v-layout v-if="error" row wrap>
-      <v-flex xs12 sm6 offset-sm3>
-        <form-alert :message="error.message"></form-alert>
-      </v-flex>
-    </v-layout>
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input class="input" type="password" placeholder="Password" v-model="password">
+        </div>
+      </div>
 
-    <!-- Login Form -->
-    <v-layout row wrap>
-      <v-flex xs12 sm6 offset-sm3>
-        <v-card color="secondary" dark>
-          <v-container>
-            <v-form ref="form" @submit.prevent="handleLogin">
+      <div class="field">
+        <div class="control">
+          <button class="button is-link" type="submit">Log in</button>
+        </div>
+      </div>
 
-              <v-layout row>
-                <v-flex xs12>
-                  <v-text-field v-model="email" prepend-icon="face" label="Email" type="text"></v-text-field>
-                </v-flex>
-              </v-layout>
+      <h3>Don't have an account?
+        <router-link to="/signup">Sign Up</router-link>
+      </h3>
 
-              <v-layout row>
-                <v-flex xs12>
-                  <v-text-field v-model="password" prepend-icon="extension" label="Password" type="password"></v-text-field>
-                </v-flex>
-              </v-layout>
-
-              <v-layout row>
-                <v-flex xs12>
-                  <v-btn :loading="loading" color="accent" type="submit">
-                    <span slot="loader" class="custom-loader">
-                      <v-icon light>cached</v-icon>
-                    </span>
-                    Login</v-btn>
-                  <h3>Don't have an account?
-                    <router-link to="/signup">Sign up here</router-link>
-                  </h3>
-                </v-flex>
-              </v-layout>
-
-            </v-form>
-          </v-container>
-        </v-card>
-      </v-flex>
-    </v-layout>
-
-  </v-container>
+    </form>
+  </div>
 </template>
 
 <script>

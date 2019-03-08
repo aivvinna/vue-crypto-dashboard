@@ -1,41 +1,30 @@
 <template>
-  <v-container fluid>
-    <v-layout row>
-      <v-flex xs3>
-        <v-container fluid pa-0 ma-0>
-          <v-layout row>
-            <News/>
-          </v-layout>
-        </v-container>
-      </v-flex>
-      <v-flex xs6>
-        <v-container fluid pa-0 ma-0>
-          <v-layout row>
-            <CryptoGrid/>
-          </v-layout>
-        </v-container>
-      </v-flex>
-      <v-flex xs3>
-        <v-container fluid pa-0 ma-0>
-          <v-layout row>
-            <PostsList/>
-          </v-layout>
-        </v-container>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div class="columns">
+    <div class="column is-3">
+      <News/>
+    </div>
+    <div class="column is-6">
+      <!-- <CryptoGrid/> -->
+      <CryptoTable/>
+    </div>
+    <div class="column is-3">
+      <PostsList/>
+    </div>
+  </div>
 </template>
 
 <script>
 import News from '@/components/Home/News.vue'
 import CryptoGrid from '@/components/Home/CryptoGrid.vue'
 import PostsList from '@/components/Home/PostsList.vue'
+import CryptoTable from '@/components/Home/CryptoTable.vue'
 
 export default {
   components: {
     CryptoGrid,
     News,
-    PostsList
+    PostsList,
+    CryptoTable
   },
   data() {
     return {

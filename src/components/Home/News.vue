@@ -1,19 +1,15 @@
 <template>
-  <v-container pa-0 ma-0 fluid>
-    <v-layout column justify-center>
-      <div v-for="article in data" :key="article.title">
-        <v-flex ma-1>
-          <NewsCard
-            :title="article.title"
-            :imgPath="article.imageurl"
-            :categories="article.categories"
-            :body="article.body"
-            :url="article.url"
-          />
-        </v-flex>
-      </div>
-    </v-layout>
-  </v-container>
+  <div>
+    <div v-for="article in data" :key="article.title">
+      <NewsCard
+        :title="article.title"
+        :imgPath="article.imageurl"
+        :categories="article.categories"
+        :body="article.body"
+        :url="article.url"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
