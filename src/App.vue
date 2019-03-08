@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Toolbar/>
+    <Navbar/>
 
     <main>
       <transition name="fade">
@@ -14,12 +14,12 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import Toolbar from '@/components/Toolbar.vue'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   name: 'App',
   components: {
-    Toolbar
+    Navbar
   }
 }
 </script>

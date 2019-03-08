@@ -52,7 +52,7 @@ import { mapGetters } from 'vuex'
 import CreatePostModal from '@/components/CreatePostModal.vue'
 
 export default {
-  name: 'Toolbar',
+  name: 'Navbar',
   components: {
     CreatePostModal
   },
