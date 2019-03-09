@@ -12,17 +12,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(crypto, i) in coins" :key="crypto.name">
-          <td>{{i + 1}}</td>
-          <td>
-            <img :src="imgSrc(crypto.CoinInfo.Name.toLowerCase())" height="15" width="15">
-            {{crypto.CoinInfo.FullName}}
-          </td>
-          <td>{{crypto.RAW.USD.PRICE.toLocaleString()}}</td>
-          <td>{{Math.round(crypto.RAW.USD.MKTCAP).toLocaleString()}}</td>
-          <td>{{Math.round(crypto.RAW.USD.SUPPLY).toLocaleString()}}</td>
-          <td>{{crypto.RAW.USD.CHANGEPCT24HOUR.toLocaleString()}}%</td>
-        </tr>
+        <CryptoTableRow
+          v-for="(crypto, i) in coins" :key="i"
+          :rank="i + 1"
+          :fullName="crypto.CoinInfo.FullName"
+          :name="crypto.CoinInfo.Name.toLowerCase()"
+          :price="crypto.RAW.USD.PRICE.toLocaleString()"
+          :marketCap="Math.round(crypto.RAW.USD.MKTCAP).toLocaleString()"
+          :supply="Math.round(crypto.RAW.USD.SUPPLY).toLocaleString()"
+          :change="crypto.RAW.USD.CHANGEPCT24HOUR.toLocaleString()"
+        />
       </tbody>
     </table>
   </div>
@@ -31,8 +30,13 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import CryptoTableRow from '@/components/CryptoTableRow.vue'
+
 export default {
   name: 'CryptoTable',
+  components: {
+    CryptoTableRow
+  },
   mounted() {
     if (this.$store.getters['coins/coins'].length === 0) {
       this.getAllCoins()
@@ -44,14 +48,6 @@ export default {
   methods: {
     async getAllCoins(){
       this.$store.dispatch('coins/getCoins')
-    },
-    imgSrc(name) {
-      console.log(name)
-      try {
-        return require(`@/assets/img/black/${name}.png`)
-      } catch(err) {
-        return require(`@/assets/img/black/generic.png`)
-      }
     }
   }
 }
