@@ -1,26 +1,30 @@
 <template>
-  <div class="modal" :class="{ 'is-active': showCreatePostDialog}">
-    <div class="modal-background" @click.self.stop="closeModal"></div>
-    <div class="modal-content">
-      <form @submit.prevent="handleCreatePost">
-        <div class="field">
-          <label class="label">Write a post</label>
-          <div class="control">
-            <textarea
-              class="textarea"
-              placeholder="Write about a cryptocurrency"
-              v-model="content"></textarea>
+  <transition name="fade">
+    <div class="modal" :class="{ 'is-active': showCreatePostDialog}" v-if="showCreatePostDialog">
+      <div class="modal-background" @click.self.stop="closeModal"></div>
+          <div class="modal-content">
+            <div class="box">
+              <form @submit.prevent="handleCreatePost">
+                <div class="field">
+                  <label class="label">Write a post</label>
+                  <div class="control">
+                    <textarea
+                      class="textarea"
+                      placeholder="Write about a cryptocurrency"
+                      v-model="content"></textarea>
+                  </div>
+                </div>
+                <div class="field is-grouped is-grouped-right">
+                  <div class="control">
+                    <button class="button is-link" type="submit">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <button class="button is-link" type="submit">Submit</button>
-          </div>
-        </div>
-      </form>
+      <button class="modal-close is-large" aria-label="close" @click.self.stop="closeModal"></button>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -90,3 +94,20 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition-property: opacity;
+  transition-duration: 0.15s;
+}
+
+.fade-enter-active {
+  transition-delay: 0.15s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+</style>
