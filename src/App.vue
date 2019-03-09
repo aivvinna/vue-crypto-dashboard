@@ -2,12 +2,10 @@
   <div id="app">
     <Navbar/>
 
-    <main id="main">
-      <transition name="fade">
-        <router-view></router-view>
-      </transition>
-      <router-view name="modal"></router-view>
-    </main>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
+    <router-view name="modal"></router-view>
   </div>
 </template>
 
@@ -26,10 +24,6 @@ export default {
 
 <style lang="scss">
 #app {
-  background-color: #e6ecf0
-}
-
-#main {
   padding: 10px;
 }
 
