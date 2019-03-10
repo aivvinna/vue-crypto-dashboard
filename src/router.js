@@ -16,7 +16,8 @@ export default new VueRouter({
       name: 'home',
       component: () => import('./views/Home.vue'),
       meta: {
-        postModalView: true
+        postModalView: true,
+        cryptoModalView: true
       }
     },
     {
@@ -40,7 +41,8 @@ export default new VueRouter({
       name: 'user',
       component: () => import('./views/User.vue'),
       meta: {
-        postModalView: true
+        postModalView: true,
+        cryptoModalView: true
       }
     },
     {
@@ -68,7 +70,33 @@ export default new VueRouter({
             to.matched[0].components.modal = () => import('./views/PostModal.vue')
           }
         }
+        next()
+      }
+    },
+    {
+      path: '/crypto/:name',
+      name: 'crypto',
+      beforeEnter: (to, from, next) => {
+        const cryptoModalView = from.matched.some(view => view.meta && view.meta.cryptoModalView)
 
+        if (!cryptoModalView) {
+          to.matched[0].components = {
+            default: () => import('./views/Crypto.vue'),
+          }
+        }
+
+        if (cryptoModalView) {
+          if (from.matched.length > 1) {
+            const childrenView = from.matched.slice(1, from.matched.length)
+            for (let view of childrenView) {
+              to.matched.push(view)
+            }
+          }
+          if (to.matched[0].components) {
+            to.matched[0].components.default = from.matched[0].components.default
+            to.matched[0].components.modal = () => import('./views/CryptoModal.vue')
+          }
+        }
         next()
       }
     },

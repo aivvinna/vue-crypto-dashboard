@@ -1,15 +1,17 @@
 <template>
-  <tr @mouseover="colorImg" @mouseleave="decolorImg">
-    <td>{{rank}}</td>
-    <td>
-      <img :src="imgPath" height="15" width="15">
-      {{fullName}}
-    </td>
-    <td>{{price}}</td>
-    <td>{{marketCap}}</td>
-    <td>{{supply}}</td>
-    <td>{{change}}%</td>
-  </tr>
+  <div @click="openCryptoModal">
+    <tr @mouseover="colorImg" @mouseleave="decolorImg">
+      <td>{{rank}}</td>
+      <td>
+        <img :src="imgPath" height="15" width="15">
+        {{fullName}}
+      </td>
+      <td>{{price}}</td>
+      <td>{{marketCap}}</td>
+      <td>{{supply}}</td>
+      <td>{{change}}%</td>
+    </tr>
+  </div>
 </template>
 
 <script>
@@ -27,6 +29,9 @@ export default {
     },
     decolorImg() {
       this.mouseover = false
+    },
+    openCryptoModal() {
+      this.$router.push({name: 'crypto', params: { name: this.name}})
     }
   },
   computed: {
