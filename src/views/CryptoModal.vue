@@ -72,6 +72,7 @@ import * as d3 from 'd3'
 // api
 import apiFactory from '@/api/apiFactory'
 const cryptoCompareApi = apiFactory.get('cryptoCompare')
+const coinMarketCapApi = apiFactory.get('coinMarketCap')
 // util
 import responsivefy from '@/util/responsivefy'
 

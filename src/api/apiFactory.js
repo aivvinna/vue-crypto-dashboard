@@ -1,7 +1,9 @@
 import cryptoCompareApi from '@/api/cryptoCompareApi'
+import coinMarketCapApi from '@/api/coinMarketCapApi'
 
 const apis = {
-  cryptoCompare: cryptoCompareApi
+  cryptoCompare: cryptoCompareApi,
+  coinMarketCap: coinMarketCapApi
 }
 
 export default {
