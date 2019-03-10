@@ -81,14 +81,17 @@ export default {
   data() {
     return {
       data: null,
-      name: null
+      info: null,
+      name: null,
     }
   },
   async created() {
-    this.name = this.$route.params.name.toUpperCase()
+    const cryptoInfo = await coinMarketCapApi.getCryptoInfo(this.$route.params.fullName)
+    this.info = cryptoInfo.data[0]
+    this.name = this.info.symbol
+    const lowercase = this.name.toLowerCase()
     const response = await cryptoCompareApi.getCryptoInfo(this.name)
-    this.data = response.data.DISPLAY[this.name]
-    console.log(this.data)
+    this.data = response.data.DISPLAY[this.name].USD
     this.get24HrPrice()
   },
   computed: {
@@ -123,8 +126,7 @@ export default {
       })
     },
     async get24HrPrice() {
-      const capsName = this.$route.params.name.toUpperCase()
-      const response = await cryptoCompareApi.getCrypto24HrPrice(capsName)
+      const response = await cryptoCompareApi.getCrypto24HrPrice(this.info.symbol)
       const dataRaw = response.data.Data
 
       const data = dataRaw.map((data) => {

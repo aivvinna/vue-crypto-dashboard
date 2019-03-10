@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const cryptoCompareBaseUrl = 'https://min-api.cryptocompare.com/data'
-const coinMarketCapBaseUrl = 'https://api.coinmarketcap.com'
+const coinMarketCapBaseUrl = 'http://cors-anywhere.herokuapp.com/https://api.coinmarketcap.com'
 
 const cryptoCompareApi = axios.create({
   baseURL: cryptoCompareBaseUrl

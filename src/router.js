@@ -74,7 +74,7 @@ export default new VueRouter({
       }
     },
     {
-      path: '/crypto/:name',
+      path: '/crypto/:fullName',
       name: 'crypto',
       beforeEnter: (to, from, next) => {
         const cryptoModalView = from.matched.some(view => view.meta && view.meta.cryptoModalView)

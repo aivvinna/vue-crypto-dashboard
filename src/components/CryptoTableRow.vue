@@ -31,7 +31,7 @@ export default {
       this.mouseover = false
     },
     openCryptoModal() {
-      this.$router.push({name: 'crypto', params: { name: this.name}})
+      this.$router.push({name: 'crypto', params: { fullName: this.fullName}})
     }
   },
   computed: {
