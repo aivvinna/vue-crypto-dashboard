@@ -5,65 +5,67 @@
     <div class="modal-content">
       <div class="box">
         <template v-if="data">
-          <div class="card">
-            <div class="card-content">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img :src="imgPath">
-                  </figure>
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img :src="imgPath">
+              </figure>
+            </div>
+            
+            <div class="media-content">
+              <div class="level">
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">{{name}}</p>
+                    <p class="title">{{info.name}}</p>
+                  </div>
                 </div>
-                <div class="media-content">
-                  <!-- <p class="title is-4">Current Price: {{price}}</p> -->
-                  <!-- <p class="subtitle is-6">Circulating Supply: {{data.USD.SUPPLY}}</p> -->
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">Price</p>
+                    <p class="title">${{Number(info.price_usd).toLocaleString()}}</p>
+                  </div>
                 </div>
-              </div>
-
-              <div class="content">
-                <div class="chart"></div>
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">Circulating Supply</p>
+                    <p class="title">{{Number(info.total_supply).toLocaleString()}}</p>
+                  </div>
+                </div>
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">Market Cap</p>
+                    <p class="title">{{Number(info.market_cap_usd).toLocaleString()}}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          <div class="content">
+            <div class="chart"></div>
+            <div class="level">
+              <div class="level-item has-text-centered">
+                <div>
+                  <button class="button">Add to Portfolio</button>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <button class="button" @click="handleUpdateFavCryptos">
+                    <span v-if="!isFav">Add to Favorites</span>
+                    <span v-else>Remove from Favorites</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </template>
       </div>
     </div>
     <button class="modal-close is-large" aria-label="close"></button>
   </div>
-  <!-- <v-layout>
-    
-    <v-dialog dark lazy max-width="1200" v-model="dialog">
-      <v-card>
-        <v-layout v-if="data.USD">
-          <v-flex xs5>
-            <v-img
-              :src="{src: require(`../assets/img/color/${name}.png`)}"
-              aspect-ratio="1"
-              height="100"
-              contain>
-            </v-img>
-          </v-flex>
-          <v-flex xs7>
-            <v-card-title primary-title>
-              <div>
-                <div>Current Price: {{price}}</div>
-                <div>Circulating Supply: {{data.USD.SUPPLY}}</div>
-                <div>Market Cap: {{data.USD.MKTCAP}}</div>
-              </div>
-            </v-card-title>
-          </v-flex>
-        </v-layout>
-        <v-divider light></v-divider>
-        <div class="chart" v-if="dialog"></div>
-        <v-divider light></v-divider>
-        <v-card-actions>
-          <v-btn @click="handleUpdateFavCryptos">
-            <span v-if="!isFav">Add to favorites</span>
-            <span v-else>Remove from favorites</span>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-layout> -->
 </template>
 
 <script>
@@ -89,10 +91,12 @@ export default {
     const cryptoInfo = await coinMarketCapApi.getCryptoInfo(this.$route.params.fullName)
     this.info = cryptoInfo.data[0]
     this.name = this.info.symbol
-    const lowercase = this.name.toLowerCase()
     const response = await cryptoCompareApi.getCryptoInfo(this.name)
     this.data = response.data.DISPLAY[this.name].USD
     this.get24HrPrice()
+    console.log('data', this.data)
+    console.log('info', this.info)
+    console.log('name', this.name)
   },
   computed: {
     imgPath() {
@@ -212,3 +216,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.modal-content {
+  width: 80vw;
+}
+</style>
