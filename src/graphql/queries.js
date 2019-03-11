@@ -5,6 +5,7 @@ export const GET_ME = gql`
     me {
       id
       username
+      displayName
       email
       favCryptos
     }
@@ -16,6 +17,7 @@ export const GET_USER = gql`
     user(where: $data) {
       id
       username
+      displayName
       email
       bio
       location
@@ -28,6 +30,7 @@ export const GET_USER = gql`
         author {
           id
           username
+          displayName
         }
       }
       followers {
@@ -53,6 +56,14 @@ export const GET_POSTS = gql`
       content
       category
       createdAt
+      upvotes {
+        id
+        username
+      }
+      downvotes {
+        id
+        username
+      }
       posts {
         id
         content
@@ -60,11 +71,13 @@ export const GET_POSTS = gql`
         author {
           id
           username
+          displayName
         }
       }
       author {
         id
         username
+        displayName
       }
     }
   }
@@ -76,6 +89,14 @@ export const GET_POST = gql`
       content
       category
       createdAt
+      upvotes {
+        id
+        username
+      }
+      downvotes {
+        id
+        username
+      }
       posts {
         id
         content
@@ -83,11 +104,13 @@ export const GET_POST = gql`
         author {
           id
           username
+          displayName
         }
       }
       author {
         id
         username
+        displayName
       }
     }
   }

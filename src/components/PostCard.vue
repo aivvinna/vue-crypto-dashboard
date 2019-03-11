@@ -10,7 +10,7 @@
               </figure>
             </div>
             <div class="media-content">
-              <p class="title is-4">{{post.author.displayName ? post.author.username : post.author.displayName}}</p>
+              <p class="title is-4">{{post.author.displayName ? post.author.displayName : post.author.username}}</p>
               <p class="subtitle is-6">{{`@${post.author.username}`}}</p>
             </div>
           </div>
