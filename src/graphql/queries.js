@@ -8,6 +8,10 @@ export const GET_ME = gql`
       displayName
       email
       favCryptos
+      following {
+        id
+        username
+      }
     }
   }
 `

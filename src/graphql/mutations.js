@@ -55,3 +55,16 @@ export const UPDATE_FAVCRYPTOS = gql`
     }
   }
 `
+
+export const FOLLOW_USER = gql`
+  mutation($id: ID!) {
+    followUser(id: $id) {
+      id
+      username
+      following {
+        id
+        username
+      }
+    }
+  }
+`
