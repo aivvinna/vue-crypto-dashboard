@@ -2,7 +2,7 @@ import router from '@/router'
 import { defaultClient as apolloClient } from '@/main'
 
 import { GET_ME } from '@/graphql/queries'
-import { LOGIN_USER, SIGNUP_USER, UPDATE_FAVCRYPTOS } from '@/graphql/mutations'
+import { LOGIN_USER, SIGNUP_USER, UPDATE_FAVCRYPTOS, FOLLOW_USER, UNFOLLOW_USER } from '@/graphql/mutations'
 
 export const user = {
   namespaced: true,
@@ -40,6 +40,74 @@ export const user = {
           mutation: UPDATE_FAVCRYPTOS,
           variables: payload,
         }).then(({ data }) => {
+          console.log(data)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    followUser: ({ commit, rootState }, payload) => {
+      try {
+        apolloClient.mutate({
+          mutation: FOLLOW_USER,
+          variables: {
+            id: payload.user.id
+          },
+          update: (cache, { data: { followUser }}) => {
+            const data = cache.readQuery({ query: GET_ME})
+            cache.writeQuery({
+              query: GET_ME,
+              data
+            })
+            commit('setUser', data.me)
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            followUser: {
+              __typename: 'User',
+              id: rootState.user.user.id,
+              username: rootState.user.user.username,
+              displayName: rootState.user.user.displayName,
+              email: rootState.user.user.email,
+              favCryptos: rootState.user.user.favCryptos,
+              following: [...rootState.user.user.following, payload.user]
+            }
+          }
+        }).then(({data}) => {
+          console.log(data)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    unfollowUser: ({ commit, rootState }, payload) => {
+      try {
+        apolloClient.mutate({
+          mutation: UNFOLLOW_USER,
+          variables: {
+            id: payload.user.id
+          },
+          update: (cache, { data: { unfollowUser }}) => {
+            const data = cache.readQuery({ query: GET_ME})
+            cache.writeQuery({
+              query: GET_ME,
+              data
+            })
+            commit('setUser', data.me)
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            unfollowUser: {
+              __typename: 'User',
+              id: rootState.user.user.id,
+              username: rootState.user.user.username,
+              displayName: rootState.user.user.displayName,
+              email: rootState.user.user.email,
+              favCryptos: rootState.user.user.favCryptos,
+              following: rootState.user.user.following.filter(user => user.id !== payload.user.id)
+            }
+          }
+        }).then(({data}) => {
           console.log(data)
         })
       } catch(err) {

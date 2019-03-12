@@ -61,6 +61,25 @@ export const FOLLOW_USER = gql`
     followUser(id: $id) {
       id
       username
+      displayName
+      email
+      favCryptos
+      following {
+        id
+        username
+      }
+    }
+  }
+`
+
+export const UNFOLLOW_USER = gql`
+  mutation($id: ID!) {
+    unfollowUser(id: $id) {
+      id
+      username
+      displayName
+      email
+      favCryptos
       following {
         id
         username

@@ -21,7 +21,15 @@
           <div class="level-item has-text-centered">
             <div v-if="data.user.username !== me.username">
               <button class="button">
-                <span>Follow</span>
+                <span
+                  v-if="!followingIds.includes(data.user.id)"
+                  @click="handleFollowUser(data.user.id)">
+                  Follow
+                </span>
+                <span v-else
+                  @click="handleUnfollowUser(data.user.id)">
+                  Unfollow
+                </span>
               </button>
               <br>
               <button class="button">Message</button>
@@ -65,6 +73,9 @@ export default {
   computed: {
     me() {
       return this.$store.getters['user/user']
+    },
+    followingIds() {
+      return this.me.following.map(user => user.id)
     }
   },
   methods: {
@@ -85,6 +96,16 @@ export default {
       } catch(err) {
         console.error(err)
       }
+    },
+    handleFollowUser(user) {
+      this.$store.dispatch('user/followUser', {
+        user: this.data.user
+      })
+    },
+    handleUnfollowUser(user) {
+      this.$store.dispatch('user/unfollowUser', {
+        user: this.data.user
+      })
     }
   }
 }
