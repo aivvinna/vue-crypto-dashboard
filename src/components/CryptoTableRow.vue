@@ -9,7 +9,7 @@
       <td>{{price}}</td>
       <td>{{marketCap}}</td>
       <td>{{supply}}</td>
-      <td>{{change}}%</td>
+      <td :class="{ 'has-text-success': positive, 'has-text-danger': !positive}">{{change}}%</td>
     </tr>
   </div>
 </template>
@@ -35,6 +35,9 @@ export default {
     }
   },
   computed: {
+    positive() {
+      return this.change > 0 ? true : false
+    },
     imgPath() {
       if (this.mouseover === true) {
         try {
