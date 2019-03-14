@@ -3,34 +3,40 @@
     <div class="post-card">
       <div class="card">
         <div class="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img v-if="post.author.avatar" :src="post.author.avatar" alt="">
-              </figure>
+          <div class="columns">
+            <div class="column is-1">
+              <span class="icon is-small"><i class="fas fa-chevron-up"></i></span>
+              <br>
+              <span class="icon is-small"><i class="fas fa-chevron-down"></i></span>
             </div>
-            <div class="media-content">
-              <p class="title is-4">{{post.author.displayName ? post.author.displayName : post.author.username}}</p>
-              <p class="subtitle is-6">{{`@${post.author.username}`}}</p>
-            </div>
-          </div>
+            <div class="column is-11">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <!-- <img v-if="post.author.avatar" :src="post.author.avatar" alt=""> -->
+                    <img src="https://bulma.io/images/placeholders/128x128.png" alt="">
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <p class="title is-6">{{post.author.displayName ? post.author.displayName : post.author.username}} {{`@${post.author.username}`}}</p>
+                  <p class="subtitle is-6">
+                    <template v-if="post.category.length !== 0">
+                      <span
+                        class="grey--text" v-for="(category, i) in post.category" :key="category">
+                        {{post.category[i]}}|
+                      </span><br>
+                    </template>
+                  </p>
+                </div>
+              </div>
 
-          <div class="content">
-            <template v-if="post.category.length !== 0">
-              <span
-                class="grey--text" v-for="(category, i) in post.category" :key="category">
-                {{post.category[i]}}|
-              </span><br>
-            </template>
-            <br>
-            <span>{{post.content}}</span>
+              <div class="content">
+                <span>{{post.content}}</span>
+              </div>
+
+            </div>
           </div>
         </div>
-        <footer class="card-footer">
-          <a href="#" class="card-footer-item">Like</a>
-          <a href="#" class="card-footer-item">Comment</a>
-          <a href="#" class="card-footer-item">Share</a>
-        </footer>
       </div>
     </div>
   </div>
@@ -50,8 +56,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .post-card {
   margin-bottom: 10px;
+}
+
+.column {
+  margin: 0px;
+  padding: 0px;
 }
 </style>
