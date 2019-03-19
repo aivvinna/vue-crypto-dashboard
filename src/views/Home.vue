@@ -1,14 +1,16 @@
 <template>
   <div class="columns">
-    <div class="column is-3">
+    <div class="column">
       <News/>
     </div>
-    <div class="column is-6">
+    <div class="column is-5">
       <!-- <CryptoGrid/> -->
-      <CryptoTable/>
-    </div>
-    <div class="column is-3">
       <PostsList/>
+      <!-- <CryptoTable/> -->
+    </div>
+    <div class="column">
+      <!-- <PostsList/> -->
+      <CryptoTable/>
     </div>
   </div>
 </template>
