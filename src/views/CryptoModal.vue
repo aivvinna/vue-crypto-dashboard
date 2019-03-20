@@ -4,7 +4,7 @@
     <div class="modal-background" @click.self.stop="closeModal"></div>
     <div class="modal-content">
       <div class="box">
-        <template v-if="data">
+        <template v-if="priceInfo">
           <div class="media">
             <div class="media-left">
               <figure class="image is-48x48">
@@ -17,25 +17,25 @@
                 <div class="level-item has-text-centered">
                   <div>
                     <p class="heading">{{name}}</p>
-                    <p class="title">{{info.name}}</p>
+                    <p class="title">{{generalInfo.FullName}}</p>
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
                   <div>
                     <p class="heading">Price</p>
-                    <p class="title">${{Number(info.price_usd).toLocaleString()}}</p>
+                    <p class="title">${{Number(priceInfo.PRICE).toLocaleString()}}</p>
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
                   <div>
                     <p class="heading">Circulating Supply</p>
-                    <p class="title">{{Number(info.total_supply).toLocaleString()}}</p>
+                    <p class="title">{{Number(priceInfo.SUPPLY).toLocaleString()}}</p>
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
                   <div>
                     <p class="heading">Market Cap</p>
-                    <p class="title">{{Number(info.market_cap_usd).toLocaleString()}}</p>
+                    <p class="title">{{Number(priceInfo.MKTCAP).toLocaleString()}}</p>
                   </div>
                 </div>
               </div>
@@ -82,21 +82,20 @@ export default {
   name: 'CryptoModal',
   data() {
     return {
-      data: null,
-      info: null,
-      name: null,
+      priceInfo: null, // price info
+      generalInfo: null, // general info
+      name: null, // name abbreviation
     }
   },
   async created() {
-    const cryptoInfo = await coinMarketCapApi.getCryptoInfo(this.$route.params.fullName)
-    this.info = cryptoInfo.data[0]
-    this.name = this.info.symbol
-    const response = await cryptoCompareApi.getCryptoInfo(this.name)
-    this.data = response.data.DISPLAY[this.name].USD
+    this.name = this.$route.params.name.toUpperCase()
+    // set general info
+    const generalInfo = await cryptoCompareApi.getGeneralCryptoInfo(this.name)
+    this.generalInfo = generalInfo.data.Data[0].CoinInfo
+    // set price info
+    const priceInfo = await cryptoCompareApi.getCryptoPriceInfo(this.name)
+    this.priceInfo = priceInfo.data.RAW[this.name].USD
     this.get24HrPrice()
-    console.log('data', this.data)
-    console.log('info', this.info)
-    console.log('name', this.name)
   },
   computed: {
     imgPath() {
@@ -130,7 +129,7 @@ export default {
       })
     },
     async get24HrPrice() {
-      const response = await cryptoCompareApi.getCrypto24HrPrice(this.info.symbol)
+      const response = await cryptoCompareApi.getCrypto24HrPrice(this.name)
       const dataRaw = response.data.Data
 
       const data = dataRaw.map((data) => {

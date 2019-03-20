@@ -4,29 +4,24 @@
       <News/>
     </div>
     <div class="column is-5">
-      <!-- <CryptoGrid/> -->
       <PostsList/>
-      <!-- <CryptoTable/> -->
     </div>
     <div class="column">
-      <!-- <PostsList/> -->
-      <CryptoTable/>
+      <CryptoTableMini/>
     </div>
   </div>
 </template>
 
 <script>
 import News from '@/components/Home/News.vue'
-import CryptoGrid from '@/components/Home/CryptoGrid.vue'
 import PostsList from '@/components/Home/PostsList.vue'
-import CryptoTable from '@/components/Home/CryptoTable.vue'
+import CryptoTableMini from '@/components/CryptoTableMini.vue'
 
 export default {
   components: {
-    CryptoGrid,
     News,
     PostsList,
-    CryptoTable
+    CryptoTableMini
   },
   data() {
     return {
