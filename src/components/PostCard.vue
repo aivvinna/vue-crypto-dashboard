@@ -11,14 +11,12 @@
             </div>
             <div class="column is-11">
               <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <!-- <img v-if="post.author.avatar" :src="post.author.avatar" alt=""> -->
-                    <img src="https://bulma.io/images/placeholders/128x128.png" alt="">
-                  </figure>
-                </div>
                 <div class="media-content">
-                  <p class="title is-6">{{post.author.displayName ? post.author.displayName : post.author.username}} {{`@${post.author.username}`}}</p>
+                  <p class="title is-6">
+                    <a @click.stop.prevent="goToUserProfile">
+                      {{post.author.displayName ? post.author.displayName : post.author.username}} {{`@${post.author.username}`}}
+                    </a>
+                  </p>
                   <p class="subtitle is-6">
                     <template v-if="post.category.length !== 0">
                       <span
@@ -51,12 +49,23 @@ export default {
   methods: {
     openModal() {
       this.$router.push({name: 'post', params: { id: this.post.id}})
+    },
+    goToUserProfile() {
+      this.$router.push({name: 'user', params: {username: this.post.author.username}})
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+a {
+  color: black;
+  &:hover {
+    color: #0000EE;
+    text-decoration: underline;
+  }
+}
+
 .post-card {
   margin-bottom: 10px;
 }
