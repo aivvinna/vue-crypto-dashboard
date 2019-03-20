@@ -184,7 +184,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .table {
   width: 100%;
   table-layout: fixed;
