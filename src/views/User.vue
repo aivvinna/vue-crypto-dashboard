@@ -7,11 +7,6 @@
       <div class="user-profile" v-if="data.user">
         <div class="level">
           <div class="level-item has-text-centered">
-            <figure class="image is-64x64">
-              <img src="https://bulma.io/images/placeholders/128x128.png">
-            </figure>
-          </div>
-          <div class="level-item has-text-centered">
             <div>
               <span class="title">{{data.user.displayName !== "" ? data.user.displayName : data.user.username}}</span>
               <br>
