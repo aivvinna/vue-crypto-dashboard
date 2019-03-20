@@ -15,17 +15,40 @@ export default {
   components: {
     PostCard
   },
+  data() {
+    return {
+      canGetMorePosts: true
+    }
+  },
   created() {
     this.handleGetPosts()
+    this.scroll()
   },
   computed: {
     ...mapGetters(['loading']),
-    ...mapGetters('posts', ['posts'])
+    ...mapGetters('posts', ['posts']),
+    postsLoaded() {
+      return this.posts.length
+    }
+  },
+  watch: {
+    postsLoaded: function() {
+      this.canGetMorePosts = true
+    }
   },
   methods: {
     handleGetPosts() {
-      this.$store.dispatch('posts/getPosts')
+      this.$store.dispatch('posts/getPosts', {first: 10})
     },
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight;
+        if (bottomOfWindow && this.canGetMorePosts) {
+          this.$store.dispatch('posts/getPosts', {first: 10, skip: this.postsLoaded})
+          this.canGetMorePosts = false
+        }
+      }
+    }
   }
 }
 </script>

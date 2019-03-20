@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="news-container">
     <div v-for="article in data" :key="article.title">
       <NewsCard
         :title="article.title"
@@ -41,3 +41,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.news-container {
+  overflow: auto;
+  height: 90vh;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 62px;
+}
+</style>

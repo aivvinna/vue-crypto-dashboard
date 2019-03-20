@@ -52,10 +52,13 @@ export const GET_USER = gql`
 `
 
 export const GET_POSTS = gql`
-  query {
+  query($first: Int, $skip: Int) {
     posts(where: {
       parent: null
-    }) {
+    },
+    orderBy: createdAt_DESC,
+    first: $first,
+    skip: $skip) {
       id
       content
       category

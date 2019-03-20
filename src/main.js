@@ -51,6 +51,17 @@ const requestLink = new ApolloLink((operation, forward) =>
   })
 );
 
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  },
+}
+
 export const defaultClient = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -69,7 +80,8 @@ export const defaultClient = new ApolloClient({
       credentials: 'include'
     })
   ]),
-  cache
+  cache,
+  defaultOptions
 })
 
 const apolloProvider = new VueApollo({ defaultClient })

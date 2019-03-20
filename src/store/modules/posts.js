@@ -9,15 +9,18 @@ export const posts = {
   },
   mutations: {
     setPosts: (state, payload) => {
-      state.posts = payload
+      payload.forEach(post => {
+        state.posts.push(post)
+      })
     }
   },
   actions: {
-    getPosts: async ({ commit }) => {
+    getPosts: async ({ commit }, payload) => {
       commit('setLoading', true, { root: true })
       try {
         const {data} = await apolloClient.query({
-          query: GET_POSTS
+          query: GET_POSTS,
+          variables: payload
         })
         commit('setPosts', data.posts)
         commit('setLoading', false, { root: true })
