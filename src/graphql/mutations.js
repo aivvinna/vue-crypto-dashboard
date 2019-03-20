@@ -22,6 +22,12 @@ export const CREATE_POST = gql`
       id
       content
       category
+      upvotes {
+        id
+      }
+      downvotes {
+        id
+      }
       posts {
         id
         content
@@ -36,6 +42,7 @@ export const CREATE_POST = gql`
       author {
         id
         username
+        displayName
       }
     }
   }

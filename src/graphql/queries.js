@@ -62,21 +62,12 @@ export const GET_POSTS = gql`
       createdAt
       upvotes {
         id
-        username
       }
       downvotes {
         id
-        username
       }
       posts {
         id
-        content
-        category
-        author {
-          id
-          username
-          displayName
-        }
       }
       author {
         id

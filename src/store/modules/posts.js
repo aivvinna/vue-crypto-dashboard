@@ -49,6 +49,8 @@ export const posts = {
               content: payload.data.content,
               category: payload.data.category.set,
               author: rootState.user.user,
+              upvotes: [],
+              downvotes: [],
               posts: [],
               createdAt: Date.now(),
               parent: null
