@@ -38,13 +38,13 @@ export default {
   },
   methods: {
     handleGetPosts() {
-      this.$store.dispatch('posts/getPosts', {first: 10})
+      this.$store.dispatch('posts/getPosts', {first: 15})
     },
     scroll() {
       window.onscroll = () => {
-        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight;
+        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 300 >= document.documentElement.offsetHeight;
         if (bottomOfWindow && this.canGetMorePosts) {
-          this.$store.dispatch('posts/getPosts', {first: 10, skip: this.postsLoaded})
+          this.$store.dispatch('posts/getPosts', {first: 15, skip: this.postsLoaded})
           this.canGetMorePosts = false
         }
       }

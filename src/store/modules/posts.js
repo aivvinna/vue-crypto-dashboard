@@ -15,16 +15,15 @@ export const posts = {
     }
   },
   actions: {
-    getPosts: async ({ commit }, payload) => {
-      commit('setLoading', true, { root: true })
+    getPosts: async ({ commit, rootState }, payload) => {
+      // commit('setLoading', true, { root: true })
       try {
         const {data} = await apolloClient.query({
           query: GET_POSTS,
           variables: payload
         })
         commit('setPosts', data.posts)
-        commit('setLoading', false, { root: true })
-        console.log('data', data)
+        // commit('setLoading', false, { root: true })
       } catch(err) {
         commit('setLoading', false, { root: true })
         console.error(err)
