@@ -1,6 +1,6 @@
 import { defaultClient as apolloClient } from '@/main'
-import { GET_POSTS } from '@/graphql/queries'
-import { CREATE_POST } from '@/graphql/mutations'
+import { GET_POSTS, GET_POST } from '@/graphql/queries'
+import { CREATE_POST, UPVOTE_POST, DOWNVOTE_POST, REMOVE_UPVOTE, REMOVE_DOWNVOTE } from '@/graphql/mutations'
 
 export const posts = {
   namespaced: true,
@@ -15,6 +15,10 @@ export const posts = {
     },
     replacePosts: (state, payload) => {
       state.posts = payload
+    },
+    setPost: (state, payload) => {
+      const index = state.posts.findIndex(post => post.id === payload.id)
+      state.posts[index] = payload
     }
   },
   actions: {
@@ -70,6 +74,106 @@ export const posts = {
           }
         }).then(({data}) => {
           console.log(data.createPost)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    upvotePost: ({commit, rootState}, payload) => {
+      try {
+        apolloClient.mutate({
+          mutation: UPVOTE_POST,
+          variables: payload,
+          update: (cache, { data: { upvotePost }}) => {
+            const post = rootState.posts.posts.find(post => post.id === upvotePost.id)
+            post.downvotes = post.downvotes.filter(user => user.id !== rootState.user.user.id)
+            post.upvotes = post.upvotes.filter(user => user.id !== rootState.user.user.id)
+            post.upvotes = [...post.upvotes, rootState.user.user]
+            commit('setPost', post)
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            upvotePost: {
+              __typename: 'Post',
+              id: payload.id
+            }
+          }
+        }).then(({data}) => {
+          console.log(data)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    downvotePost: ({commit, rootState}, payload) => {
+      try {
+        apolloClient.mutate({
+          mutation: DOWNVOTE_POST,
+          variables: payload,
+          update: (cache, { data: { downvotePost }}) => {
+            const post = rootState.posts.posts.find(post => post.id === downvotePost.id)
+            post.upvotes = post.upvotes.filter(user => user.id !== rootState.user.user.id)
+            post.downvotes = post.downvotes.filter(user => user.id !== rootState.user.user.id)
+            post.downvotes = [...post.downvotes, rootState.user.user]
+            commit('setPost', post)
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            downvotePost: {
+              __typename: 'Post',
+              id: payload.id
+            }
+          }
+        }).then(({data}) => {
+          console.log(data)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    removeUpvote: ({commit, rootState}, payload) => {
+      try {
+        apolloClient.mutate({
+          mutation: REMOVE_UPVOTE,
+          variables: payload,
+          update: (cache, { data: {removeUpvote }}) => {
+            const post = rootState.posts.posts.find(post => post.id === removeUpvote.id)
+            post.upvotes = post.upvotes.filter(user => user.id !== rootState.user.user.id)
+            commit('setPost', post)
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            removeUpvote: {
+              __typename: 'Post',
+              id: payload.id
+            }
+          }
+        }).then(({data}) => {
+          console.log(data)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    removeDownvote: ({commit, rootState}, payload) => {
+      try {
+        apolloClient.mutate({
+          mutation: REMOVE_DOWNVOTE,
+          variables: payload,
+          update: (cache, { data: {removeDownvote}}) => {
+            const post = rootState.posts.posts.find(post => post.id === removeDownvote.id)
+            post.downvotes = post.downvotes.filter(user => user.id !== rootState.user.user.id)
+            commit('setPost', post)
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            removeDownvote: {
+              __typename: 'Post',
+              id: payload.id
+            }
+          }
+        }).then(({data}) => {
+          console.log(data)
         })
       } catch(err) {
         console.error(err)

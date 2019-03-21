@@ -94,3 +94,59 @@ export const UNFOLLOW_USER = gql`
     }
   }
 `
+
+export const UPVOTE_POST = gql`
+  mutation($id: ID!) {
+    upvotePost(id: $id) {
+      id
+      upvotes {
+        id
+      }
+      downvotes {
+        id
+      }
+    }
+  }
+`
+
+export const DOWNVOTE_POST = gql`
+  mutation($id: ID!) {
+    downvotePost(id: $id) {
+      id
+      upvotes {
+        id
+      }
+      downvotes {
+        id
+      }
+    }
+  }
+`
+
+export const REMOVE_UPVOTE = gql`
+  mutation($id: ID!) {
+    removeUpvote(id: $id) {
+      id
+      upvotes {
+        id
+      }
+      downvotes {
+        id
+      }
+    }
+  }
+`
+
+export const REMOVE_DOWNVOTE = gql`
+  mutation($id: ID!) {
+    removeDownvote(id: $id) {
+      id
+      upvotes {
+        id
+      }
+      downvotes {
+        id
+      }
+    }
+  }
+`
