@@ -21,7 +21,9 @@ export default {
     }
   },
   created() {
-    this.handleGetPosts()
+    if (this.posts.length === 0) {
+      this.handleGetPosts()
+    }
     this.scroll()
   },
   computed: {
@@ -38,13 +40,13 @@ export default {
   },
   methods: {
     handleGetPosts() {
-      this.$store.dispatch('posts/getPosts', {first: 15})
+      this.$store.dispatch('posts/getPosts', {first: 15, skip: this.postsLoaded})
     },
     scroll() {
       window.onscroll = () => {
         let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 300 >= document.documentElement.offsetHeight;
         if (bottomOfWindow && this.canGetMorePosts) {
-          this.$store.dispatch('posts/getPosts', {first: 15, skip: this.postsLoaded})
+          this.handleGetPosts()
           this.canGetMorePosts = false
         }
       }

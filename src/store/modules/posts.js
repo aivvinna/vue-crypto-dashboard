@@ -40,7 +40,7 @@ export const posts = {
           update: (cache, { data: { createPost } }) => {
             console.log('createPost', createPost)
             console.log('cache', cache)
-            const data = cache.readQuery({ query: GET_POSTS, variables: {first: 15} });
+            const data = cache.readQuery({ query: GET_POSTS, variables: {first: 15, skip: 0} });
             console.log('data', data)
             data.posts.unshift(createPost)
             cache.writeQuery({
