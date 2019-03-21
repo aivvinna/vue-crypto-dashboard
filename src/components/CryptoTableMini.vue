@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="crypto-table-mini-container">
     <table class="table is-fullwidth is-hoverable is-narrow is-fullwidth" v-if="cryptos">
       <thead>
         <tr>
@@ -193,7 +193,7 @@ export default {
     display:block;
     width: 100%;
     overflow: auto;
-    height: 75vh;
+    height: 83vh;
   }
   thead {
     tr {
@@ -207,4 +207,10 @@ export default {
   }
 }
 
+.crypto-table-mini-container {
+  height: 90vh;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 62px;
+}
 </style>
