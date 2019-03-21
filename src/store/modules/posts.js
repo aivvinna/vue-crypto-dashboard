@@ -12,6 +12,9 @@ export const posts = {
       payload.forEach(post => {
         state.posts.push(post)
       })
+    },
+    replacePosts: (state, payload) => {
+      state.posts = payload
     }
   },
   actions: {
@@ -35,13 +38,20 @@ export const posts = {
           mutation: CREATE_POST,
           variables: payload,
           update: (cache, { data: { createPost } }) => {
-            const data = cache.readQuery({ query: GET_POSTS });
+            console.log('createPost', createPost)
+            console.log('cache', cache)
+            const data = cache.readQuery({ query: GET_POSTS, variables: {first: 15} });
+            console.log('data', data)
             data.posts.unshift(createPost)
             cache.writeQuery({
               query: GET_POSTS,
               data
             })
-            commit('setPosts', data.posts)
+
+            // optimistic response when creating post
+            const currentPosts = rootState.posts.posts.filter(post => post.id !== -1)
+            currentPosts.unshift(createPost)
+            commit('replacePosts', currentPosts)
           },
           optimisticResponse: {
             __typename: 'Mutation',
