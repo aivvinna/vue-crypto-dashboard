@@ -71,6 +71,22 @@ export default {
       const width = 1000;
       const height = 300;
 
+      const movingAverage = (data, numberOfPricePoints) => {
+        return data.map((row, index, total) => {
+          const start = Math.max(0, index - numberOfPricePoints);
+          const end = index;
+          const subset = total.slice(start, end + 1);
+          const sum = subset.reduce((a, b) => {
+            return a + b['close'];
+          }, 0);
+      
+          return {
+            time: row['time'],
+            average: sum / subset.length
+          };
+        });
+      };
+
       const svg = d3
         .select('.chart')
         .append('svg')
@@ -126,6 +142,16 @@ export default {
           return yScale(d['close']);
         });
 
+      const movingAverageLine = d3
+        .line()
+        .x(d => {
+          return xScale(d['time']);
+        })
+        .y(d => {
+          return yScale(d['average']);
+        })
+        .curve(d3.curveBasis);
+
       svg
         .append('path')
         .data([data])
@@ -134,6 +160,15 @@ export default {
         .attr('stroke', 'steelblue')
         .attr('stroke-width', '1.5')
         .attr('d', line);
+
+      const movingAverageData = movingAverage(data, 1);
+      svg
+        .append('path')
+        .data([movingAverageData])
+        .style('fill', 'none')
+        .attr('id', 'movingAverageLine')
+        .attr('stroke', '#FF8900')
+        .attr('d', movingAverageLine);
     },
     closeModal() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
