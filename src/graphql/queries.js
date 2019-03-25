@@ -31,6 +31,12 @@ export const GET_USER = gql`
         content
         category
         createdAt
+        upvotes {
+          id
+        }
+        downvotes {
+          id
+        }
         author {
           id
           username
