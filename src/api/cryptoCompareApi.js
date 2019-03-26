@@ -16,7 +16,16 @@ export default {
   getCrypto24HrPrice(name) {
     return cryptoCompareApi.get(`histohour?fsym=${name}&tsym=USD&limit=24`)
   },
-  getCrypto24HrPriceMinutes(name) {
+  getCrypto1DayPriceMinutes(name) {
     return cryptoCompareApi.get(`histominute?fsym=${name}&tsym=USD&limit=1440`)
+  },
+  getCrypto1WeekPriceHours(name) {
+    return cryptoCompareApi.get(`histohour?fsym=${name}&tsym=USD&limit=168`)
+  },
+  getCrypto1MonthPriceHours(name) {
+    return cryptoCompareApi.get(`histohour?fsym=${name}&tsym=USD&limit=720`)
+  },
+  getCrypto1YearPriceDays(name) {
+    return cryptoCompareApi.get(`histohour?fsym=${name}&tsym=USD&limit=365`)
   }
 }

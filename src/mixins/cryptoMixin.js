@@ -11,6 +11,11 @@ export default {
       priceInfo: null, // price info
       generalInfo: null, // general info
       name: null, // name abbreviation
+      graphDayData: null,
+      graphWeekData: null,
+      graphMonthData: null,
+      graphYearData: null,
+      graphDisplayPeriod: 'day'
     }
   },
   async created() {
@@ -21,7 +26,7 @@ export default {
     // set price info
     const priceInfo = await cryptoCompareApi.getCryptoPriceInfo(this.name)
     this.priceInfo = priceInfo.data.RAW[this.name].USD
-    this.get24HrPrice()
+    this.renderGraph()
   },
   computed: {
     imgPath() {
@@ -42,6 +47,11 @@ export default {
       }
     }
   },
+  watch: {
+    graphDisplayPeriod() {
+      this.renderGraph()
+    }
+  },
   methods: {
     handleUpdateFavCryptos() {
       let favCryptos
@@ -54,8 +64,32 @@ export default {
         cryptos: favCryptos
       })
     },
-    async get24HrPrice() {
-      const response = await cryptoCompareApi.getCrypto24HrPriceMinutes(this.name)
+    async getGraphData() {
+      switch (this.graphDisplayPeriod) {
+        case 'day':
+          if (!this.graphDayData) {
+            this.graphDayData = await cryptoCompareApi.getCrypto1DayPriceMinutes(this.name)
+          }
+          return this.graphDayData
+        case 'week':
+          if (!this.graphWeekData) {
+            this.graphWeekData = await cryptoCompareApi.getCrypto1WeekPriceHours(this.name)
+          }
+          return this.graphWeekData
+        case 'month':
+          if (!this.graphMonthData) {
+            this.graphMonthData = await cryptoCompareApi.getCrypto1MonthPriceHours(this.name)
+          }
+          return this.graphMonthData
+        case 'year':
+          if (!this.graphYearData) {
+            this.graphYearData = await cryptoCompareApi.getCrypto1YearPriceDays(this.name)
+          }
+          return this.graphYearData
+      }
+    },
+    async renderGraph() {
+      const response = await this.getGraphData()
       const dataRaw = response.data.Data
 
       const data = dataRaw.map((data) => {
