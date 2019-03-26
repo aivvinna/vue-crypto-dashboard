@@ -55,7 +55,7 @@ export default {
       })
     },
     async get24HrPrice() {
-      const response = await cryptoCompareApi.getCrypto24HrPrice(this.name)
+      const response = await cryptoCompareApi.getCrypto24HrPriceMinutes(this.name)
       const dataRaw = response.data.Data
 
       const data = dataRaw.map((data) => {
@@ -161,7 +161,7 @@ export default {
         .attr('stroke-width', '1.5')
         .attr('d', line);
 
-      const movingAverageData = movingAverage(data, 1);
+      const movingAverageData = movingAverage(data, 30);
       svg
         .append('path')
         .data([movingAverageData])
