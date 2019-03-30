@@ -43,6 +43,22 @@
           </div>
 
           <div class="content">
+            <div class="tabs is-right">
+              <ul>
+                <li :class="{'is-active': graphDisplayPeriod === 'day'}">
+                  <a @click="graphDisplayPeriod = 'day'">1D</a>
+                </li>
+                <li :class="{'is-active': graphDisplayPeriod === 'week'}">
+                  <a @click="graphDisplayPeriod = 'week'">1WK</a>
+                </li>
+                <li :class="{'is-active': graphDisplayPeriod === 'month'}">
+                  <a @click="graphDisplayPeriod = 'month'">1M</a>
+                </li>
+                <li :class="{'is-active': graphDisplayPeriod === 'year'}">
+                  <a @click="graphDisplayPeriod = 'year'">1Y</a>
+                </li>
+              </ul>
+            </div>
             <div class="chart"></div>
             <div class="level">
               <div class="level-item has-text-centered">

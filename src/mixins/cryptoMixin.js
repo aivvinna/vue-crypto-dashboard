@@ -89,6 +89,9 @@ export default {
       }
     },
     async renderGraph() {
+      // remove previous chart
+      d3.select('.chart').selectAll('svg').remove()
+
       const response = await this.getGraphData()
       const dataRaw = response.data.Data
 
@@ -255,7 +258,7 @@ export default {
       updateLegends(currentPoint);
       }
 
-      /* Legends */
+      // Legends
       const updateLegends = currentData => {
         d3.selectAll('.lineLegend').remove();
 
