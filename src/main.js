@@ -11,7 +11,9 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error';
-import { ApolloLink, Observable } from 'apollo-link';
+import { ApolloLink, Observable, split } from 'apollo-link';
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from 'apollo-utilities'
 import VueApollo from 'vue-apollo'
 
 import FormAlert from '@/components/shared/FormAlert.vue'
@@ -51,24 +53,31 @@ const requestLink = new ApolloLink((operation, forward) =>
   })
 );
 
+const httpLink = new HttpLink({
+  uri: 'http://localhost:4000/graphql',
+  credentials: 'include'
+})
+
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:4000/subscriptions',
+  options: {
+    reconnect: true,
+  },
+})
+
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query)
+    return kind === 'OperationDefinition' &&
+      operation === 'subscription'
+  },
+  wsLink,
+  requestLink.concat(httpLink)
+)
+
 export const defaultClient = new ApolloClient({
-  link: ApolloLink.from([
-    onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        for (let err of graphQLErrors) {
-          console.dir(err);
-        }
-      }
-      if (networkError) {
-        console.log('networkError', networkError)
-      }
-    }),
-    requestLink,
-    new HttpLink({
-      uri: 'http://localhost:4000',
-      credentials: 'include'
-    })
-  ]),
+  link,
   cache
 })
 
