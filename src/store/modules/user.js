@@ -3,8 +3,12 @@ import { defaultClient as apolloClient } from '@/main'
 
 import { GET_ME } from '@/graphql/queries'
 import { LOGIN_USER, SIGNUP_USER, UPDATE_FAVCRYPTOS, FOLLOW_USER, UNFOLLOW_USER } from '@/graphql/mutations'
+import { messages } from '@/store/modules/user/messages'
 
 export const user = {
+  modules: {
+    messages
+  },
   namespaced: true,
   state: {
     user: null

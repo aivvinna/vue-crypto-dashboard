@@ -60,7 +60,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'PostCard',
   props: ['post'],
-    computed: {
+  computed: {
     ...mapGetters('user', ['user']),
     isUpvoted() {
       return this.post.upvotes.some(user => user.id === this.user.id)
