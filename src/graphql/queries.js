@@ -119,3 +119,12 @@ export const GET_POST = gql`
     }
   }
 `
+
+export const GET_USERS_CONVERSED = gql`
+  query {
+    usersConversed {
+      id
+      username
+    }
+  }
+`

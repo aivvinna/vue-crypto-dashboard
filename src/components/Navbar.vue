@@ -15,6 +15,10 @@
               Post
             </a>
 
+            <router-link class="navbar-item" :to="`/messages`">
+              Messages
+            </router-link>
+
             <router-link class="navbar-item" :to="`/user/${user.username}`">
               Profile
             </router-link>

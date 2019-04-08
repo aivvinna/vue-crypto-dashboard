@@ -37,6 +37,12 @@ export default new VueRouter({
       beforeEnter: AuthGuard
     },
     {
+      path: '/messages',
+      name: 'messages',
+      component: () => import('./views/Messages.vue'),
+      beforeEnter: AuthGuard
+    },
+    {
       path: '/user/:username',
       name: 'user',
       component: () => import('./views/User.vue'),
