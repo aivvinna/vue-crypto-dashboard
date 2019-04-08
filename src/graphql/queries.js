@@ -128,3 +128,21 @@ export const GET_USERS_CONVERSED = gql`
     }
   }
 `
+
+export const GET_MESSAGES = gql`
+  query($otherUserId: ID!) {
+    messages(otherUserId: $otherUserId) {
+      id
+      content
+      author {
+        id
+        username
+      }
+      receiver {
+        id
+        username
+      }
+      createdAt
+    }
+  }
+`

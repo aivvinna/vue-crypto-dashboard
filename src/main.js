@@ -95,5 +95,6 @@ new Vue({
   render: h => h(App),
   created() {
     this.$store.dispatch('user/getMe')
+    this.$store.dispatch("user/messages/listenToMessages")
   }
 }).$mount('#app')

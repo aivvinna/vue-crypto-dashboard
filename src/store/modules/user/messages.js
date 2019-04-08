@@ -1,5 +1,5 @@
 import { defaultClient as apolloClient } from '@/main'
-import { GET_USERS_CONVERSED } from '@/graphql/queries'
+import { GET_USERS_CONVERSED, GET_MESSAGES } from '@/graphql/queries'
 import { SUBSCRIBE_TO_MESSAGES } from '@/graphql/subscriptions'
 
 export const messages = {
@@ -12,12 +12,16 @@ export const messages = {
     pushNewMessage: (state, payload) => {
       state.messages.push(payload)
     },
+    setMessages: (state, payload) => {
+      state.messages = payload
+    },
     setUsersConversed: (state, payload) => {
       state.usersConversed = payload
     }
   },
   actions: {
     listenToMessages: async ({ commit }) => {
+      console.log('initiating subscribtion to messages')
       try {
         apolloClient.subscribe({
           query: SUBSCRIBE_TO_MESSAGES,
@@ -29,6 +33,21 @@ export const messages = {
             console.error(err)
           }
         })
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    getMessages: async ({ commit }, payload) => {
+      console.log('getting messages')
+      try {
+        const { data } = await apolloClient.query({
+          query: GET_MESSAGES,
+          variables: {
+            otherUserId: payload
+          }
+        })
+        console.log('data', data)
+        commit('setMessages', data.messages)
       } catch(err) {
         console.error(err)
       }
