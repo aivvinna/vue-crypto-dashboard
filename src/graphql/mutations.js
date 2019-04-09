@@ -150,3 +150,21 @@ export const REMOVE_DOWNVOTE = gql`
     }
   }
 `
+
+export const CREATE_MESSAGE = gql`
+  mutation($data: CreateMessageInput!) {
+    createMessage(data: $data) {
+      id
+      content
+      author {
+        id
+        username
+      }
+      receiver {
+        id
+        username
+      }
+      createdAt
+    }
+  }
+`
