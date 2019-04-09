@@ -1,12 +1,22 @@
 <template>
   <div class="columns">
     <div class="column is-4">
-      Users
-      <a v-for="user in usersConversed" :key="user.id"
-        @click="selectUser(user)">
-        {{user.username}}
-      </a>
+      <nav class="panel">
+        <div class="panel-heading">
+          Users
+        </div>
+
+        <template v-if="usersConversed.length > 0">
+          <a v-for="user in usersConversed" :key="user.id"
+            class="panel-block" :class="{'is-active': markSelectedUser(user)}"
+            @click="selectUser(user)">
+            {{user.username}}
+          </a>
+        </template>
+      </nav>
+
     </div>
+    
     <div class="column" v-if="userSelected">
       <div class="messages">
         <div class="message-container is-clearfix" v-for="message in messages" :key="message.id">
@@ -79,6 +89,12 @@ export default {
     isMyMessage(message) {
       return this.$store.state.user.user.id === message.author.id
     },
+    markSelectedUser(user) {
+      if (this.userSelected) {
+        return user.id === this.userSelected.id
+      }
+      return false
+    },
     handleCreateMessage() {
       this.$store.dispatch('user/messages/createMessage', {
         content: this.message,
@@ -88,7 +104,9 @@ export default {
     },
     scrollToBottom() {
       const messagesContainer = this.$el.querySelector('.messages')
-      messagesContainer.scrollTop = messagesContainer.scrollHeight
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight
+      }
     }
   },
   updated() {
