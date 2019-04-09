@@ -1,10 +1,15 @@
 # vue-crypto-dashboard
-A cryptocurrency monitoring social media web app. Cryptocurrency information and news is fetched from CryptoCompare's API.
+A cryptocurrency monitoring social media web app. Cryptocurrency information and news is fetched from CryptoCompare's API. This is the client and the data is fetched from a back-end GraphQL server.
 
 ## Tech Stack
-Front-end: Vue.js with Vue-Apollo
+Main Dependencies
+* Vue.js
+* Vuex
+* Vue-Apollo
+* Apollo-Client
+* D3.js
 
-Back-end: GraphQL API server written in Node.js with Prisma connecting to PostgresQL database.
+Refer to [back-end](https://github.com/hirokicodes/crypto-graphql-prisma) schema for functionality.
 
 ## Project setup
 ```
@@ -19,11 +24,6 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-```
-
-### Run your tests
-```
-npm run test
 ```
 
 ### Lints and fixes files
