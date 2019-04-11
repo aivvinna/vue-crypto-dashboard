@@ -1,51 +1,45 @@
 <template>
   <div @click.stop="openModal">
-    <div class="post-card">
-      <div class="card">
-        <div class="card-content">
-          <div class="columns">
-            <div class="column is-1">
-              <span
-                class="icon is-small vote-button"
-                :class="{'has-text-success': isUpvoted}"
-                @click.stop.prevent="handleUpvote">
-                <i class="fas fa-chevron-up"></i>
-              </span>
-              <br>
-              <span class="icon is-small">
-                {{post.upvotes.length - post.downvotes.length}}
-              </span>
-              <br>
-              <span
-                class="icon is-small vote-button"
-                :class="{'has-text-danger': isDownvoted}"
-                @click.stop.prevent="handleDownvote">
-                <i class="fas fa-chevron-down"></i>
-              </span>
-            </div>
-            <div class="column is-11">
-              <div class="media">
-                <div class="media-content">
-                  <p class="title is-6">
-                    <a @click.stop.prevent="goToUserProfile">
-                      {{post.author.displayName ? post.author.displayName : post.author.username}} {{`@${post.author.username}`}}
-                    </a>
-                  </p>
-                  <p class="subtitle is-6">
-                    <template v-if="post.category.length !== 0">
-                      <span
-                        class="grey--text" v-for="(category, i) in post.category" :key="category">
-                        {{post.category[i]}}|
-                      </span><br>
-                    </template>
-                  </p>
-                </div>
+    <div class="card">
+      <div class="card-content">
+        <div class="columns">
+          <div class="column is-1">
+            <span
+              class="icon is-small vote-button"
+              :class="{'has-text-success': isUpvoted}"
+              @click.stop.prevent="handleUpvote">
+              <i class="fas fa-chevron-up"></i>
+            </span>
+            <br>
+            <span class="icon is-small">
+              {{post.upvotes.length - post.downvotes.length}}
+            </span>
+            <br>
+            <span
+              class="icon is-small vote-button"
+              :class="{'has-text-danger': isDownvoted}"
+              @click.stop.prevent="handleDownvote">
+              <i class="fas fa-chevron-down"></i>
+            </span>
+          </div>
+          <div class="column is-11">
+            <div class="media">
+              <div class="media-content">
+                <p>
+                  <a @click.stop.prevent="goToUserProfile">
+                    <strong>{{post.author.displayName ? post.author.displayName : post.author.username}}</strong>
+                    <small> {{`@${post.author.username}`}}</small> 
+                  </a>
+                  <small> {{new Date(post.createdAt).toLocaleString()}}</small>
+                </p>
+                <p class="is-italic" v-if="post.category.length !== 0">
+                  <span
+                    v-for="(category, i) in post.category" :key="category">
+                    {{i !== 0 ? "|" : "" }}{{post.category[i]}}
+                  </span>
+                </p>
+                <p>{{post.content}}</p>
               </div>
-
-              <div class="content">
-                <span>{{post.content}}</span>
-              </div>
-
             </div>
           </div>
         </div>
@@ -123,8 +117,13 @@ a {
   }
 }
 
-.post-card {
-  margin-bottom: 10px;
+.card {
+  box-shadow: none;
+  border-bottom: 1px solid #e6ecf0;
+  &:hover {
+    background-color: #f5f8fa;
+    cursor: pointer;
+  }
 }
 
 .column {
