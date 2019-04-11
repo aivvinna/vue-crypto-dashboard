@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <div class="posts-list" v-if="!loading">
     <div v-for="post in posts" :key="post.id">
       <PostCard :post="post" />
     </div>
@@ -54,3 +54,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.posts-list {
+  margin-top: 8px;
+}
+</style>
