@@ -4,35 +4,47 @@
     <div class="modal-content">
       <div class="box">
         <template v-if="post">
-          <article class="media">
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>{{post.author.displayName}}</strong> <small>@{{post.author.username}}</small>
-                  <br>
-                  {{post.content}}
-                  <br>
-                  {{post.category}}
-                </p>
-              </div>
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-chevron-up"></i></span>
-                  </a>
-                  <span class="level-item">
-                    {{post.upvotes.length}}
-                  </span>
-                  <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-chevron-down"></i></span>
-                  </a>
-                  <span class="level-item">
-                    {{post.downvotes.length}}
-                  </span>
-                </div>
-              </nav>
+          <div class="columns">
+            <div class="column is-1">
+              <span
+              class="icon is-small vote-button"
+              :class="{'has-text-success': isUpvoted}"
+              @click.stop.prevent="handleUpvote">
+                <i class="fas fa-chevron-up"></i>
+              </span>
+              <br>
+              <span class="icon is-small">
+                {{post.upvotes.length - post.downvotes.length}}
+              </span>
+              <br>
+              <span
+                class="icon is-small vote-button"
+                :class="{'has-text-danger': isDownvoted}"
+                @click.stop.prevent="handleDownvote">
+                <i class="fas fa-chevron-down"></i>
+              </span>
             </div>
-          </article>
+            <div class="column is-11">
+              <div class="media">
+                <div class="media-content">
+                  <p>
+                    <a @click.stop.prevent="goToUserProfile">
+                      <strong>{{post.author.displayName ? post.author.displayName : post.author.username}}</strong>
+                      <small> {{`@${post.author.username}`}}</small> 
+                    </a>
+                    <small> {{new Date(post.createdAt).toLocaleString()}}</small>
+                  </p>
+                  <p class="is-italic" v-if="post.category.length !== 0">
+                    <span
+                      v-for="(category, i) in post.category" :key="category">
+                      {{i !== 0 ? "|" : "" }}{{post.category[i]}}
+                    </span>
+                  </p>
+                  <p>{{post.content}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <textarea class="textarea" placeholder="e.g. Hello world" :rows="textBoxSize"
             @focus="textBoxFocused = true"
             @blur="textBoxFocused = false"></textarea>
@@ -44,6 +56,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import postMixin from '@/mixins/postMixin'
 
 export default {
@@ -55,22 +68,42 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('user', ['user']),
+    isUpvoted() {
+      return this.post.upvotes.some(user => user.id === this.user.id)
+    },
+    isDownvoted() {
+      return this.post.downvotes.some(user => user.id === this.user.id)
+    },
     textBoxSize() {
       if (this.textBoxFocused) {
         return 4
       } else {
         return 1
       }
-    }
+    },
   },
   methods: {
     closeModal() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
-    }
+    },
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+a {
+  color: black;
+  &:hover {
+    color: #0000EE;
+    text-decoration: underline;
+  }
+}
 
+.vote-button {
+  cursor: pointer;
+  &:hover {
+    color: gray;
+  }
+}
 </style>
