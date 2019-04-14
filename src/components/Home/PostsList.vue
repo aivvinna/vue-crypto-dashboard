@@ -1,14 +1,18 @@
 <template>
-  <div class="posts-list" v-if="!loading">
-    <div v-for="post in posts" :key="post.id">
-      <PostCard :post="post" />
-    </div>
+  <div class="posts-list">
+    <template v-if="posts">
+      <div v-for="post in posts" :key="post.id">
+        <PostCard :post="post"/>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import PostCard from '@/components/PostCard.vue'
+
+import { GET_POSTS } from '@/graphql/queries'
 
 export default {
   name: 'PostsList',
@@ -20,33 +24,53 @@ export default {
       canGetMorePosts: true
     }
   },
-  created() {
-    if (this.posts.length === 0) {
-      this.handleGetPosts()
+  apollo: {
+    posts: {
+      query: GET_POSTS,
+      variables: {
+        first: 15,
+        skip: 0
+      }
     }
+  },
+  created() {
     this.scroll()
+    console.log('this.$apollo', this.$apollo)
   },
   computed: {
-    ...mapGetters(['loading']),
-    ...mapGetters('posts', ['posts']),
-    postsLoaded() {
-      return this.posts.length
+    postsCount() {
+      if (this.posts) {
+        return this.posts.length
+      }
     }
   },
   watch: {
-    postsLoaded: function() {
+    postsCount: function() {
       this.canGetMorePosts = true
     }
   },
   methods: {
     handleGetPosts() {
-      this.$store.dispatch('posts/getPosts', {first: 15, skip: this.postsLoaded})
+      this.$store.dispatch('posts/getPosts', {first: 15, skip: this.postsCount})
+    },
+    showMorePosts() {
+      this.$apollo.queries.posts.fetchMore({
+        variables: {
+          first: 15,
+          skip: this.postsCount
+        },
+        updateQuery: (prevResult, { fetchMoreResult }) => {          
+          return {
+            posts: [...prevResult.posts, ...fetchMoreResult.posts]
+          }
+        }
+      })
     },
     scroll() {
       window.onscroll = () => {
         let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 300 >= document.documentElement.offsetHeight;
         if (bottomOfWindow && this.canGetMorePosts) {
-          this.handleGetPosts()
+          this.showMorePosts()
           this.canGetMorePosts = false
         }
       }

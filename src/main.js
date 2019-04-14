@@ -22,7 +22,9 @@ Vue.component('form-alert', FormAlert)
 
 Vue.use(VueApollo)
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache({
+  dataIdFromObject: object => object.id
+})
 
 const request = (operation) => {
   const token = localStorage.getItem('token');

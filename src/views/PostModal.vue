@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import postMixin from '@/mixins/postMixin'
 
 export default {
@@ -67,14 +66,10 @@ export default {
       textBoxFocused: false
     }
   },
+  created() {
+    console.log(this.$route.params.id)
+  },
   computed: {
-    ...mapGetters('user', ['user']),
-    isUpvoted() {
-      return this.post.upvotes.some(user => user.id === this.user.id)
-    },
-    isDownvoted() {
-      return this.post.downvotes.some(user => user.id === this.user.id)
-    },
     textBoxSize() {
       if (this.textBoxFocused) {
         return 4

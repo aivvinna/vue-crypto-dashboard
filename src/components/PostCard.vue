@@ -51,6 +51,9 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import { UPVOTE_POST, DOWNVOTE_POST, REMOVE_UPVOTE, REMOVE_DOWNVOTE } from '@/graphql/mutations'
+import { GET_POSTS } from '@/graphql/queries'
+
 export default {
   name: 'PostCard',
   props: ['post'],
@@ -85,23 +88,147 @@ export default {
       }
     },
     handleUpvotePost() {
-      this.$store.dispatch("posts/upvotePost", {
-        id: this.post.id
+      this.$apollo.mutate({
+        mutation: UPVOTE_POST,
+        variables: {
+          id: this.post.id
+        },
+        update: ( cache, { data: { upvotePost } }) => {
+          const data = cache.readQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            }
+          })
+          const postToUpvote = data.posts.find(post => post.id === this.post.id)
+          postToUpvote.upvotes = upvotePost.upvotes
+          cache.writeQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            },
+            data
+          })
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          upvotePost: {
+            __typename: 'Post',
+            id: this.post.id,
+            upvotes: [{ __typename: 'User', id: this.user.id }, ...this.post.upvotes],
+            downvotes: this.post.downvotes.filter(user => user.id !== this.user.id)
+          }
+        }
       })
     },
     handleRemoveUpvote() {
-      this.$store.dispatch("posts/removeUpvote", {
-        id: this.post.id
+      this.$apollo.mutate({
+        mutation: REMOVE_UPVOTE,
+        variables: {
+          id: this.post.id
+        },
+        update: ( cache, { data: { removeUpvote } }) => {
+          const data = cache.readQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            }
+          })
+          const postToRemoveUpvote = data.posts.find(post => post.id === this.post.id)
+          postToRemoveUpvote.upvotes = removeUpvote.upvotes
+          cache.writeQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            },
+            data
+          })
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          removeUpvote: {
+            __typename: 'Post',
+            id: this.post.id,
+            upvotes: this.post.upvotes.filter(user => user.id !== this.user.id),
+            downvotes: [...this.post.downvotes]
+          }
+        }
       })
     },
     handleDownvotePost() {
-      this.$store.dispatch("posts/downvotePost", {
-        id: this.post.id
+      this.$apollo.mutate({
+        mutation: DOWNVOTE_POST,
+        variables: {
+          id: this.post.id
+        },
+        update: ( cache, { data: { downvotePost } }) => {
+          const data = cache.readQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            }
+          })
+          const postToDownvote = data.posts.find(post => post.id === this.post.id)
+          postToDownvote.downvotes = downvotePost.downvotes
+          cache.writeQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            },
+            data
+          })
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          downvotePost: {
+            __typename: 'Post',
+            id: this.post.id,
+            upvotes: this.post.upvotes.filter(user => user.id !== this.user.id),
+            downvotes: [{ __typename: 'User', id: this.user.id }, ...this.post.downvotes]
+          }
+        }
       })
     },
     handleRemoveDownvote() {
-      this.$store.dispatch("posts/removeDownvote", {
-        id: this.post.id
+      this.$apollo.mutate({
+        mutation: REMOVE_DOWNVOTE,
+        variables: {
+          id: this.post.id
+        },
+        update: ( cache, { data: { removeDownvote } }) => {
+          const data = cache.readQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            }
+          })
+          const postToRemoveDownvote = data.posts.find(post => post.id === this.post.id)
+          postToRemoveDownvote.downvotes = removeDownvote.downvotes
+          cache.writeQuery({
+            query: GET_POSTS,
+            variables: {
+              first: 15,
+              skip: 0
+            },
+            data
+          })
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          removeDownvote: {
+            __typename: 'Post',
+            id: this.post.id,
+            upvotes: [...this.post.upvotes],
+            downvotes: this.post.downvotes.filter(user => user.id !== this.user.id)
+          }
+        }
       })
     }
   }

@@ -2,6 +2,8 @@ import { defaultClient as apolloClient } from '@/main'
 import { GET_POSTS, GET_POST } from '@/graphql/queries'
 import { CREATE_POST, UPVOTE_POST, DOWNVOTE_POST, REMOVE_UPVOTE, REMOVE_DOWNVOTE } from '@/graphql/mutations'
 
+import gql from 'graphql-tag'
+
 export const posts = {
   namespaced: true,
   state: {
@@ -44,18 +46,19 @@ export const posts = {
           update: (cache, { data: { createPost } }) => {
             console.log('createPost', createPost)
             console.log('cache', cache)
-            const data = cache.readQuery({ query: GET_POSTS, variables: {first: 15, skip: 0} });
+            const data = cache.readQuery({ query: GET_POSTS, variables: {first: 15, skip: 0} })
             console.log('data', data)
             data.posts.unshift(createPost)
             cache.writeQuery({
               query: GET_POSTS,
+              variables: {first: 15, skip: 0},
               data
             })
 
             // optimistic response when creating post
-            const currentPosts = rootState.posts.posts.filter(post => post.id !== -1)
-            currentPosts.unshift(createPost)
-            commit('replacePosts', currentPosts)
+            // const currentPosts = rootState.posts.posts.filter(post => post.id !== -1)
+            // currentPosts.unshift(createPost)
+            // commit('replacePosts', currentPosts)
           },
           optimisticResponse: {
             __typename: 'Mutation',

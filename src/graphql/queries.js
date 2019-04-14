@@ -90,6 +90,7 @@ export const GET_POSTS = gql`
 export const GET_POST = gql`
   query($id:ID!) {
     post(id: $id) {
+      id
       content
       category
       createdAt
