@@ -112,6 +112,16 @@ export const GET_POST = gql`
           displayName
         }
       }
+      parent {
+        id
+        content
+        category
+        author {
+          id
+          username
+          displayName
+        }
+      }
       author {
         id
         username

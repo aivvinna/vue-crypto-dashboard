@@ -45,10 +45,31 @@
               </div>
             </div>
           </div>
-          <textarea class="textarea" placeholder="e.g. Hello world" :rows="textBoxSize"
-            @focus="textBoxFocused = true"
-            @blur="textBoxFocused = false"></textarea>
+
+          <form @submit.prevent="handleCreatePostWithParent">
+            <div class="field">
+              <div class="control">
+                <textarea
+                  class="textarea"
+                  placeholder="Reply"
+                  v-model="replyContent"
+                  :rows="textBoxSize"
+                  @focus="textBoxFocused = true"
+                  @blur="textBoxFocused = false"></textarea>
+              </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+              <div class="control">
+                <button class="button is-link" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
         </template>
+        <div v-if="post">
+          <div v-for="post in post.posts" :key="post.id">
+            {{post.content}}
+          </div>
+        </div>
       </div>
     </div>
     <button class="modal-close is-large" aria-label="close"></button>

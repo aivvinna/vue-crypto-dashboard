@@ -1,8 +1,14 @@
 import { GET_POST } from '@/graphql/queries'
 import { mapGetters } from 'vuex'
-import { UPVOTE_POST, DOWNVOTE_POST, REMOVE_UPVOTE, REMOVE_DOWNVOTE } from '@/graphql/mutations'
+import { CREATE_POST, UPVOTE_POST, DOWNVOTE_POST, REMOVE_UPVOTE, REMOVE_DOWNVOTE } from '@/graphql/mutations'
 
 export default {
+  data() {
+    return {
+      replyContent: '',
+      category: []
+    }
+  },
   apollo: {
     post: {
       query: GET_POST,
@@ -25,6 +31,51 @@ export default {
   methods: {
     goToUserProfile() {
       this.$router.push({name: 'user', params: {username: this.post.author.username}})
+    },
+    handleCreatePostWithParent() {
+      this.$apollo.mutate({
+        mutation: CREATE_POST,
+        variables: {
+          data: {
+            content: this.replyContent,
+            parentId: this.post.id,
+          }
+        },
+        update: ( cache, { data: { createPost }}) => {
+          const data = cache.readQuery({
+            query: GET_POST,
+            variables: {
+              id: this.post.id
+            }
+          })
+          data.post.posts = [...data.post.posts, createPost]
+          cache.writeQuery({
+            query: GET_POST,
+            variables: {
+              id: this.post.id
+            },
+            data
+          })
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createPost: {
+            __typename: 'Post',
+            id: -1,
+            content: this.replyContent,
+            category: this.category,
+            author: this.user,
+            upvotes: [],
+            downvotes: [],
+            posts: [],
+            createdAt: Date.now(),
+            parent: this.post
+          }
+        }
+      })
+
+      this.replyContent = ''
+      this.category = []
     },
     handleUpvote() {
       if (this.isUpvoted) {
