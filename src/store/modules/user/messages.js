@@ -35,6 +35,7 @@ export const messages = {
           query: SUBSCRIBE_TO_MESSAGES,
         }).subscribe({
           next(data) {
+            console.log('message data', data)
             commit('pushNewMessage', data.data.message.node)
           },
           error(err) {
