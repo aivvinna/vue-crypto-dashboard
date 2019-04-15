@@ -45,7 +45,8 @@ export default {
   data() {
     return {
       message: '',
-      messageOptResCounter: 0
+      messageOptResCounter: 0,
+      messages: null
     }
   },
   apollo: {
@@ -63,9 +64,6 @@ export default {
             messages: [...prevResult.messages, subscriptionData.data.message.node]
           }
         }
-      },
-      result() {
-        this.scrollToBottom()
       }
     }
   },
@@ -116,8 +114,13 @@ export default {
       }
     },
   },
-  mounted() {
-    this.scrollToBottom()
+  watch: {
+    messages: function(newVal) {
+      console.log('messages updated', newVal)
+      if (newVal.length > 0) {
+        this.scrollToBottom()
+      }
+    }
   }
 }
 </script>

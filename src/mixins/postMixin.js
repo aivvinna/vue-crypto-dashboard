@@ -6,7 +6,8 @@ export default {
   data() {
     return {
       replyContent: '',
-      category: []
+      category: [],
+      post: null
     }
   },
   apollo: {

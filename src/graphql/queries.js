@@ -111,6 +111,13 @@ export const GET_POST = gql`
           username
           displayName
         }
+        upvotes {
+          id
+        }
+        downvotes {
+          id
+        }
+        createdAt
       }
       parent {
         id
