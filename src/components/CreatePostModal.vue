@@ -11,12 +11,26 @@
                     <textarea
                       class="textarea"
                       placeholder="Write about a cryptocurrency"
-                      v-model="content"></textarea>
+                      v-model="content"
+                      @focus="textBoxFocused = true"
+                      @blur="textBoxFocused = false"
+                      :rows="3"></textarea>
+                  </div>
+                  <div class="level">
+                    <p v-if="content.length > 250" class="level-left help is-danger">
+                      Content must have less than or equal to 250 characters
+                    </p>
+                    <p v-else class="level-left help is-danger"></p>
+                    <p class="level-right">
+                      {{content.length}}
+                    </p>
                   </div>
                 </div>
                 <div class="field is-grouped is-grouped-right">
                   <div class="control">
-                    <button class="button is-link" type="submit">Submit</button>
+                    <button class="button is-dark"
+                      type="submit"
+                      :disabled="content.length === 0">Submit</button>
                   </div>
                 </div>
               </form>
@@ -30,6 +44,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { cryptocurrencies } from "@/util/cryptocurrencies";
+import { CREATE_POST } from '@/graphql/mutations'
+import { GET_POSTS } from '@/graphql/queries'
 
 export default {
   name: "CreatePostModal",
@@ -40,11 +56,7 @@ export default {
       isFormValid: true,
       content: "",
       category: [],
-      contentRules: [
-        content => !!content || "Content is required",
-        content =>
-          content.length < 200 || "Content must have less than 200 characters"
-      ]
+      textBoxFocused: false
     };
   },
   computed: {
@@ -69,17 +81,57 @@ export default {
   },
   methods: {
     handleCreatePost() {
-      console.log('hi')
-      this.$store.dispatch("posts/createPost", {
-        data: {
-          content: this.content,
-          category: {
-            set: this.category
+      try {
+        this.$apollo.mutate({
+          mutation: CREATE_POST,
+          variables: {
+            data: {
+              content: this.content,
+              category: {
+                set: this.category
+              }
+            }
+          },
+          update: (cache, { data: { createPost }}) => {
+            const data = cache.readQuery({
+              query: GET_POSTS,
+              variables: {
+                first: 15,
+                skip: 0
+              }
+            })
+            data.posts.unshift(createPost)
+            cache.writeQuery({
+              query: GET_POSTS,
+              variables: {
+                first: 15,
+                skip: 0
+              },
+              data
+            })
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            createPost: {
+              __typename: 'Post',
+              id: -1,
+              content: this.content,
+              category: this.category,
+              author: this.user,
+              upvotes: [],
+              downvotes: [],
+              posts: [],
+              createdAt: Date.now(),
+              parent: null
+            }
           }
-        }
-      })
-        
-      console.log('create post action dispatched')
+        }).then(({ data }) => {
+          console.log(data)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+      
       this.content = ""
       this.category = [];
       this.closeModal()
@@ -90,7 +142,7 @@ export default {
     },
     closeModal() {
       this.$emit('close')
-    }
+    },
   }
 };
 </script>
@@ -109,5 +161,9 @@ export default {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+
+textarea {
+  resize: none;
 }
 </style>

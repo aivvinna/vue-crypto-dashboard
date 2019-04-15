@@ -48,24 +48,40 @@
             </div>
           </div>
 
-          <form @submit.prevent="handleCreatePostWithParent">
-            <div class="field">
-              <div class="control">
-                <textarea
-                  class="textarea"
-                  placeholder="Reply"
-                  v-model="replyContent"
-                  :rows="textBoxSize"
-                  @focus="textBoxFocused = true"
-                  @blur="textBoxFocused = false"></textarea>
+          <div class="reply-container">
+            <form @submit.prevent="handleCreatePostWithParent">
+              <div class="field">
+                <label v-show="textBoxFocused || replyContentLength" class="label">
+                  Replying to @{{post.author.username}}'s post
+                </label>
+                <div class="control">
+                  <textarea
+                    class="textarea"
+                    :placeholder="replyTextPlaceholder"
+                    v-model="replyContent"
+                    @focus="textBoxFocused = true"
+                    @blur="textBoxFocused = false"
+                    :rows="textBoxSize"></textarea>
+                </div>
+                <div class="level">
+                  <p v-if="replyContentLength > 250" class="level-left help is-danger">
+                    Content must have less than or equal to 250 characters
+                  </p>
+                  <p v-else class="level-left help is-danger"></p>
+                  <p class="level-right">
+                    {{replyContent.length}}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div class="field is-grouped is-grouped-right">
-              <div class="control">
-                <button class="button is-link" type="submit">Submit</button>
+              <div v-show="textBoxFocused || replyContentLength" class="field is-grouped is-grouped-right">
+                <div class="control">
+                  <button class="button is-dark"
+                    type="submit"
+                    :disabled="replyContent.length === 0">Submit</button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </template>
         <template v-if="post">
           <div v-for="post in post.posts" :key="post.id">
@@ -98,12 +114,18 @@ export default {
   },
   computed: {
     textBoxSize() {
-      if (this.textBoxFocused) {
-        return 4
+      if (this.textBoxFocused || this.replyContent.length > 0) {
+        return 3
       } else {
         return 1
       }
     },
+    replyTextPlaceholder() {
+      return `Reply to @${this.post.author.username}'s post`
+    },
+    replyContentLength() {
+      return this.replyContent.length
+    }
   },
   methods: {
     closeModal() {
@@ -135,5 +157,10 @@ a {
 
 .box {
   padding: 0px;
+  padding-bottom: 10px;
+}
+
+.reply-container {
+  margin: 20px;
 }
 </style>
