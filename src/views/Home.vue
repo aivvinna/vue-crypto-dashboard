@@ -7,7 +7,8 @@
       <PostsList/>
     </div>
     <div class="column">
-      <CryptoTableMini/>
+      <!-- <CryptoTableMini/> -->
+      <FavCryptosList/>
     </div>
   </div>
 </template>
@@ -16,12 +17,14 @@
 import News from '@/components/Home/News.vue'
 import PostsList from '@/components/Home/PostsList.vue'
 import CryptoTableMini from '@/components/CryptoTableMini.vue'
+import FavCryptosList from '@/components/FavCryptosList.vue'
 
 export default {
   components: {
     News,
     PostsList,
     CryptoTableMini,
+    FavCryptosList
   },
 }
 </script>
