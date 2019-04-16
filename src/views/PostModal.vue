@@ -48,7 +48,7 @@
             </div>
           </div>
 
-          <div class="reply-container">
+          <div v-if="user" class="reply-container">
             <form @submit.prevent="handleCreatePostWithParent">
               <div class="field">
                 <label v-show="textBoxFocused || replyContentLength" class="label">

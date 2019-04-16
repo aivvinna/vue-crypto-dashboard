@@ -23,10 +23,14 @@ export default {
   computed: {
     ...mapGetters('user', ['user']),
     isUpvoted() {
-      return this.post.upvotes.some(user => user.id === this.user.id)
+      if (this.user) {
+        return this.post.upvotes.some(user => user.id === this.user.id)
+      }
     },
     isDownvoted() {
-      return this.post.downvotes.some(user => user.id === this.user.id)
+      if (this.user) {
+        return this.post.downvotes.some(user => user.id === this.user.id)
+      }
     }
   },
   methods: {
