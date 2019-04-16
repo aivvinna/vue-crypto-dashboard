@@ -50,9 +50,6 @@ export default {
     }
   },
   methods: {
-    handleGetPosts() {
-      this.$store.dispatch('posts/getPosts', {first: 15, skip: this.postsCount})
-    },
     showMorePosts() {
       this.$apollo.queries.posts.fetchMore({
         variables: {
