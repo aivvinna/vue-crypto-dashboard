@@ -20,7 +20,7 @@
 
             <div class="field">
               <div class="control">
-                <button class="button is-fullwidth is-dark" type="submit">
+                <button :disabled="!formIsValid" class="button is-fullwidth is-dark" type="submit">
                   Log in
                 </button>
               </div>
@@ -56,7 +56,10 @@ export default {
     ...mapGetters(['error', 'loading']),
     ...mapGetters('user', [
       'user'
-    ])
+    ]),
+    formIsValid() {
+      return this.email.length > 5 && this.password.length >= 8
+    }
   },
   watch: {
     user(value) {
