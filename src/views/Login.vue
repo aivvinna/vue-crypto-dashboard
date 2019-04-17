@@ -2,19 +2,17 @@
     <div class="container has-text-centered">
       <div class="column is-4 is-offset-4">
 
-        <h1 class="title">Log in</h1>
 
         <div class="box">
+          <h1 class="title">Log in to CryptoVue</h1>
           <form @submit.prevent="handleLogin">
             <div class="field">
-              <label class="label">Email</label>
               <div class="control">
                 <input class="input" type="text" placeholder="Email" v-model="email">
               </div>
             </div>
 
             <div class="field">
-              <label class="label">Password</label>
               <div class="control">
                 <input class="input" type="password" placeholder="Password" v-model="password">
               </div>
@@ -22,12 +20,17 @@
 
             <div class="field">
               <div class="control">
-                <button class="button is-fullwidth" type="submit">Log in</button>
+                <button class="button is-fullwidth is-dark" type="submit">
+                  Log in
+                </button>
+              </div>
+              <div v-if="error" class="help is-danger">
+                The username and password you entered did not match our records. Please try again.
               </div>
             </div>
 
             <h3>Don't have an account?
-              <router-link to="/signup">Sign Up</router-link>
+              <router-link to="/signup">Sign up</router-link>
             </h3>
           </form>
         </div>
