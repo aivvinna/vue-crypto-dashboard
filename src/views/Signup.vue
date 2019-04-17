@@ -19,13 +19,19 @@
 
           <div class="field">
             <div class="control">
-              <input class="input" type="password" placeholder="Password" v-model="password">
+              <input class="input" type="password" placeholder="Password - at least 8 characters" v-model="password">
             </div>
           </div>
 
           <div class="field">
             <div class="control">
-              <button class="button is-fullwidth is-dark" type="submit">
+              <input class="input" type="password" placeholder="Confirm your password" v-model="passwordConfirmation">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <button :disabled="!formIsValid" class="button is-fullwidth is-dark" type="submit">
                 Sign Up
               </button>
             </div>
@@ -51,7 +57,6 @@ export default {
   name: "signup",
   data() {
     return {
-      isFormValid: true,
       username: "",
       email: "",
       password: "",
@@ -65,7 +70,10 @@ export default {
     ...mapGetters(["loading", "error"]),
     ...mapGetters('user', [
       'user'
-    ])
+    ]),
+    formIsValid() {
+      return this.username.length >= 3 && this.email.length > 5 && this.password.length >= 8 && this.password === this.passwordConfirmation
+    }
   },
   watch: {
     user(value) {
