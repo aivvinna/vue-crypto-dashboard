@@ -31,15 +31,11 @@
           <template v-else>
             <div class="navbar-item">
               <div class="buttons">
-                <router-link to="/signup">
-                  <a class="button is-primary">
-                  <strong>Sign up</strong>
-                  </a>
+                <router-link to="/login" class="button is-white">
+                  <strong>Log in</strong>
                 </router-link>
-                <router-link to="/login">
-                  <a class="button is-light">
-                  Log in
-                  </a>
+                <router-link to="/signup" class="button is-light">
+                  <strong>Sign up</strong>
                 </router-link>
               </div>
             </div>
