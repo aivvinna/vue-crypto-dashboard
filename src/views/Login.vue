@@ -49,6 +49,9 @@ export default {
       password: "",
     };
   },
+  mounted() {
+    this.$store.commit('setError', null)
+  },
   computed: {
     ...mapGetters(['error', 'loading']),
     ...mapGetters('user', [
