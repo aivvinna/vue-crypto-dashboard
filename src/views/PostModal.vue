@@ -55,6 +55,11 @@
                   Replying to @{{post.author.username}}'s post
                 </label>
                 <div class="control">
+                  <div class="is-italic">
+                    <span v-for="(term, i) in category" :key="i">
+                      {{i !== 0 ? "|" : ""}}{{term}}
+                    </span>
+                  </div>
                   <textarea
                     class="textarea"
                     :placeholder="replyTextPlaceholder"

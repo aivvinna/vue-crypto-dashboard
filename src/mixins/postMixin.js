@@ -6,7 +6,6 @@ export default {
   data() {
     return {
       replyContent: '',
-      category: [],
       post: null
     }
   },
@@ -31,6 +30,11 @@ export default {
       if (this.user) {
         return this.post.downvotes.some(user => user.id === this.user.id)
       }
+    },
+    category() {
+      const words = this.replyContent.split(' ')
+      const filteredArray = words.filter(word => word.startsWith('#') && word.length > 1)
+      return filteredArray.map(word => word.slice(1))
     }
   },
   methods: {
@@ -44,6 +48,7 @@ export default {
           data: {
             content: this.replyContent,
             parentId: this.post.id,
+            category: this.category
           }
         },
         update: ( cache, { data: { createPost }}) => {

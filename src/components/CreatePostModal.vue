@@ -95,9 +95,7 @@ export default {
           variables: {
             data: {
               content: this.content,
-              category: {
-                set: this.category
-              }
+              category: this.category
             }
           },
           update: (cache, { data: { createPost }}) => {
