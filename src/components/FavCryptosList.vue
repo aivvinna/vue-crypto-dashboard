@@ -1,12 +1,33 @@
 <template>
-  <div class="fav-cryptos-container">
-    <div v-for="(crypto, i) in cryptosList" :key="i">
-      <FavCryptosListCard
-        :fullName="crypto.fullName"
-        :name="crypto.name.toLowerCase()"
-        :price="crypto.close.toLocaleString()"
-        :change="crypto.percent.toLocaleString()"
-      />
+  <div class="cryptos-list-container">
+    <div class="tabs is-fullwidth">
+      <ul>
+        <li :class="{'is-active': tab === 'top'}" @click="tab = 'top'"><a>Top</a></li>
+        <li :class="{'is-active': tab === 'favorites'}" @click="tab = 'favorites'"><a>Favorites</a></li>
+        <li :class="{'is-active': tab === 'portfolio'}" @click="tab = 'portfolio'"><a>Portfolio</a></li>
+      </ul>
+    </div>
+    <div class="fav-cryptos-container">
+      <div v-show="tab === 'top'">
+        <div v-for="(crypto, i) in cryptosList" :key="i">
+          <FavCryptosListCard
+            :fullName="crypto.fullName"
+            :name="crypto.name.toLowerCase()"
+            :price="crypto.close.toLocaleString()"
+            :change="crypto.percent.toLocaleString()"
+          />
+        </div>
+      </div>
+      <div v-show="tab === 'favorites'">
+        <div v-for="(crypto, i) in favoriteCryptosList" :key="i">
+          <FavCryptosListCard
+            :fullName="crypto.fullName"
+            :name="crypto.name.toLowerCase()"
+            :price="crypto.close.toLocaleString()"
+            :change="crypto.percent.toLocaleString()"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +44,7 @@ export default {
   },
   data() {
     return {
+      tab      : 'top',
       endpoint : 'wss://stream.binance.com:9443/ws/!ticker@arr',
       cache    : {},             // cryptos data cache
       cryptos  : [],             // live coin list from api
@@ -65,6 +87,12 @@ export default {
       }
       return list;
     },
+    favoriteCryptosList() {
+      if (this.user) {
+        return this.cryptos.filter(crypto => this.user.favCryptos.includes(crypto.name) && crypto.asset === "USDT")
+      }
+    },
+    ...mapGetters('user', ['user']),
     ...mapGetters('coins', ['coins'])
   },
   methods: {
@@ -177,9 +205,16 @@ export default {
 <style lang="scss">
 .fav-cryptos-container {
   overflow: auto;
-  height: 90vh;
+  height: 85vh;
+}
+
+.cryptos-list-container {
   position: -webkit-sticky;
   position: sticky;
-  top: 62px;
+  top: 55px;
+}
+
+.tabs:not(:last-child) {
+  margin-bottom: 0px;
 }
 </style>
