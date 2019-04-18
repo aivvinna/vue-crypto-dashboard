@@ -8,6 +8,11 @@
                 <div class="field">
                   <label class="label">Write a post</label>
                   <div class="control">
+                    <div class="is-italic">
+                      <span v-for="(term, i) in category" :key="i">
+                        {{i !== 0 ? "|" : ""}}{{term}}
+                      </span>
+                    </div>
                     <textarea
                       class="textarea"
                       placeholder="Write about a cryptocurrency"
@@ -53,11 +58,9 @@ export default {
   data() {
     return {
       cryptocurrencies,
-      isFormValid: true,
       content: "",
-      category: [],
       textBoxFocused: false
-    };
+    }
   },
   computed: {
     ...mapGetters(["loading"]),
@@ -70,6 +73,11 @@ export default {
         this.content = ""
         this.$emit('input', value)
       }
+    },
+    category() {
+      const words = this.content.split(' ')
+      const filteredArray = words.filter(word => word.startsWith('#') && word.length > 1)
+      return filteredArray.map(word => word.slice(1))
     }
   },
   watch: {
