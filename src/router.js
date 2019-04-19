@@ -54,7 +54,10 @@ export default new VueRouter({
     {
       path: '/search/:searchTerm',
       name: 'searchResult',
-      component: () => import('./views/SearchResult.vue')
+      component: () => import('./views/SearchResult.vue'),
+      meta: {
+        postModalView: true
+      }
     },
     {
       path: '/post/:id',

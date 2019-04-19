@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div>
-      Search Result
-      {{$route.params}}
+    <div class="title">
+      Search Result for "{{$route.params.searchTerm}}"
     </div>
     <div class="columns">
       <div class="column">
@@ -14,12 +13,14 @@
         </div>
       </div>
       <div class="column">
-        <div v-for="post in posts" :key="post.id">
-          {{post.content}} {{post.category}}
-        </div>
         <div v-if="$apollo.queries.posts.loading">
           loading posts...
         </div>
+        <template v-else>
+          <div v-for="post in posts" :key="post.id">
+            <PostCard :post="post"/>
+          </div>
+        </template>
       </div>
     </div>
     
@@ -28,9 +29,13 @@
 
 <script>
 import { GET_POSTS_SEARCH, GET_USERS_SEARCH } from '@/graphql/queries'
+import PostCard from '@/components/PostCard.vue'
 
 export default {
   name: 'SearchResult',
+  components: {
+    PostCard
+  },
   data() {
     return {
       posts: []
