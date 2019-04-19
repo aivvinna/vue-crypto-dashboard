@@ -57,6 +57,19 @@ export const GET_USER = gql`
   }
 `
 
+export const GET_USERS_SEARCH = gql`
+  query($query: String) {
+    users(query: $query) {
+      id
+      username
+      displayName
+      bio
+      location
+      favCryptos
+    }
+  }
+`
+
 export const GET_POSTS = gql`
   query($first: Int, $skip: Int) {
     posts(where: {
