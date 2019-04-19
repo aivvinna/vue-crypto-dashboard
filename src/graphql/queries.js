@@ -87,6 +87,34 @@ export const GET_POSTS = gql`
   }
 `
 
+export const GET_POSTS_SEARCH = gql`
+  query($first: Int, $skip: Int, $query: String) {
+    posts(query: $query,
+    orderBy: createdAt_DESC,
+    first: $first,
+    skip: $skip) {
+      id
+      content
+      category
+      createdAt
+      upvotes {
+        id
+      }
+      downvotes {
+        id
+      }
+      posts {
+        id
+      }
+      author {
+        id
+        username
+        displayName
+      }
+    }
+  }
+`
+
 export const GET_POST = gql`
   query($id:ID!) {
     post(id: $id) {

@@ -52,6 +52,11 @@ export default new VueRouter({
       }
     },
     {
+      path: '/search/:searchTerm',
+      name: 'searchResult',
+      component: () => import('./views/SearchResult.vue')
+    },
+    {
       path: '/post/:id',
       name: 'post',
       beforeEnter: (to, from, next) => {
