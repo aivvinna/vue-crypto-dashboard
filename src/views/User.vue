@@ -15,12 +15,12 @@
           </div>
           <div class="level-item has-text-centered">
             <div v-if="data.user.username !== me.username">
-              <button class="button">
+              <button class="button is-rounded">
                 <span v-if="!followingIds.includes(data.user.id)" @click="handleFollowUser()">Follow</span>
                 <span v-else @click="handleUnfollowUser()">Unfollow</span>
               </button>
               <br>
-              <button class="button">Message</button>
+              <button class="button is-rounded">Message</button>
             </div>
           </div>
         </div>
