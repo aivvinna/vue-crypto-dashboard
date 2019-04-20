@@ -27,19 +27,19 @@
 
         <div class="navbar-end">
           <template v-if="user">
-            <a class="navbar-item" @click="showCreatePostDialog = true">
+            <a class="navbar-item has-text-grey-darker" @click="showCreatePostDialog = true">
               Post
             </a>
 
-            <router-link class="navbar-item" :to="`/messages`">
+            <router-link class="navbar-item has-text-grey-darker" :to="`/messages`">
               Messages
             </router-link>
 
-            <router-link class="navbar-item" :to="`/user/${user.username}`">
+            <router-link class="navbar-item has-text-grey-darker" :to="`/user/${user.username}`">
               Profile
             </router-link>
 
-            <a class="navbar-item" @click="handleLogout">
+            <a class="navbar-item has-text-grey-darker" @click="handleLogout">
               Logout
             </a>
           </template>
