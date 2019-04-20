@@ -47,7 +47,7 @@
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link"></a>
               <div class="navbar-dropdown is-right">
-                <a class="navbar-item has-text-grey-darker">Settings</a>
+                <router-link to="/settings" class="navbar-item has-text-grey-darker">Settings</router-link>
                 <hr class="navbar-divider">
                 <a class="navbar-item has-text-grey-darker" @click="handleLogout">Logout</a>
               </div>

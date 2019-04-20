@@ -57,6 +57,19 @@ export const GET_USER = gql `
   }
 `
 
+export const GET_USER_SETTINGS = gql `
+  query($username: String!) {
+    user(username: $username) {
+      id
+      username
+      displayName
+      email
+      bio
+      location
+    }
+  }
+`
+
 export const GET_USERS_SEARCH = gql `
   query($query: String) {
     users(query: $query) {

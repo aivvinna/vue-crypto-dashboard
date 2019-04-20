@@ -7,11 +7,13 @@ Vue.use(VueRouter)
 
 export default new VueRouter({
   mode: 'history',
-  scrollBehavior (to, from) {
-    return { x: 0, y: 0 }
+  scrollBehavior(to, from) {
+    return {
+      x: 0,
+      y: 0
+    }
   },
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'home',
       component: () => import('./views/Home.vue'),
@@ -21,7 +23,7 @@ export default new VueRouter({
       }
     },
     {
-      path:'/signup',
+      path: '/signup',
       name: 'signup',
       component: () => import('./views/Signup.vue')
     },
@@ -29,6 +31,11 @@ export default new VueRouter({
       path: '/login',
       name: 'login',
       component: () => import('./views/Login.vue')
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('./views/UserSettings.vue')
     },
     {
       path: '/profile',
