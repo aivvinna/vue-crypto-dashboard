@@ -2,9 +2,12 @@
   <div>
     <nav class="navbar is-white is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <router-link to="/" tag="span" style="cursor: pointer" class="navbar-item has-text-grey-darker has-text-weight-semibold">
-          CryptoVue
-        </router-link>
+        <router-link
+          to="/"
+          tag="span"
+          style="cursor: pointer"
+          class="navbar-item has-text-grey-darker has-text-weight-semibold"
+        >CryptoVue</router-link>
       </div>
 
       <div class="navbar-menu">
@@ -13,7 +16,12 @@
             <form @submit.prevent="handleSearch">
               <div class="field has-addons">
                 <div class="control">
-                  <input class="input is-small" type="text" placeholder="Search" v-model="searchText">
+                  <input
+                    class="input is-small"
+                    type="text"
+                    placeholder="Search"
+                    v-model="searchText"
+                  >
                 </div>
                 <div class="control">
                   <a class="button is-small" @click="handleSearch">
@@ -27,21 +35,23 @@
 
         <div class="navbar-end">
           <template v-if="user">
-            <a class="navbar-item has-text-grey-darker" @click="showCreatePostDialog = true">
-              Post
-            </a>
+            <a class="navbar-item has-text-grey-darker" @click="showCreatePostDialog = true">Post</a>
 
-            <router-link class="navbar-item has-text-grey-darker" :to="`/messages`">
-              Messages
-            </router-link>
+            <router-link class="navbar-item has-text-grey-darker" :to="`/messages`">Messages</router-link>
 
-            <router-link class="navbar-item has-text-grey-darker" :to="`/user/${user.username}`">
-              Profile
-            </router-link>
+            <router-link
+              class="navbar-item has-text-grey-darker"
+              :to="`/user/${user.username}`"
+            >@{{user.username}}</router-link>
 
-            <a class="navbar-item has-text-grey-darker" @click="handleLogout">
-              Logout
-            </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link"></a>
+              <div class="navbar-dropdown is-right">
+                <a class="navbar-item has-text-grey-darker">Settings</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item has-text-grey-darker" @click="handleLogout">Logout</a>
+              </div>
+            </div>
           </template>
 
           <template v-else>
@@ -64,11 +74,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import CreatePostModal from '@/components/CreatePostModal.vue'
+import { mapGetters } from "vuex";
+import CreatePostModal from "@/components/CreatePostModal.vue";
 
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   components: {
     CreatePostModal
   },
@@ -76,20 +86,23 @@ export default {
     return {
       sideNav: false,
       showCreatePostDialog: false,
-      searchText: ''
-    }
+      searchText: ""
+    };
   },
   computed: {
-    ...mapGetters('user', ['user']),
+    ...mapGetters("user", ["user"])
   },
   methods: {
     handleLogout() {
-      this.$store.dispatch('user/logoutUser')
+      this.$store.dispatch("user/logoutUser");
     },
     handleSearch() {
-      this.$router.push({name: 'searchResult', params: {searchTerm: this.searchText}})
-      this.searchText = ''
+      this.$router.push({
+        name: "searchResult",
+        params: { searchTerm: this.searchText }
+      });
+      this.searchText = "";
     }
   }
-}
+};
 </script>
