@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const GET_ME = gql`
+export const GET_ME = gql `
   query {
     me {
       id
@@ -16,9 +16,9 @@ export const GET_ME = gql`
   }
 `
 
-export const GET_USER = gql`
-  query($data:UserWhereUniqueInput!) {
-    user(where: $data) {
+export const GET_USER = gql `
+  query($username: String!, $postsFirst: Int, $postsSkip: Int, $followersFirst: Int, $followersSkip: Int, $followingFirst: Int, $followingSkip: Int) {
+    user(username: $username) {
       id
       username
       displayName
@@ -26,7 +26,7 @@ export const GET_USER = gql`
       bio
       location
       favCryptos
-      posts {
+      posts(first: $postsFirst, skip: $postsSkip, orderBy: createdAt_DESC) {
         id
         content
         category
@@ -43,12 +43,12 @@ export const GET_USER = gql`
           displayName
         }
       }
-      followers {
+      followers(first: $followersFirst, skip: $followersSkip) {
         id
         username
         email
       }
-      following {
+      following(first: $followingFirst, skip: $followingSkip) {
         id
         username
         email
@@ -57,7 +57,7 @@ export const GET_USER = gql`
   }
 `
 
-export const GET_USERS_SEARCH = gql`
+export const GET_USERS_SEARCH = gql `
   query($query: String) {
     users(query: $query) {
       id
@@ -70,7 +70,7 @@ export const GET_USERS_SEARCH = gql`
   }
 `
 
-export const GET_POSTS = gql`
+export const GET_POSTS = gql `
   query($first: Int, $skip: Int) {
     posts(where: {
       parent: null
@@ -100,7 +100,7 @@ export const GET_POSTS = gql`
   }
 `
 
-export const GET_POSTS_SEARCH = gql`
+export const GET_POSTS_SEARCH = gql `
   query($first: Int, $skip: Int, $query: String) {
     posts(query: $query,
     orderBy: createdAt_DESC,
@@ -128,7 +128,7 @@ export const GET_POSTS_SEARCH = gql`
   }
 `
 
-export const GET_POST = gql`
+export const GET_POST = gql `
   query($id:ID!) {
     post(id: $id) {
       id
@@ -179,7 +179,7 @@ export const GET_POST = gql`
   }
 `
 
-export const GET_USERS_CONVERSED = gql`
+export const GET_USERS_CONVERSED = gql `
   query {
     usersConversed {
       id
@@ -188,7 +188,7 @@ export const GET_USERS_CONVERSED = gql`
   }
 `
 
-export const GET_MESSAGES = gql`
+export const GET_MESSAGES = gql `
   query($otherUserId: ID!) {
     messages(otherUserId: $otherUserId) {
       id
