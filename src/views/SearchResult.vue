@@ -8,9 +8,13 @@
         <div v-if="$apollo.queries.users.loading">
           loading users...
         </div>
-        <div v-for="user in users" :key="user.id">
-          {{user.username}}
-        </div>
+        <template v-else>
+          <div class="columns is-multiline">
+            <div v-for="user in users" :key="user.id" class="column is-half">
+              <UserCard :user="user"/>
+            </div>
+          </div>
+        </template>
       </div>
       <div class="column">
         <div v-if="$apollo.queries.posts.loading">
@@ -30,11 +34,13 @@
 <script>
 import { GET_POSTS_SEARCH, GET_USERS_SEARCH } from '@/graphql/queries'
 import PostCard from '@/components/PostCard.vue'
+import UserCard from '@/components/UserCard.vue'
 
 export default {
   name: 'SearchResult',
   components: {
-    PostCard
+    PostCard,
+    UserCard
   },
   data() {
     return {

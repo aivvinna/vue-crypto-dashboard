@@ -18,11 +18,11 @@
               <button class="button">
                 <span
                   v-if="!followingIds.includes(data.user.id)"
-                  @click="handleFollowUser(data.user.id)">
+                  @click="handleFollowUser()">
                   Follow
                 </span>
                 <span v-else
-                  @click="handleUnfollowUser(data.user.id)">
+                  @click="handleUnfollowUser()">
                   Unfollow
                 </span>
               </button>
@@ -92,12 +92,12 @@ export default {
         console.error(err)
       }
     },
-    handleFollowUser(user) {
+    handleFollowUser() {
       this.$store.dispatch('user/followUser', {
         user: this.data.user
       })
     },
-    handleUnfollowUser(user) {
+    handleUnfollowUser() {
       this.$store.dispatch('user/unfollowUser', {
         user: this.data.user
       })
